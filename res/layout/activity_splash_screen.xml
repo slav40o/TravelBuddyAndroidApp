@@ -1,0 +1,24 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="fill_parent"
+  	android:layout_height="fill_parent"
+    tools:context="com.goofy.travelbuddy.SplashScreenActivity" >
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:contentDescription="@string/splash_screen"
+        android:scaleType="fitXY"
+        android:src="@drawable/splash1" />
+
+    <TextView
+        android:id="@+id/tv_welcome_message"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="34dp"
+        android:text="@string/loading"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
+
+</RelativeLayout>
