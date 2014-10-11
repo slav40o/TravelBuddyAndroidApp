@@ -1,15 +1,17 @@
 package com.goofy.travelbuddy.connection;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.List;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.ClientProtocolException;
+import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpGet;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.DefaultHttpClient;
 
 import android.util.Log;
@@ -21,7 +23,7 @@ public class RestApiClient {
 		this.baseUrl = baseUrl;
 	}
 	
-	public String Get(String resourceUrl, final List<NameValuePair> headers){
+	public HttpResponse Get(String resourceUrl, final List<NameValuePair> headers){
 		String fullUrl = this.baseUrl + resourceUrl;
 		DefaultHttpClient client = new DefaultHttpClient();
 		HttpGet get = new HttpGet(fullUrl);
@@ -33,8 +35,7 @@ public class RestApiClient {
 		
 		try {
 			HttpResponse resp = client.execute(get);
-			String responce = this.redResponce(resp);
-			return responce;
+			return resp;
 		} catch (ClientProtocolException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
@@ -44,9 +45,37 @@ public class RestApiClient {
 		return null;
 	}
 	
-	public <T> T Post(String resourceUrl, final T bodyParams, final List<NameValuePair> headers){
+	public <T> HttpResponse  Post(String resourceUrl, final List<NameValuePair> bodyParams,
+		final List<NameValuePair> urlParams, final List<NameValuePair> headers){
+		HttpResponse responce = null;
+
+        try{
+			String fullUrl = this.baseUrl + resourceUrl;
+			if(urlParams != null){
+				fullUrl += this.parseUrlParams(urlParams);
+			}
+
+			DefaultHttpClient client = new DefaultHttpClient();
+			HttpPost post = new HttpPost(fullUrl);
+			post.setEntity(new UrlEncodedFormEntity(bodyParams));
+			 
+			if (headers != null) {
+				for (NameValuePair header : headers) {
+					post.addHeader(header.getName(), header.getValue());
+				}
+			}
+			
+			responce = client.execute(post);
+		} catch (ClientProtocolException e) {
+			e.printStackTrace();
+		} catch (UnsupportedEncodingException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		} 
 		
-		return null;
+		return responce;
 	}
 	
 	public <T> T Put(String resourceUrl, final T bodyParams, final List<NameValuePair> headers){
@@ -54,18 +83,32 @@ public class RestApiClient {
 		return null;
 	}
 	
-	private String redResponce(HttpResponse responce) throws IllegalStateException, IOException{
-		InputStream is  = responce.getEntity().getContent();            
-		BufferedReader reader = new BufferedReader(new InputStreamReader(is));
+	private String parseUrlParams(List<NameValuePair> urlParams){
 		StringBuilder str = new StringBuilder();
-		String line = null;
-		while((line = reader.readLine()) != null){
-		    str.append(line + "\n");
-		}
-		is.close();
-		reader.close();
+		str.append("?");
 		
-		Log.d("GET", str.toString());
+		for (NameValuePair param : urlParams) {
+			str.append(param.getName() + "=\"" + param.getValue() + "\"");
+		}
+		
 		return str.toString();
 	}
+	
+//	private String parseBodyParams(List<NameValuePair> bodyParams) {
+//		StringBuilder str = new StringBuilder();
+//		
+//		try {
+//			for (NameValuePair param : bodyParams) {
+//				str.append(param.getName());
+//				str.append("=");
+//				str.append(URLEncoder.encode(param.getValue(), "UTF-8"));
+//				str.append("&");
+//			}
+//		} catch (UnsupportedEncodingException e) {
+//			e.printStackTrace();
+//		}
+//		
+//		str.setLength(str.length() - 1);
+//		return str.toString();
+//	}
 }
