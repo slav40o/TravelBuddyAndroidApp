@@ -48,7 +48,7 @@ public class SplashScreenActivity extends Activity {
     private class HttpAsyncTask extends AsyncTask<String, Void, NameValuePair> {
         @Override
         protected NameValuePair doInBackground(String... urls) {
-        	ClientManager manager = new ClientManager();
+        	ClientManager manager = new ClientManager(getApplicationContext());
         	//NameValuePair status = manager.loginUser("slav@slav.com", "123a123");
         	NameValuePair status = manager.registerUser("slav@slav.com", "123a123", "123a123");
         	return status;

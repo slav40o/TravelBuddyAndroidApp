@@ -15,6 +15,8 @@ import org.apache.http.ParseException;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.util.EntityUtils;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.util.Log;
 
 import com.goofy.travelbuddy.connection.requestmodels.UserLoginInfo;
@@ -22,11 +24,13 @@ import com.google.gson.Gson;
 
 public class ClientManager {
 	private final String Server_Url = "http://travelbuddy-1.apphb.com/";
-	
+	private final String User_Info_File = "UserData";
 	private RestApiClient client;
+	private Context context;
 	
-	public ClientManager(){
+	public ClientManager(Context context){
 		this.client = new RestApiClient(Server_Url);
+		this.context = context;
 	}
 	
 	public NameValuePair loginUser(String userName, String password){
@@ -43,7 +47,7 @@ public class ClientManager {
 		
 		if (status == HttpStatus.SC_OK) {
 			try {
-				saveToken(responce);
+				saveToken(responce, password);
 			} catch (IllegalStateException e) {
 				e.printStackTrace();
 			} catch (IOException e) {
@@ -70,10 +74,8 @@ public class ClientManager {
 		
 		if (status == HttpStatus.SC_OK) {
 			try {
-				saveToken(responce);
+				saveUserData(userName, password);
 			} catch (IllegalStateException e) {
-				e.printStackTrace();
-			} catch (IOException e) {
 				e.printStackTrace();
 			}
 		}
@@ -81,15 +83,28 @@ public class ClientManager {
 		return new BasicNameValuePair(String.valueOf(status), message);
 	}
 	
-	private void saveToken(HttpResponse responce) throws IllegalStateException, IOException {
+	private void saveUserData(String userName, String password){
+		SharedPreferences userPref = context.getSharedPreferences(User_Info_File, 0);
+		SharedPreferences.Editor editor = userPref.edit();
+		editor.putString("username", userName);
+		editor.putString("password", password);
+		editor.putBoolean("isLogged", false);
+		editor.commit();
+	}
+	
+	private void saveToken(HttpResponse responce, String password) throws IllegalStateException, IOException {
 		Gson gson = new Gson();
 		InputStream responceContent = responce.getEntity().getContent();
-
         Reader reader = new InputStreamReader(responceContent);
 		UserLoginInfo userInfo = gson.fromJson(reader, UserLoginInfo.class);
-		Log.d("TOKEN", userInfo.accessToken);
-		
-		// TO DO: save info to Shared Preferences
+		SharedPreferences userPref = context.getSharedPreferences(User_Info_File, 0);
+		SharedPreferences.Editor editor = userPref.edit();
+		editor.putString("username", userInfo.username);
+		editor.putString("password", password);
+		editor.putString("token", userInfo.accessToken);
+		editor.putString("expiration", userInfo.expires);
+		editor.putBoolean("isLogged", true);
+		editor.commit();
 	}
 
 	private String getResponceMessage(HttpEntity getResponseEntity) {
