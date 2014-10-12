@@ -1,5 +1,6 @@
 package com.goofy.travelbuddy;
 
+import org.apache.http.HttpStatus;
 import org.apache.http.NameValuePair;
 
 import android.app.Activity;
@@ -10,6 +11,7 @@ import android.os.Bundle;
 import android.widget.Toast;
 
 import com.goofy.travelbuddy.connection.ClientManager;
+import com.goofy.travelbuddy.connection.UserPreferenceManager;
 
 public class SplashScreenActivity extends Activity {
 	private Context context;
@@ -19,45 +21,49 @@ public class SplashScreenActivity extends Activity {
         setContentView(R.layout.activity_splash_screen);
         context = this;
         
-        Thread logoTimer = new Thread() {
-            public void run(){
-                try {
-                	// TO DO: Loading initial resources
-                	new HttpAsyncTask().execute();
-                    int logoTimer = 0;
-                    while(logoTimer < 5000){
-                        sleep(100);
-                        logoTimer = logoTimer +100;
-                    };
+    	if(UserPreferenceManager.checkForLogin(context)){
+    		new StartupTask().execute();
+    	}
+    	else {
+    		Toast.makeText(context, "No registration found.", Toast.LENGTH_LONG).show();
+			Intent registerIntent = new Intent(context, RegisterActivity.class);
+            startActivity(registerIntent);
+    	}
+        //TO DO: check if user is logged in and load Login screen or Main screen
                     
-                    //TO DO: check if user is logged in and load Login screen or Main screen
-                    Intent loginIntent = new Intent(context, LoginActivity.class);
-                    startActivity(loginIntent);
-                } catch (InterruptedException e) {
-                    // TODO Auto-generated catch block
-                    e.printStackTrace();
-                } finally{
-                    finish();
-                }
-            }
-        };
-         
-        logoTimer.start();
+
     }
     
-    private class HttpAsyncTask extends AsyncTask<String, Void, NameValuePair> {
+    private class StartupTask extends AsyncTask<String, Void, NameValuePair> {
+    	
         @Override
         protected NameValuePair doInBackground(String... urls) {
-        	ClientManager manager = new ClientManager(getApplicationContext());
-        	//NameValuePair status = manager.loginUser("slav@slav.com", "123a123");
-        	NameValuePair status = manager.registerUser("slav@slav.com", "123a123", "123a123");
-        	return status;
+        	ClientManager manager = new ClientManager(context);
+        	String name = UserPreferenceManager.getUsername(context);
+    		String pass = UserPreferenceManager.getPassword(context);
+    		NameValuePair responce = manager.loginUser(name, pass);
+    		int status = Integer.parseInt(responce.getName());
+    		
+    		if (status == HttpStatus.SC_OK) {
+    			Intent mainIntent = new Intent(context, MainActivity.class);
+                startActivity(mainIntent);
+			}
+    		else{
+//    			Toast.makeText(context, responce.getValue(), Toast.LENGTH_LONG).show();
+    			Intent loginIntent = new Intent(context, LoginActivity.class);
+                startActivity(loginIntent);
+    		}
+        	
+        	return responce;
         }
-        // onPostExecute displays the results of the AsyncTask.
+        @Override
+		protected void onPreExecute() {
+			
+		}
+
         @Override
         protected void onPostExecute(NameValuePair result) {
             Toast.makeText(getBaseContext(), result.getName(), Toast.LENGTH_LONG).show();
-            
        }
     }
 }
