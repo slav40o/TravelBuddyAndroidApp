@@ -28,6 +28,7 @@ public class SplashScreenActivity extends Activity {
     	else {
     		Toast.makeText(context, "No registration found.", Toast.LENGTH_LONG).show();
 			Intent registerIntent = new Intent(context, RegisterActivity.class);
+    		//Intent registerIntent = new Intent(context, PlacesActivity.class);
             startActivity(registerIntent);
     	}
         //TO DO: check if user is logged in and load Login screen or Main screen

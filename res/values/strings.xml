@@ -13,5 +13,6 @@
     <string name="email">Email</string>
     <string name="login">Login</string>
     <string name="register">Register</string>
+    <string name="places_title">Top Places</string>
 
 </resources>
