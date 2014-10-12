@@ -14,5 +14,7 @@
     <string name="login">Login</string>
     <string name="register">Register</string>
     <string name="places_title">Top Places</string>
+    <string name="or_register"><u>Or Register</u></string>
+    <string name="confirm_password">Confirm password</string>
 
 </resources>

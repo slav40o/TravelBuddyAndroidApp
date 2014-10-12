@@ -44,15 +44,6 @@
         android:ems="10"
         android:inputType="textPassword" />
 
-    <EditText
-        android:id="@+id/ed_email_input"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_centerVertical="true"
-        android:ems="10"
-        android:inputType="textEmailAddress" />
-
     <TextView
         android:id="@+id/tv_email_label"
         android:layout_width="wrap_content"
@@ -69,6 +60,30 @@
         android:layout_above="@+id/ed_password_input"
         android:layout_centerHorizontal="true"
         android:text="@string/password"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
+
+    <EditText
+        android:id="@+id/ed_email_input"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/tv_password_label"
+        android:layout_alignRight="@+id/ed_password_input"
+        android:layout_marginBottom="20dp"
+        android:ems="10"
+        android:inputType="textEmailAddress" >
+
+        <requestFocus />
+    </EditText>
+
+    <TextView
+        android:id="@+id/tv_register"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tv_login_ask"
+        android:layout_centerHorizontal="true"
+        android:textStyle="italic"
+        android:layout_marginTop="20dp"
+        android:text="@string/or_register"
         android:textAppearance="?android:attr/textAppearanceMedium" />
 
 </RelativeLayout>
