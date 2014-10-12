@@ -53,7 +53,9 @@ public class UserPreferenceManager {
 	
 	public static boolean checkForRegistration(Context context){
 		SharedPreferences userPref = context.getSharedPreferences(User_Info_File, 0);
-		boolean isRegistered  = userPref.contains("username") && userPref.contains("password");
+		boolean user = userPref.contains("username");
+		boolean pass = userPref.contains("password");
+		boolean isRegistered  =  user && pass;
 		return isRegistered;
 	}
 	
