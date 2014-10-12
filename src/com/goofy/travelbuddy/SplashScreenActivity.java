@@ -50,7 +50,7 @@ public class SplashScreenActivity extends Activity {
     		int status = Integer.parseInt(responce.getName());
     		
     		if (status == HttpStatus.SC_OK) {
-    			Intent mainIntent = new Intent(context, MainActivity.class);
+    			Intent mainIntent = new Intent(context, PlacesActivity.class);
                 startActivity(mainIntent);
 			}
     		else{

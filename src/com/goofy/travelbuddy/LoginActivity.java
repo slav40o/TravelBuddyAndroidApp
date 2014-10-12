@@ -79,7 +79,7 @@ public class LoginActivity extends Activity implements View.OnClickListener{
 			String message = result.getValue();
 			
 			if (status == HttpStatus.SC_OK) {
-				Intent registerIntent = new Intent(getApplicationContext(), MainActivity.class);
+				Intent registerIntent = new Intent(getApplicationContext(), PlacesActivity.class);
 				startActivity(registerIntent);
 			}
 			else{
