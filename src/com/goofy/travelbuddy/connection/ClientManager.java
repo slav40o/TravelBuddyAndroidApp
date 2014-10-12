@@ -70,35 +70,27 @@ public class ClientManager {
 		
 		return new BasicNameValuePair(String.valueOf(status), message);
 	}
-	
-//	private void saveUserData(String userName, String password){
-//		SharedPreferences userPref = context.getSharedPreferences(User_Info_File, 0);
-//		SharedPreferences.Editor editor = userPref.edit();
-//		editor.putString("username", userName);
-//		editor.putString("password", password);
-//		editor.putBoolean("isLogged", false);
-//		editor.commit();
-//	}
-	
-//	private void saveToken(HttpResponse responce, String password) throws IllegalStateException, IOException {
-//		Gson gson = new Gson();
-//		InputStream responceContent = responce.getEntity().getContent();
-//        Reader reader = new InputStreamReader(responceContent);
-//		UserLoginInfo userInfo = gson.fromJson(reader, UserLoginInfo.class);
-//		SharedPreferences userPref = context.getSharedPreferences(User_Info_File, 0);
-//		SharedPreferences.Editor editor = userPref.edit();
-//		editor.putString("username", userInfo.username);
-//		editor.putString("password", password);
-//		editor.putString("token", userInfo.accessToken);
-//		editor.putString("expiration", userInfo.expires);
-//		editor.putBoolean("isLogged", true);
-//		editor.commit();
-//	}
 
-	private String getResponceMessage(HttpEntity getResponseEntity) {
+	public void addPlace(){
+		
+	}
+	
+	public void getPlaces(){
+		
+	}
+	
+	public void getTravels(){
+		
+	}
+	
+	public void addPhoto(){
+		
+	}
+	
+	private String getResponceMessage(HttpEntity responseEntity) {
 		String message = "";
 		try {
-			message = EntityUtils.toString(getResponseEntity);
+			message = EntityUtils.toString(responseEntity);
 			Log.d("ERROR_MESSAGE", message);
 		} catch (ParseException e1) {
 			e1.printStackTrace();
