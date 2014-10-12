@@ -15,6 +15,7 @@ import com.goofy.travelbuddy.connection.UserPreferenceManager;
 
 public class SplashScreenActivity extends Activity {
 	private Context context;
+	
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
