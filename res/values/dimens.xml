@@ -3,5 +3,10 @@
     <!-- Default screen margins, per the Android Design guidelines. -->
     <dimen name="activity_horizontal_margin">16dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>
+    <!-- Places ListView sizes. -->
+    <dimen name="places_itemlist_imagewidth">100dp</dimen>
+    <dimen name="places_itemlist_imageheight">60dp</dimen>
+    <dimen name="places_itemlist_titlesize">25sp</dimen>
+    <dimen name="places_itemlist_coutrysize">16sp</dimen>
 
 </resources>

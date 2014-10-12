@@ -6,10 +6,10 @@ import java.util.Date;
 public class PlaceDetail extends Place{
 	
 	private ArrayList<String> visitors;
-	private ArrayList<Byte[]> photos;
+	private ArrayList<byte[]> photos;
 	
 	public PlaceDetail(int id, String title, String description, String country,
-			Location location, Date lastVisited, ArrayList<Byte[]> photos, ArrayList<String> visitors)
+			Location location, Date lastVisited, ArrayList<byte[]> photos, ArrayList<String> visitors)
     {
 		super(id, title, description, country, location);
         this.setVisitors(visitors);
@@ -24,11 +24,11 @@ public class PlaceDetail extends Place{
 		this.visitors = visitors;
 	}
 
-	public ArrayList<Byte[]> getPhotos() {
+	public ArrayList<byte[]> getPhotos() {
 		return photos;
 	}
 
-	public void setPhotos(ArrayList<Byte[]> photos) {
+	public void setPhotos(ArrayList<byte[]> photos) {
 		this.photos = photos;
 	}
 }
