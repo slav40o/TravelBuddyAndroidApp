@@ -43,29 +43,24 @@ public class SplashScreenActivity extends Activity {
         	String name = UserPreferenceManager.getUsername(context);
     		String pass = UserPreferenceManager.getPassword(context);
     		NameValuePair responce = manager.loginUser(name, pass);
-    		manager.getTopPlaces();
+        	return responce;
+        }
+
+        @Override
+        protected void onPostExecute(NameValuePair responce) {
     		int status = Integer.parseInt(responce.getName());
     		
     		if (status == HttpStatus.SC_OK) {
     			//TO DO Load needed resources from server
     			Intent mainIntent = new Intent(context, MainActivity.class);
                 startActivity(mainIntent);
+                Toast.makeText(getBaseContext(), "Autologin", Toast.LENGTH_SHORT).show();
 			}
     		else{
+    			Toast.makeText(getBaseContext(), "Unable to login", Toast.LENGTH_SHORT).show();
     			Intent loginIntent = new Intent(context, LoginActivity.class);
                 startActivity(loginIntent);
     		}
-        	
-        	return responce;
-        }
-        @Override
-		protected void onPreExecute() {
-			
-		}
-
-        @Override
-        protected void onPostExecute(NameValuePair result) {
-            Toast.makeText(getBaseContext(), result.getName(), Toast.LENGTH_SHORT).show();
        }
     }
 }

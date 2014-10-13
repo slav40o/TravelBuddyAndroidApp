@@ -36,6 +36,7 @@
             android:id="@+id/btn_top_places"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="left"
             android:text="@string/top" />
 
         <Button
@@ -53,7 +54,7 @@
         android:layout_below="@+id/linearLayout1"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="41dp"
-        android:text="@string/travels"
+        android:text="@string/trips"
         android:textAppearance="?android:attr/textAppearanceLarge" />
 
     <LinearLayout

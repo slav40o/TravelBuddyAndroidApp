@@ -102,7 +102,7 @@ public class ClientManager {
 		return places;
 	}
 	
-	public void getTravels(){
+	public void getPersonalTrips(){
 		
 	}
 	
@@ -110,13 +110,16 @@ public class ClientManager {
 		
 	}
 	
-	public void addTravel(String title, String description){
+	public NameValuePair addTrip(String title, String description){
 		List<NameValuePair> bodyParams = new ArrayList<NameValuePair>();
 		bodyParams.add(new BasicNameValuePair("title", title));
 		bodyParams.add(new BasicNameValuePair("description", description));
 		
 		List<NameValuePair> headers = this.getAuthorisationHeaders();
-		this.client.Post("api/places", bodyParams, null, headers);
+		HttpResponse responce = this.client.Post("api/places", bodyParams, null, headers);
+		String message = getResponceMessage(responce.getEntity(), "TRIP_CREATE");
+		int status = responce.getStatusLine().getStatusCode();
+		return new BasicNameValuePair(String.valueOf(status), message);
 	}
 	
 	private List<NameValuePair> getAuthorisationHeaders(){
