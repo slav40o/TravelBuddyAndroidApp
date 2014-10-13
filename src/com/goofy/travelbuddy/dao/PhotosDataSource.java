@@ -10,7 +10,6 @@ import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 
 import com.goofy.models.Photo;
-import com.goofy.models.Place;
 
 public class PhotosDataSource {
 	private SQLiteDatabase database;
@@ -64,6 +63,16 @@ public class PhotosDataSource {
 		// make sure to close the cursor
 		cursor.close();
 		return photos;
+	}
+	
+	public Photo getPhotoById(int id){
+		Cursor cursor = database.query(PhotosSQLiteHelper.TABLE_PHOTOS,
+				allColumns, PhotosSQLiteHelper.COLUMN_ID + " = " + id,
+				null, null, null, null);
+		cursor.moveToFirst();
+		Photo foundPhoto = cursorToPhotos(cursor);
+		cursor.close();
+		return foundPhoto;
 	}
 
 	private Photo cursorToPhotos(Cursor cursor) {

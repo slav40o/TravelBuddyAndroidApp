@@ -57,7 +57,7 @@ public class TravelsDataSource {
 	        return newTravel;
     }
     
-    public List<Travel> getAllTravel() {
+    public List<Travel> getAllTravels() {
 		List<Travel> travels = new ArrayList<Travel>();
 		Cursor cursor = database.query(TravelsSQLiteHelper.TABLE_TRAVELS,
 				allColumns, null, null, null, null, null);
