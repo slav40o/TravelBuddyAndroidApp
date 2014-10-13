@@ -53,13 +53,14 @@
             android:label="@string/app_name" >
         </activity>
         <activity
-<<<<<<< HEAD
             android:name=".CreatTripActivity"
             android:label="@string/app_name" >
-=======
+        </activity>
+        <activity
+
             android:name=".PlaceDetailActivity"
             android:label="@string/title_activity_place_detail" >
->>>>>>> d6308449f0732f311cff853cf088a6be1a0a3562
+
         </activity>
     </application>
 

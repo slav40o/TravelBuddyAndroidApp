@@ -33,40 +33,47 @@ public final class R {
         public static final int splash1=0x7f020002;
     }
     public static final class id {
-        public static final int action_logout=0x7f080022;
+        public static final int action_logout=0x7f080028;
+        public static final int action_settings=0x7f080029;
         public static final int btn_add_travel=0x7f080014;
         public static final int btn_all_travels=0x7f080013;
         public static final int btn_cancel_create_trip=0x7f080007;
         public static final int btn_create_trip=0x7f080003;
         public static final int btn_login=0x7f080008;
-        public static final int btn_register=0x7f08001b;
+        public static final int btn_register=0x7f080021;
         public static final int btn_top_places=0x7f080011;
         public static final int btn_visited_places=0x7f080012;
+        public static final int container=0x7f080015;
         public static final int ed_email_input=0x7f080009;
         public static final int ed_password_input=0x7f08000a;
-        public static final int et_confirm_pass=0x7f08001c;
-        public static final int et_register_email=0x7f080020;
-        public static final int et_register_password=0x7f08001e;
+        public static final int et_confirm_pass=0x7f080022;
+        public static final int et_register_email=0x7f080026;
+        public static final int et_register_password=0x7f080024;
         public static final int et_trip_description=0x7f080002;
         public static final int et_trip_name=0x7f080004;
-        public static final int fragment1=0x7f08001a;
+        public static final int fragment1=0x7f080020;
+        public static final int imagetitletext=0x7f08001a;
         public static final int linearLayout1=0x7f080010;
-        public static final int placeCountry=0x7f080017;
-        public static final int placeImage=0x7f080015;
-        public static final int placeTitle=0x7f080016;
-        public static final int placeslisttitle=0x7f080018;
-        public static final int placeslistview=0x7f080019;
+        public static final int placeCountry=0x7f08001d;
+        public static final int placeDetalFragment=0x7f080016;
+        public static final int placeImage=0x7f08001b;
+        public static final int placeTitle=0x7f08001c;
+        public static final int placedetailsgallery=0x7f080018;
+        public static final int placedetailstitle=0x7f080017;
+        public static final int placeslisttitle=0x7f08001e;
+        public static final int placeslistview=0x7f08001f;
+        public static final int selectedgalleryphoto=0x7f080019;
         public static final int textView1=0x7f080001;
         public static final int textView2=0x7f080006;
         public static final int textView3=0x7f080005;
-        public static final int tv_confirm_password_label=0x7f08001d;
+        public static final int tv_confirm_password_label=0x7f080023;
         public static final int tv_email_label=0x7f08000c;
         public static final int tv_login=0x7f08000f;
         public static final int tv_login_ask=0x7f08000b;
-        public static final int tv_login_link=0x7f080021;
+        public static final int tv_login_link=0x7f080027;
         public static final int tv_password_label=0x7f08000d;
         public static final int tv_register=0x7f08000e;
-        public static final int tv_register_pass_label=0x7f08001f;
+        public static final int tv_register_pass_label=0x7f080025;
         public static final int tv_welcome_message=0x7f080000;
     }
     public static final class layout {
@@ -75,13 +82,16 @@ public final class R {
         public static final int login_activity=0x7f030002;
         public static final int main_screen_activity=0x7f030003;
         public static final int place_details=0x7f030004;
-        public static final int place_list_item=0x7f030005;
-        public static final int places_list=0x7f030006;
-        public static final int places_screen_activity=0x7f030007;
-        public static final int register_activity=0x7f030008;
+        public static final int place_details_activity=0x7f030005;
+        public static final int place_details_fragment=0x7f030006;
+        public static final int place_list_item=0x7f030007;
+        public static final int places_list=0x7f030008;
+        public static final int places_screen_activity=0x7f030009;
+        public static final int register_activity=0x7f03000a;
     }
     public static final class menu {
         public static final int main_menu=0x7f070000;
+        public static final int place_detail=0x7f070001;
     }
     public static final class string {
         public static final int action_logout=0x7f05000f;
@@ -102,11 +112,13 @@ public final class R {
         public static final int or_login=0x7f050018;
         public static final int or_register=0x7f05000d;
         public static final int password=0x7f050008;
+        public static final int place_details_title=0x7f050021;
         public static final int places=0x7f050017;
         public static final int places_title=0x7f05000c;
         public static final int register=0x7f05000b;
         public static final int splash_screen=0x7f050003;
         public static final int start_trip=0x7f05001a;
+        public static final int title_activity_place_detail=0x7f050020;
         public static final int top=0x7f050013;
         public static final int top_places=0x7f050010;
         public static final int travels=0x7f050012;
@@ -145,4 +157,25 @@ public final class R {
          */
         public static final int AppTheme=0x7f060001;
     }
+    public static final class styleable {
+        /** Attributes that can be used with a MyGallery.
+           <p>Includes the following attributes:</p>
+           <table>
+           <colgroup align="left" />
+           <colgroup align="left" />
+           <tr><th>Attribute</th><th>Description</th></tr>
+           <tr><td><code>{@link #MyGallery_android_galleryItemBackground android:galleryItemBackground}</code></td><td></td></tr>
+           </table>
+           @see #MyGallery_android_galleryItemBackground
+         */
+        public static final int[] MyGallery = {
+            0x0101004c
+        };
+        /**
+          <p>This symbol is the offset where the {@link android.R.attr#galleryItemBackground}
+          attribute's value can be found in the {@link #MyGallery} array.
+          @attr name android:galleryItemBackground
+        */
+        public static final int MyGallery_android_galleryItemBackground = 0;
+    };
 }

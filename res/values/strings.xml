@@ -27,16 +27,16 @@
     <string name="places">Places</string>
     <string name="or_login"><u>Or login</u></string>
     <string name="all">All</string>
-<<<<<<< HEAD
+
     <string name="start_trip">Start your new trip</string>
     <string name="trip_name">Trip name</string>
     <string name="trips">Trips</string>
     <string name="trip_description">Trip description</string>
     <string name="create">Create</string>
     <string name="cancel">Cancel</string>
-=======
+
     <string name="title_activity_place_detail">Place Details</string>
     <string name="place_details_title">Place details</string>
->>>>>>> d6308449f0732f311cff853cf088a6be1a0a3562
+
 
 </resources>
