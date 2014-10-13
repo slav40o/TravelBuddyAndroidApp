@@ -33,26 +33,34 @@ public final class R {
         public static final int splash1=0x7f020002;
     }
     public static final class id {
-        public static final int action_settings=0x7f080014;
+        public static final int action_logout=0x7f08001c;
+        public static final int btn_add_travel=0x7f080008;
         public static final int btn_login=0x7f080001;
-        public static final int btn_register=0x7f08000e;
+        public static final int btn_personal_travels=0x7f080009;
+        public static final int btn_register=0x7f080015;
+        public static final int btn_top_places=0x7f08000c;
+        public static final int btn_visited_places=0x7f08000a;
         public static final int ed_email_input=0x7f080002;
         public static final int ed_password_input=0x7f080003;
-        public static final int et_confirm_pass=0x7f08000f;
-        public static final int et_register_email=0x7f080013;
-        public static final int et_register_password=0x7f080011;
-        public static final int fragment1=0x7f08000d;
-        public static final int placeCountry=0x7f08000a;
-        public static final int placeImage=0x7f080008;
-        public static final int placeTitle=0x7f080009;
-        public static final int placeslisttitle=0x7f08000b;
-        public static final int placeslistview=0x7f08000c;
-        public static final int tv_confirm_password_label=0x7f080010;
+        public static final int et_confirm_pass=0x7f080016;
+        public static final int et_register_email=0x7f08001a;
+        public static final int et_register_password=0x7f080018;
+        public static final int fragment1=0x7f080014;
+        public static final int placeCountry=0x7f080011;
+        public static final int placeImage=0x7f08000f;
+        public static final int placeTitle=0x7f080010;
+        public static final int placeslisttitle=0x7f080012;
+        public static final int placeslistview=0x7f080013;
+        public static final int textView2=0x7f08000d;
+        public static final int textView3=0x7f08000e;
+        public static final int tv_confirm_password_label=0x7f080017;
         public static final int tv_email_label=0x7f080005;
+        public static final int tv_login=0x7f08000b;
         public static final int tv_login_ask=0x7f080004;
+        public static final int tv_login_link=0x7f08001b;
         public static final int tv_password_label=0x7f080006;
         public static final int tv_register=0x7f080007;
-        public static final int tv_register_pass_label=0x7f080012;
+        public static final int tv_register_pass_label=0x7f080019;
         public static final int tv_welcome_message=0x7f080000;
     }
     public static final class layout {
@@ -66,10 +74,13 @@ public final class R {
         public static final int register_activity=0x7f030007;
     }
     public static final class menu {
-        public static final int places_screen=0x7f070000;
+        public static final int main_menu=0x7f070000;
     }
     public static final class string {
+        public static final int action_logout=0x7f05000f;
         public static final int action_settings=0x7f050002;
+        public static final int add=0x7f050014;
+        public static final int add_new=0x7f050015;
         public static final int app_name=0x7f050000;
         public static final int confirm_password=0x7f05000e;
         public static final int email=0x7f050009;
@@ -77,12 +88,19 @@ public final class R {
         public static final int loading=0x7f050004;
         public static final int login=0x7f05000a;
         public static final int login_ask=0x7f050006;
+        public static final int main_activity_welcome=0x7f050016;
+        public static final int or_login=0x7f050018;
         public static final int or_register=0x7f05000d;
         public static final int password=0x7f050008;
+        public static final int places=0x7f050017;
         public static final int places_title=0x7f05000c;
         public static final int register=0x7f05000b;
         public static final int splash_screen=0x7f050003;
+        public static final int top=0x7f050013;
+        public static final int top_places=0x7f050010;
+        public static final int travels=0x7f050012;
         public static final int username_label=0x7f050007;
+        public static final int visited=0x7f050011;
         public static final int welcome=0x7f050005;
     }
     public static final class style {

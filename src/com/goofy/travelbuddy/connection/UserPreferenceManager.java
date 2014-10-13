@@ -65,4 +65,11 @@ public class UserPreferenceManager {
 		String token = userPref.getString("password", "");
 		return token;
 	}
+	
+	public static void logoutUser(Context context){
+		SharedPreferences userPref = context.getSharedPreferences(User_Info_File, 0);
+		SharedPreferences.Editor editor = userPref.edit();
+		editor.putBoolean("isLogged", false);
+		editor.commit();
+	}
 }

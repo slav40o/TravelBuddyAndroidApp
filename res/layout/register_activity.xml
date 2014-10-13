@@ -85,4 +85,15 @@
         android:text="@string/email"
         android:textAppearance="?android:attr/textAppearanceMedium" />
 
+    <TextView
+        android:id="@+id/tv_login_link"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textStyle="italic"
+        android:layout_below="@+id/tv_register"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="10dp"
+        android:text="@string/or_login"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
+
 </RelativeLayout>

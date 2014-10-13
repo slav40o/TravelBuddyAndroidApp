@@ -47,7 +47,7 @@ public class SplashScreenActivity extends Activity {
     		
     		if (status == HttpStatus.SC_OK) {
     			//TO DO Load needed resources from server
-    			Intent mainIntent = new Intent(context, PlacesActivity.class);
+    			Intent mainIntent = new Intent(context, MainActivity.class);
                 startActivity(mainIntent);
 			}
     		else{
@@ -64,7 +64,7 @@ public class SplashScreenActivity extends Activity {
 
         @Override
         protected void onPostExecute(NameValuePair result) {
-            Toast.makeText(getBaseContext(), result.getName(), Toast.LENGTH_LONG).show();
+            Toast.makeText(getBaseContext(), result.getName(), Toast.LENGTH_SHORT).show();
        }
     }
 }

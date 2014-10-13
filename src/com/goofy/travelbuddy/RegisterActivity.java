@@ -3,8 +3,6 @@ package com.goofy.travelbuddy;
 import org.apache.http.HttpStatus;
 import org.apache.http.NameValuePair;
 
-import com.goofy.travelbuddy.connection.ClientManager;
-
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
@@ -13,10 +11,14 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
+
+import com.goofy.travelbuddy.connection.ClientManager;
 
 public class RegisterActivity extends Activity implements View.OnClickListener{
 	private Button registerButton;
+	private TextView loginLink;
 	private EditText confirmedPasswordField;
 	private EditText passwordField;
 	private EditText emailField;
@@ -51,11 +53,16 @@ public class RegisterActivity extends Activity implements View.OnClickListener{
 			}
 			
 			if (validState) {
-				 new RegisterTask().execute(username, password);
+				this.emailField.setText("");
+				this.passwordField.setText("");
+			    new RegisterTask().execute(username, password);
 			}
 			
 		}
-		
+		else if(v.getId() == this.loginLink.getId()){
+			Intent loginIntent = new Intent(this, LoginActivity.class);
+            startActivity(loginIntent);
+		}
 	}
 	
 	private void initializeElements() {
@@ -63,8 +70,9 @@ public class RegisterActivity extends Activity implements View.OnClickListener{
 		this.passwordField = (EditText)findViewById(R.id.et_register_password);
 		this.emailField = (EditText)findViewById(R.id.et_register_email);
 		this.confirmedPasswordField = (EditText)findViewById(R.id.et_confirm_pass);
+		this.loginLink = (TextView)findViewById(R.id.tv_login_link);
 		registerButton.setOnClickListener(this);
-		//loginLink.setOnClickListener(this);
+		loginLink.setOnClickListener(this);
 	}
 	
 	private class RegisterTask extends AsyncTask<String, Void, NameValuePair> {
@@ -89,10 +97,10 @@ public class RegisterActivity extends Activity implements View.OnClickListener{
         protected void onPostExecute(NameValuePair result) {
 			int status = Integer.parseInt(result.getName());
 			String message = result.getValue();
-			
+			dialog.hide();  
 			if (status == HttpStatus.SC_OK) {
 				Toast.makeText(getApplicationContext(), "Successfully registered", Toast.LENGTH_LONG).show();
-				Intent loginIntent = new Intent(getApplicationContext(), LoginActivity.class);
+				Intent loginIntent = new Intent(getApplicationContext(), MainActivity.class);
                 startActivity(loginIntent);
 			}
 			else{

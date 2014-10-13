@@ -80,7 +80,7 @@ public class LoginActivity extends Activity implements View.OnClickListener{
 		@Override
 		protected void onPreExecute() {
 			super.onPreExecute();
-			dialog = new ProgressDialog(getApplicationContext());
+			dialog = new ProgressDialog(LoginActivity.this);
 			dialog.setMessage("Logging in...");
 			dialog.show();  
 		}
@@ -89,12 +89,14 @@ public class LoginActivity extends Activity implements View.OnClickListener{
         protected void onPostExecute(NameValuePair result) {
 			int status = Integer.parseInt(result.getName());
 			String message = result.getValue();
+			dialog.hide();  
 			
 			if (status == HttpStatus.SC_OK) {
 				String name = UserPreferenceManager.getUsername(getApplicationContext());
 				Toast.makeText(getApplicationContext(), "Welcome, " + name, Toast.LENGTH_LONG).show();
-				Intent registerIntent = new Intent(getApplicationContext(), PlacesActivity.class);
+				Intent registerIntent = new Intent(getApplicationContext(), MainActivity.class);
 				startActivity(registerIntent);
+				
 			}
 			else{
 				Toast.makeText(getApplicationContext(), message, Toast.LENGTH_LONG).show();
