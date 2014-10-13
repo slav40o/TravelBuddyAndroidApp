@@ -27,5 +27,7 @@
     <string name="places">Places</string>
     <string name="or_login"><u>Or login</u></string>
     <string name="all">All</string>
+    <string name="title_activity_place_detail">Place Details</string>
+    <string name="place_details_title">Place details</string>
 
 </resources>
