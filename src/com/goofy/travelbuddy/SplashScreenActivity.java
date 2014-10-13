@@ -43,6 +43,7 @@ public class SplashScreenActivity extends Activity {
         	String name = UserPreferenceManager.getUsername(context);
     		String pass = UserPreferenceManager.getPassword(context);
     		NameValuePair responce = manager.loginUser(name, pass);
+    		manager.getTopPlaces();
     		int status = Integer.parseInt(responce.getName());
     		
     		if (status == HttpStatus.SC_OK) {

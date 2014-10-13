@@ -29,16 +29,16 @@ public class RestApiClient {
 			}
 		}
 		
+		HttpResponse resp = null;
 		try {
-			HttpResponse resp = client.execute(get);
-			return resp;
+			resp = client.execute(get);
 		} catch (ClientProtocolException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-
-		return null;
+		
+		return resp;
 	}
 	
 	public <T> HttpResponse  Post(String resourceUrl, final List<NameValuePair> bodyParams,

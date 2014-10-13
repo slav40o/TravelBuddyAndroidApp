@@ -2,13 +2,29 @@ package com.goofy.models;
 
 import java.util.Date;
 
+import com.google.gson.annotations.SerializedName;
+
 public class Place {
-	private int id;
-	private String title;
-	private String description;
-	private String country;
-	private Location location;
-	private Date lastVisited;
+	@SerializedName("Id")
+	public int id;
+	
+	@SerializedName("Title")
+	public String title;
+	
+	@SerializedName("Description")
+	public String description;
+	
+	@SerializedName("Country")
+	public String country;
+	
+	@SerializedName("LastVisited")
+	public Date lastVisited;
+	
+	@SerializedName("Longtitude")
+	private double longtitude;
+	
+	@SerializedName("Latitude")
+	private double latitude;
 	
 	public Place(int id, String title, String description, 
 			String country, Location location)
@@ -17,7 +33,8 @@ public class Place {
         this.setDescription(description);
         this.setCountry(country);
         this.setLastVisited(lastVisited);
-        this.setLocation(location);
+        this.setLongtitude(location.getLongtitude());
+        this.setLatitude(location.getLatitude());
         this.setTitle(title);
     }
 	
@@ -53,19 +70,31 @@ public class Place {
 		this.country = country;
 	}
 
-	public Location getLocation() {
-		return location;
-	}
-
-	public void setLocation(Location location) {
-		this.location = location;
-	}
-
 	public Date getLastVisited() {
 		return lastVisited;
 	}
 
 	public void setLastVisited(Date lastVisited) {
 		this.lastVisited = lastVisited;
+	}
+
+	public double getLongtitude() {
+		return longtitude;
+	}
+
+	public void setLongtitude(double longtitude) {
+		this.longtitude = longtitude;
+	}
+
+	public double getLatitude() {
+		return latitude;
+	}
+
+	public void setLatitude(double latitude) {
+		this.latitude = latitude;
+	}
+	
+	public Location getLocation(){
+		return new Location(this.getLatitude(), this.getLongtitude());
 	}
 }

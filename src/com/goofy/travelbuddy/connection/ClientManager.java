@@ -1,6 +1,7 @@
 package com.goofy.travelbuddy.connection;
 
 import java.io.IOException;
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,6 +19,9 @@ import android.util.Log;
 import com.goofy.models.Location;
 import com.goofy.models.Photo;
 import com.goofy.models.Place;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.reflect.TypeToken;
 
 public class ClientManager {
 	private final String Server_Url = "http://travelbuddy-1.apphb.com/";
@@ -39,7 +43,7 @@ public class ClientManager {
 		int status = responce.getStatusLine().getStatusCode();
 		HttpEntity getResponseEntity = responce.getEntity();
 
-		String message = getResponceMessage(getResponseEntity);
+		String message = getResponceMessage(getResponseEntity, "LOGIN");
 		
 		if (status == HttpStatus.SC_OK) {
 			try {
@@ -66,7 +70,7 @@ public class ClientManager {
 		HttpResponse responce = this.client.Post("api/user/register", bodyParams, null, headers);
 		int status = responce.getStatusLine().getStatusCode();
 		HttpEntity getResponseEntity = responce.getEntity();
-		String message = getResponceMessage(getResponseEntity);
+		String message = getResponceMessage(getResponseEntity, "REGISTER");
 		
 		if (status == HttpStatus.SC_OK) {
 			UserPreferenceManager.saveUserData(userName, password, context);
@@ -88,8 +92,14 @@ public class ClientManager {
 		this.client.Post("api/places", bodyParams, null, headers);
 	}
 	
-	public void getPlaces(){
-		
+	public ArrayList<Place> getTopPlaces(){
+		List<NameValuePair> headers = this.getAuthorisationHeaders();
+		HttpResponse responce = client.Get("api/places", headers);
+		String responceBody = getResponceMessage(responce.getEntity(), "TOP_PLACES");
+		Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd'T'HH:mm:ss").create();
+		Type listType = new TypeToken<ArrayList<Place>>() {}.getType();
+		ArrayList<Place> places = gson.fromJson(responceBody, listType);
+		return places;
 	}
 	
 	public void getTravels(){
@@ -117,11 +127,11 @@ public class ClientManager {
 		return headers;
 	}
 	
-	private String getResponceMessage(HttpEntity responseEntity) {
+	private String getResponceMessage(HttpEntity responseEntity, String source) {
 		String message = "";
 		try {
 			message = EntityUtils.toString(responseEntity);
-			Log.d("ERROR_MESSAGE", message);
+			Log.d("RESPONCE_" + source, message);
 		} catch (ParseException e1) {
 			e1.printStackTrace();
 		} catch (IOException e1) {

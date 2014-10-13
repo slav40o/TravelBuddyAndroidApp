@@ -39,8 +39,8 @@ public class PlacesDataSource {
 	        values.put(PlacesSQLiteHelper.COLUMN_TITLE, place.getTitle());
 	        values.put(PlacesSQLiteHelper.COLUMN_DESCRIPTION, place.getDescription());
 	        values.put(PlacesSQLiteHelper.COLUMN_COUNTRY, place.getCountry());
-	        values.put(PlacesSQLiteHelper.COLUMN_LAT, place.getLocation().getLatitude());
-	        values.put(PlacesSQLiteHelper.COLUMN_LON, place.getLocation().getLongtitude());
+	        values.put(PlacesSQLiteHelper.COLUMN_LAT, place.getLatitude());
+	        values.put(PlacesSQLiteHelper.COLUMN_LON, place.getLongtitude());
 	        values.put(PlacesSQLiteHelper.COLUMN_LAST_VISIT, place.getLastVisited().toString());
 	        
 	        long insertId = database.insert(PlacesSQLiteHelper.TABLE_PLACES, null,
