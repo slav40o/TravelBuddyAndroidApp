@@ -66,7 +66,7 @@ public final class R {
         public static final int register_activity=0x7f030007;
     }
     public static final class menu {
-        public static final int splash_screen=0x7f070000;
+        public static final int places_screen=0x7f070000;
     }
     public static final class string {
         public static final int action_settings=0x7f050002;

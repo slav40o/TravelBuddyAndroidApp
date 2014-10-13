@@ -1,17 +1,12 @@
 package com.goofy.travelbuddy.connection;
 
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.Reader;
-
-import org.apache.http.HttpResponse;
-
-import com.goofy.travelbuddy.connection.requestmodels.UserLoginInfo;
-import com.google.gson.Gson;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+
+import com.goofy.travelbuddy.connection.requestmodels.UserLoginInfo;
+import com.google.gson.Gson;
 
 public class UserPreferenceManager {
 	private static final String User_Info_File = "";
@@ -25,12 +20,10 @@ public class UserPreferenceManager {
 		editor.commit();
 	}
 	
-	public static void saveLoginData(HttpResponse responce, String password, Context context) 
+	public static void saveLoginData(String responce, String password, Context context) 
 			throws IllegalStateException, IOException{
 		Gson gson = new Gson();
-		InputStream responceContent = responce.getEntity().getContent();
-        Reader reader = new InputStreamReader(responceContent);
-		UserLoginInfo userInfo = gson.fromJson(reader, UserLoginInfo.class);
+		UserLoginInfo userInfo = gson.fromJson(responce, UserLoginInfo.class);
 		SharedPreferences userPref = context.getSharedPreferences(User_Info_File, 0);
 		SharedPreferences.Editor editor = userPref.edit();
 		editor.putString("username", userInfo.username);
@@ -43,12 +36,8 @@ public class UserPreferenceManager {
 	
 	public static boolean checkForLogin(Context context){
 		SharedPreferences userPref = context.getSharedPreferences(User_Info_File, 0);
-		if (userPref.contains("token")) {
-			return true;
-		}
-		else{
-			return false;
-		}
+		boolean isLogged = userPref.getBoolean("isLogged", false);
+		return isLogged;
 	}
 	
 	public static boolean checkForRegistration(Context context){

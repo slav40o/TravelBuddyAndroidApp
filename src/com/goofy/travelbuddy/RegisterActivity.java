@@ -4,9 +4,9 @@ import org.apache.http.HttpStatus;
 import org.apache.http.NameValuePair;
 
 import com.goofy.travelbuddy.connection.ClientManager;
-import com.goofy.travelbuddy.connection.UserPreferenceManager;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -68,6 +68,8 @@ public class RegisterActivity extends Activity implements View.OnClickListener{
 	}
 	
 	private class RegisterTask extends AsyncTask<String, Void, NameValuePair> {
+		private ProgressDialog dialog;
+		
 		@Override
         protected NameValuePair doInBackground(String... urls) {
 			ClientManager client = new ClientManager(getApplicationContext());
@@ -76,28 +78,25 @@ public class RegisterActivity extends Activity implements View.OnClickListener{
 		}
 		
 		@Override
+		protected void onPreExecute() {
+			super.onPreExecute();
+			dialog = new ProgressDialog(getApplicationContext());
+			dialog.setMessage("Creating your account...");
+			dialog.show();  
+		}
+		
+		@Override
         protected void onPostExecute(NameValuePair result) {
 			int status = Integer.parseInt(result.getName());
 			String message = result.getValue();
 			
 			if (status == HttpStatus.SC_OK) {
-//				Toast.makeText(getApplicationContext(), "Successfully registered", Toast.LENGTH_LONG).show();
-//				ClientManager client = new ClientManager(getApplicationContext());
-//				String username = UserPreferenceManager.getUsername(getApplicationContext());
-//				String password = UserPreferenceManager.getPassword(getApplicationContext());
-//				NameValuePair responce = client.loginUser(username, password);
-//				int logStatus = Integer.parseInt(responce.getName());
-//				
-//				if (logStatus == HttpStatus.SC_OK) {
-//					Intent mainIntent = new Intent(getApplicationContext(), MainActivity.class);
-//					startActivity(mainIntent);
-//				}
-//				else{
-					Intent loginIntent = new Intent(getApplicationContext(), LoginActivity.class);
-	                startActivity(loginIntent);
-//				}
+				Toast.makeText(getApplicationContext(), "Successfully registered", Toast.LENGTH_LONG).show();
+				Intent loginIntent = new Intent(getApplicationContext(), LoginActivity.class);
+                startActivity(loginIntent);
 			}
 			else{
+				// TO DO: Userfriendly message
 				Toast.makeText(getApplicationContext(), message, Toast.LENGTH_LONG).show();
 			}
        }

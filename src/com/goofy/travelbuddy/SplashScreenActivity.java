@@ -26,17 +26,13 @@ public class SplashScreenActivity extends Activity {
     		new StartupTask().execute();
     	}
     	else if(UserPreferenceManager.checkForRegistration(context)){
-//    		Intent loginIntent = new Intent(context, LoginActivity.class);
-//            startActivity(loginIntent);
-    		new StartupTask().execute();
+    		Intent loginIntent = new Intent(context, LoginActivity.class);
+            startActivity(loginIntent);
     	} else{
     		Toast.makeText(context, "No registration found.", Toast.LENGTH_LONG).show();
 			Intent registerIntent = new Intent(context, RegisterActivity.class);
             startActivity(registerIntent);
     	}
-        //TO DO: check if user is logged in and load Login screen or Main screen
-                    
-
     }
     
     private class StartupTask extends AsyncTask<String, Void, NameValuePair> {
@@ -50,11 +46,11 @@ public class SplashScreenActivity extends Activity {
     		int status = Integer.parseInt(responce.getName());
     		
     		if (status == HttpStatus.SC_OK) {
+    			//TO DO Load needed resources from server
     			Intent mainIntent = new Intent(context, PlacesActivity.class);
                 startActivity(mainIntent);
 			}
     		else{
-//    			Toast.makeText(context, responce.getValue(), Toast.LENGTH_LONG).show();
     			Intent loginIntent = new Intent(context, LoginActivity.class);
                 startActivity(loginIntent);
     		}

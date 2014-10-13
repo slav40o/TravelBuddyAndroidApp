@@ -4,6 +4,7 @@ import org.apache.http.HttpStatus;
 import org.apache.http.NameValuePair;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -14,6 +15,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.goofy.travelbuddy.connection.ClientManager;
+import com.goofy.travelbuddy.connection.UserPreferenceManager;
 
 public class LoginActivity extends Activity implements View.OnClickListener{
 	private Button loginButton;
@@ -66,6 +68,8 @@ public class LoginActivity extends Activity implements View.OnClickListener{
 	}
 	
 	private class SignUpTask extends AsyncTask<String, Void, NameValuePair> {
+		private ProgressDialog dialog;
+		
 		@Override
         protected NameValuePair doInBackground(String... urls) {
 			ClientManager client = new ClientManager(getApplicationContext());
@@ -74,11 +78,21 @@ public class LoginActivity extends Activity implements View.OnClickListener{
 		}
 		
 		@Override
+		protected void onPreExecute() {
+			super.onPreExecute();
+			dialog = new ProgressDialog(getApplicationContext());
+			dialog.setMessage("Logging in...");
+			dialog.show();  
+		}
+
+		@Override
         protected void onPostExecute(NameValuePair result) {
 			int status = Integer.parseInt(result.getName());
 			String message = result.getValue();
 			
 			if (status == HttpStatus.SC_OK) {
+				String name = UserPreferenceManager.getUsername(getApplicationContext());
+				Toast.makeText(getApplicationContext(), "Welcome, " + name, Toast.LENGTH_LONG).show();
 				Intent registerIntent = new Intent(getApplicationContext(), PlacesActivity.class);
 				startActivity(registerIntent);
 			}
