@@ -7,6 +7,7 @@ import java.util.List;
 
 import com.goofy.models.Location;
 import com.goofy.models.PlaceDetail;
+import com.goofy.travelbuddy.dao.PlacesDataSource;
 
 import android.app.Activity;
 import android.app.Fragment;
@@ -23,11 +24,12 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Toast;
 
 public class PlacesFragment extends Fragment implements
-OnItemClickListener {
+OnItemClickListener{
 	
 	List<PlaceDetail> places;
 	ListView placesListViews;
 	PlacesListViewAdapter placesAdapter;
+	private PlacesDataSource datasource;
 	
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -36,13 +38,13 @@ OnItemClickListener {
 
 		this.places = new ArrayList<PlaceDetail>();
 		
-		// TODO Some fake data
+		// TODO Some fake data - should be replaced with data from the data source
 		addFakePlaces();
+		Log.d("FAKE", "Adding fake data" );
 		
 		placesListViews = (ListView) view.findViewById(R.id.placeslistview);
 		placesAdapter = new PlacesListViewAdapter(view.getContext(), R.layout.place_list_item, this.places);
-		
-		Log.d("FAKEs Added"+ places.get(0).getTitle(), " " );
+		//placesAdapter = new PlacesListViewAdapter(view.getContext(), R.layout.place_list_item);
 		
 		placesListViews.setAdapter(placesAdapter);
 		placesListViews.setOnItemClickListener(this);
