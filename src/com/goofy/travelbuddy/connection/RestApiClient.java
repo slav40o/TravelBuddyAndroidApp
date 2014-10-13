@@ -89,22 +89,4 @@ public class RestApiClient {
 		
 		return str.toString();
 	}
-	
-//	private String parseBodyParams(List<NameValuePair> bodyParams) {
-//		StringBuilder str = new StringBuilder();
-//		
-//		try {
-//			for (NameValuePair param : bodyParams) {
-//				str.append(param.getName());
-//				str.append("=");
-//				str.append(URLEncoder.encode(param.getValue(), "UTF-8"));
-//				str.append("&");
-//			}
-//		} catch (UnsupportedEncodingException e) {
-//			e.printStackTrace();
-//		}
-//		
-//		str.setLength(str.length() - 1);
-//		return str.toString();
-//	}
 }

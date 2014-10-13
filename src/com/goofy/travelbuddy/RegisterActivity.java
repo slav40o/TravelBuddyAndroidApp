@@ -25,7 +25,6 @@ public class RegisterActivity extends Activity implements View.OnClickListener{
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
-		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.register_activity);
 		initializeElements();
@@ -43,10 +42,18 @@ public class RegisterActivity extends Activity implements View.OnClickListener{
 				Toast.makeText(this, "Invalid username", Toast.LENGTH_LONG).show();
 				validState = false;
 			}
+			else if(username.length() < 6 || username.length() > 20){
+				Toast.makeText(this, "Invalid name length(6-20)", Toast.LENGTH_LONG).show();
+				validState = false;
+			} 
 			else if(password == null || password == ""){
 				Toast.makeText(this, "Invalid password", Toast.LENGTH_LONG).show();
 				validState = false;
 			}
+			else if(password.length() < 6 || password.length() > 20){
+				Toast.makeText(this, "Invalid password length(6 - 20)", Toast.LENGTH_LONG).show();
+				validState = false;
+			} 
 			else if(!confirmPassword.equals(password)){
 				Toast.makeText(this, "Password not confirmed", Toast.LENGTH_LONG).show();
 				validState = false;
@@ -57,7 +64,6 @@ public class RegisterActivity extends Activity implements View.OnClickListener{
 				this.passwordField.setText("");
 			    new RegisterTask().execute(username, password);
 			}
-			
 		}
 		else if(v.getId() == this.loginLink.getId()){
 			Intent loginIntent = new Intent(this, LoginActivity.class);

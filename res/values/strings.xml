@@ -26,5 +26,6 @@
     <string name="main_activity_welcome">Welcome to your travel buddy</string>
     <string name="places">Places</string>
     <string name="or_login"><u>Or login</u></string>
+    <string name="all">All</string>
 
 </resources>
