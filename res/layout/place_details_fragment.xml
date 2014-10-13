@@ -1,0 +1,42 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    tools:context="com.goofy.travelbuddy.PlaceDetailActivity$PlaceholderFragment" >
+
+    <TextView
+        android:id="@+id/placedetailstitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:text="Place name here"
+        android:textSize="25sp" />
+
+    <Gallery
+        android:id="@+id/placedetailsgallery"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/placedetailstitle"
+        android:layout_centerHorizontal="true" 
+        android:background="#cfcfcf"/>
+
+    <ImageView
+        android:id="@+id/selectedgalleryphoto"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="100dp"
+        android:background="#cfcfcf" />
+
+    <TextView
+        android:id="@+id/imagetitletext"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/selectedgalleryphoto"
+        android:layout_centerHorizontal="true" />
+
+</RelativeLayout>
