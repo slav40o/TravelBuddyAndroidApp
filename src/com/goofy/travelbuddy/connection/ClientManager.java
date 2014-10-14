@@ -10,6 +10,7 @@ import org.apache.http.HttpResponse;
 import org.apache.http.HttpStatus;
 import org.apache.http.NameValuePair;
 import org.apache.http.ParseException;
+import org.apache.http.client.ClientProtocolException;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.util.EntityUtils;
 
@@ -34,7 +35,7 @@ public class ClientManager {
 		this.context = context;
 	}
 	
-	public NameValuePair loginUser(String userName, String password){
+	public NameValuePair loginUser(String userName, String password) throws ClientProtocolException, IOException{
 		List<NameValuePair> bodyParams = new ArrayList<NameValuePair>();
 		bodyParams.add(new BasicNameValuePair("username", userName));
 		bodyParams.add(new BasicNameValuePair("password", password));
@@ -59,7 +60,7 @@ public class ClientManager {
 		return new BasicNameValuePair(String.valueOf(status), message);
 	}
 
-	public NameValuePair registerUser(String userName, String password, String confirmPassword){
+	public NameValuePair registerUser(String userName, String password, String confirmPassword) throws ClientProtocolException, IOException{
 		List<NameValuePair> bodyParams = new ArrayList<NameValuePair>();
 		bodyParams.add(new BasicNameValuePair("email", userName));
 		bodyParams.add(new BasicNameValuePair("password", password));
@@ -80,7 +81,7 @@ public class ClientManager {
 		return new BasicNameValuePair(String.valueOf(status), message);
 	}
 
-	public void addPlace(Place place){
+	public void addPlace(Place place) throws ClientProtocolException, IOException{
 		Location loc = place.getLocation();
 		List<NameValuePair> bodyParams = new ArrayList<NameValuePair>();
 		bodyParams.add(new BasicNameValuePair("country", place.getCountry()));
@@ -117,7 +118,7 @@ public class ClientManager {
 		return null;
 	}
 	
-	public NameValuePair addTrip(String title, String description){
+	public NameValuePair addTrip(String title, String description) throws ClientProtocolException, IOException{
 		List<NameValuePair> bodyParams = new ArrayList<NameValuePair>();
 		bodyParams.add(new BasicNameValuePair("title", title));
 		bodyParams.add(new BasicNameValuePair("description", description));
@@ -131,9 +132,9 @@ public class ClientManager {
 	
 	private List<NameValuePair> getAuthorisationHeaders(){
 		String token = UserPreferenceManager.getToken(this.context);
+		Log.d("TOKE", token);
 		List<NameValuePair> headers = new ArrayList<NameValuePair>();
-		headers.add(new BasicNameValuePair("Authorisation", "Bearer " + token));
-		headers.add(new BasicNameValuePair("Content-Type", "application/json"));
+		headers.add(new BasicNameValuePair("Authorization", "Bearer " + token));
 		return headers;
 	}
 	

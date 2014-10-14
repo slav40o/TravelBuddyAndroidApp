@@ -42,7 +42,7 @@ public class RestApiClient {
 	}
 	
 	public <T> HttpResponse  Post(String resourceUrl, final List<NameValuePair> bodyParams,
-		final List<NameValuePair> urlParams, final List<NameValuePair> headers){
+		final List<NameValuePair> urlParams, final List<NameValuePair> headers) throws ClientProtocolException, IOException{
 		HttpResponse responce = null;
 
         try{
@@ -57,19 +57,15 @@ public class RestApiClient {
 			 
 			if (headers != null) {
 				for (NameValuePair header : headers) {
-					post.addHeader(header.getName(), header.getValue());
+					post.setHeader(header.getName(), header.getValue());
 				}
 			}
 			
 			responce = client.execute(post);
-		} catch (ClientProtocolException e) {
-			e.printStackTrace();
-		} catch (UnsupportedEncodingException e1) {
+		}  catch (UnsupportedEncodingException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		} 
+		}  
 		
 		return responce;
 	}

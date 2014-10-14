@@ -1,7 +1,11 @@
 package com.goofy.travelbuddy;
 
+import java.io.IOException;
+
 import org.apache.http.HttpStatus;
 import org.apache.http.NameValuePair;
+import org.apache.http.client.ClientProtocolException;
+import org.apache.http.message.BasicNameValuePair;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
@@ -73,7 +77,17 @@ public class LoginActivity extends Activity implements View.OnClickListener{
 		@Override
         protected NameValuePair doInBackground(String... urls) {
 			ClientManager client = new ClientManager(getApplicationContext());
-			NameValuePair responce = client.loginUser(urls[0], urls[1]);
+			NameValuePair responce = null;
+			try {
+				responce = client.loginUser(urls[0], urls[1]);
+			} catch (ClientProtocolException e) {
+				responce = new BasicNameValuePair("500", e.getMessage());
+				e.printStackTrace();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
 			return responce;
 		}
 		

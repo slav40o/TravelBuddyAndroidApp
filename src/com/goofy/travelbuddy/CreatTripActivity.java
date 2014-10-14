@@ -1,7 +1,11 @@
 package com.goofy.travelbuddy;
 
+import java.io.IOException;
+
 import org.apache.http.HttpStatus;
 import org.apache.http.NameValuePair;
+import org.apache.http.client.ClientProtocolException;
+import org.apache.http.message.BasicNameValuePair;
 
 import com.goofy.travelbuddy.connection.ClientManager;
 
@@ -70,7 +74,16 @@ public class CreatTripActivity extends Activity implements View.OnClickListener{
 			String name = data[1];
 			String description = data[0];
 			ClientManager manager = new ClientManager(context);
-    		NameValuePair responce = manager.addTrip(name, description);
+    		NameValuePair responce = null;
+			try {
+				responce = manager.addTrip(name, description);
+			} catch (ClientProtocolException e) {
+				responce = new BasicNameValuePair("500", e.getMessage());
+				e.printStackTrace();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
         	return responce;
 		}
 

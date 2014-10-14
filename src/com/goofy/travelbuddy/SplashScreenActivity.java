@@ -1,7 +1,11 @@
 package com.goofy.travelbuddy;
 
+import java.io.IOException;
+
 import org.apache.http.HttpStatus;
 import org.apache.http.NameValuePair;
+import org.apache.http.client.ClientProtocolException;
+import org.apache.http.message.BasicNameValuePair;
 
 import android.app.Activity;
 import android.content.Context;
@@ -42,7 +46,16 @@ public class SplashScreenActivity extends Activity {
         	ClientManager manager = new ClientManager(context);
         	String name = UserPreferenceManager.getUsername(context);
     		String pass = UserPreferenceManager.getPassword(context);
-    		NameValuePair responce = manager.loginUser(name, pass);
+    		NameValuePair responce = null;
+			try {
+				responce = manager.loginUser(name, pass);
+			} catch (ClientProtocolException e) {
+				responce = new BasicNameValuePair("500", e.getMessage());
+				e.printStackTrace();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
         	return responce;
         }
 
