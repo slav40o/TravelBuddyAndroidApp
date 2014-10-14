@@ -1,5 +1,6 @@
 package com.goofy.travelbuddy;
 
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 
 import org.apache.http.HttpStatus;
@@ -10,10 +11,14 @@ import org.apache.http.message.BasicNameValuePair;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.widget.Toast;
 
+import com.goofy.models.PlaceDetail;
+import com.goofy.models.TravelDetail;
 import com.goofy.travelbuddy.connection.ClientManager;
 import com.goofy.travelbuddy.connection.UserPreferenceManager;
 
@@ -26,7 +31,12 @@ public class SplashScreenActivity extends Activity {
         setContentView(R.layout.activity_splash_screen);
         context = this;
         
-    	if(UserPreferenceManager.checkForLogin(context)){
+//        if (PhoneNetwork.isAvailable(this)) {
+//        	Toast.makeText(context, "No internet connection.", Toast.LENGTH_LONG).show();
+//        	Intent loginIntent = new Intent(context, LoginActivity.class);
+//            startActivity(loginIntent);
+//		} else 
+        if(UserPreferenceManager.checkForLogin(context)){
     		new StartupTask().execute();
     	}
     	else if(UserPreferenceManager.checkForRegistration(context)){
@@ -39,15 +49,16 @@ public class SplashScreenActivity extends Activity {
     	}
     }
     
+    
+    
     private class StartupTask extends AsyncTask<String, Void, NameValuePair> {
     	
         @Override
         protected NameValuePair doInBackground(String... urls) {
         	ClientManager manager = new ClientManager(context);
-        	manager.getPlaceDetail(1);
-        	manager.getTravelDetail(1);
         	String name = UserPreferenceManager.getUsername(context);
     		String pass = UserPreferenceManager.getPassword(context);
+    		PlaceDetail place = manager.getPlaceDetail(1);
     		NameValuePair responce = null;
 			try {
 				responce = manager.loginUser(name, pass);

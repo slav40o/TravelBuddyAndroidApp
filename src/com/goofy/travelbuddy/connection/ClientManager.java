@@ -191,11 +191,11 @@ public class ClientManager {
 	
 	public NameValuePair addTrip(String title, String description) throws ClientProtocolException, IOException{
 		List<NameValuePair> bodyParams = new ArrayList<NameValuePair>();
-		bodyParams.add(new BasicNameValuePair("title", title));
-		bodyParams.add(new BasicNameValuePair("description", description));
+		bodyParams.add(new BasicNameValuePair("Title", title));
+		bodyParams.add(new BasicNameValuePair("Description", description));
 		
 		List<NameValuePair> headers = this.getAuthorisationHeaders();
-		HttpResponse responce = this.client.Post("api/places", bodyParams, null, headers);
+		HttpResponse responce = this.client.Post("api/travels", bodyParams, null, headers);
 		String message = getResponceMessage(responce.getEntity(), "TRIP_CREATE");
 		int status = responce.getStatusLine().getStatusCode();
 		return new BasicNameValuePair(String.valueOf(status), message);
@@ -203,7 +203,6 @@ public class ClientManager {
 	
 	private List<NameValuePair> getAuthorisationHeaders(){
 		String token = UserPreferenceManager.getToken(this.context);
-		Log.d("TOKE", token);
 		List<NameValuePair> headers = new ArrayList<NameValuePair>();
 		headers.add(new BasicNameValuePair("Authorization", "Bearer " + token));
 		return headers;

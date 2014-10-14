@@ -4,8 +4,8 @@ import java.util.ArrayList;
 import java.util.Date;
 
 public class TravelDetail extends Travel{
-	private ArrayList<Photo> photos;
-	private ArrayList<Place> places;
+	public ArrayList<Photo> photos;
+	public ArrayList<Place> places;
 	
 	public TravelDetail(int id, String title, String description, String userName, 
 			Date start, Date end, int distance, ArrayList<Photo> photos, ArrayList<Place> places)

@@ -1,11 +1,19 @@
 package com.goofy.models;
-
+import android.util.Base64;
+import com.google.gson.annotations.SerializedName;
 public class Photo {
-	private int id;
-	private String name;
-	private byte[] image;
-	private String userId;
-	private int placeID;
+	@SerializedName("Id")
+	public int id;
+	@SerializedName("Name")
+	public String name;
+	
+	public byte[] image;
+	@SerializedName("UserId")
+	public String userId;
+	@SerializedName("PlaceId")
+	public int placeID;
+	@SerializedName("Image")
+    public String photo64;
     
 	public Photo(int id, String name, byte[] image, String userId, int placeId){
 		this.id = id;
@@ -28,7 +36,13 @@ public class Photo {
 	}
 
 	public byte[] getImage() {
-		return image;
+		if (image == null || photo64 != null) {
+			image = Base64.decode(this.photo64, Base64.DEFAULT);
+			return image;
+		}
+		else{
+			return image;
+		}
 	}
 
 	public void setImage(byte[] image) {
