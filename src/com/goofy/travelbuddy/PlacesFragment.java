@@ -69,7 +69,7 @@ OnItemClickListener{
 		if (isTravel) {
 			placesByTravelId(travelId);
 		}else {
-			addFakePlaces();
+			allPlaces();
 		}
 		
 		Log.d("FAKE", "Adding fake data" );

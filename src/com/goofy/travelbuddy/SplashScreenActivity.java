@@ -3,6 +3,8 @@ package com.goofy.travelbuddy;
 import java.io.IOException;
 import java.util.List;
 
+import javax.sql.DataSource;
+
 import org.apache.http.HttpStatus;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.ClientProtocolException;
@@ -65,6 +67,7 @@ public class SplashScreenActivity extends Activity {
 				Place imported = dataScource.createPlace(place);
 				Log.d("PLACE_IMPORT", imported.title + " imported!");
 			}
+    		dataScource.close();
     		NameValuePair responce = null;
 			try {
 				responce = manager.loginUser(name, pass);
