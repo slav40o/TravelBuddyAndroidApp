@@ -1,7 +1,7 @@
 package com.goofy.travelbuddy;
 
-import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.util.List;
 
 import org.apache.http.HttpStatus;
 import org.apache.http.NameValuePair;
@@ -11,16 +11,15 @@ import org.apache.http.message.BasicNameValuePair;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.Toast;
 
-import com.goofy.models.PlaceDetail;
-import com.goofy.models.TravelDetail;
+import com.goofy.models.Place;
 import com.goofy.travelbuddy.connection.ClientManager;
 import com.goofy.travelbuddy.connection.UserPreferenceManager;
+import com.goofy.travelbuddy.dao.PlacesDataSource;
 
 public class SplashScreenActivity extends Activity {
 	private Context context;
@@ -57,6 +56,15 @@ public class SplashScreenActivity extends Activity {
         	ClientManager manager = new ClientManager(context);
         	String name = UserPreferenceManager.getUsername(context);
     		String pass = UserPreferenceManager.getPassword(context);
+    		
+    		PlacesDataSource dataScource = new PlacesDataSource(context);
+    		dataScource.open();
+    		
+    		List<Place> top = manager.getTopPlaces();
+    		for (Place place : top) {
+				Place imported = dataScource.createPlace(place);
+				Log.d("PLACE_IMPORT", imported.title + " imported!");
+			}
     		NameValuePair responce = null;
 			try {
 				responce = manager.loginUser(name, pass);
