@@ -19,8 +19,12 @@ public class RestApiClient {
 		this.baseUrl = baseUrl;
 	}
 	
-	public HttpResponse Get(String resourceUrl, final List<NameValuePair> headers){
+	public HttpResponse Get(String resourceUrl, final List<NameValuePair> headers, final List<NameValuePair> urlParams){
 		String fullUrl = this.baseUrl + resourceUrl;
+		if(urlParams != null){
+			fullUrl += this.parseUrlParams(urlParams);
+		}
+		
 		DefaultHttpClient client = new DefaultHttpClient();
 		HttpGet get = new HttpGet(fullUrl);
 		if (headers != null) {

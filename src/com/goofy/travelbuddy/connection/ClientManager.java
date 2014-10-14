@@ -103,9 +103,21 @@ public class ClientManager {
 		return new BasicNameValuePair(String.valueOf(status), message);
 	}
 	
+	public ArrayList<Photo> getPlacePhotos(int placeId){
+		List<NameValuePair> headers = this.getAuthorisationHeaders();
+		List<NameValuePair> urlParams = new ArrayList<NameValuePair>();
+		urlParams.add(new BasicNameValuePair("placeId", String.valueOf(placeId)));
+		HttpResponse responce = client.Get("api/photos", headers, urlParams);
+		String responceBody = getResponceMessage(responce.getEntity(), "PLACE_PHOTOS");
+		Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd'T'HH:mm:ss").create();
+		Type listType = new TypeToken<ArrayList<Photo>>() {}.getType();
+		ArrayList<Photo> photos = gson.fromJson(responceBody, listType);
+		return photos;
+	}
+	
 	public ArrayList<Place> getTopPlaces(){
 		List<NameValuePair> headers = this.getAuthorisationHeaders();
-		HttpResponse responce = client.Get("api/places", headers);
+		HttpResponse responce = client.Get("api/places", headers, null);
 		String responceBody = getResponceMessage(responce.getEntity(), "TOP_PLACES");
 		int status = responce.getStatusLine().getStatusCode();
 		if (status == HttpStatus.SC_OK) {
@@ -121,7 +133,7 @@ public class ClientManager {
 	
 	public ArrayList<Place> getFavouritePlaces(){
 		List<NameValuePair> headers = this.getAuthorisationHeaders();
-		HttpResponse responce = client.Get("api/user/favourites", headers);
+		HttpResponse responce = client.Get("api/user/favourites", headers, null);
 		String responceBody = getResponceMessage(responce.getEntity(), "TOP_PLACES");
 		Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd'T'HH:mm:ss").create();
 		Type listType = new TypeToken<ArrayList<Place>>() {}.getType();
@@ -132,7 +144,7 @@ public class ClientManager {
 	// FOR TEST
 	public ArrayList<Travel> getPersonalTrips(){
 		List<NameValuePair> headers = this.getAuthorisationHeaders();
-		HttpResponse responce = client.Get("api/travels", headers);
+		HttpResponse responce = client.Get("api/travels", headers, null);
 		String responceBody = getResponceMessage(responce.getEntity(), "TRIPS");
 		Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd'T'HH:mm:ss").create();
 		Type listType = new TypeToken<ArrayList<Travel>>() {}.getType();
@@ -151,7 +163,6 @@ public class ClientManager {
 		return new BasicNameValuePair(String.valueOf(status), message);
 	}
 	
-	// FOR TEST
 	public NameValuePair addPhoto(Photo photo) throws ClientProtocolException, IOException{
 		List<NameValuePair> bodyParams = new ArrayList<NameValuePair>();
 		String image = Base64.encodeToString(photo.getImage(), Base64.DEFAULT);
@@ -169,20 +180,18 @@ public class ClientManager {
 		return new BasicNameValuePair(String.valueOf(status), message);
 	}
 	
-	// FOR TEST
 	public PlaceDetail getPlaceDetail(int id){
 		List<NameValuePair> headers = this.getAuthorisationHeaders();
-		HttpResponse responce = client.Get("api/places/" + id, headers);
+		HttpResponse responce = client.Get("api/places/" + id, headers, null);
 		String responceBody = getResponceMessage(responce.getEntity(), "GET_PLACE_DETAIL");
 		Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd'T'HH:mm:ss").create();
 		PlaceDetail details = gson.fromJson(responceBody, PlaceDetail.class);
 		return details;
 	}
 	
-	// FOR TEST
 	public TravelDetail getTravelDetail(int id){
 		List<NameValuePair> headers = this.getAuthorisationHeaders();
-		HttpResponse responce = client.Get("api/travels/" + id, headers);
+		HttpResponse responce = client.Get("api/travels/" + id, headers, null);
 		String responceBody = getResponceMessage(responce.getEntity(), "TRIPS");
 		Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd'T'HH:mm:ss").create();
 		TravelDetail details = gson.fromJson(responceBody, TravelDetail.class);
