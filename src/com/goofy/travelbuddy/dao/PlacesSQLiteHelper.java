@@ -23,8 +23,8 @@ public class PlacesSQLiteHelper extends SQLiteOpenHelper {
             + COLUMN_TITLE + " text not null, " 
             + COLUMN_DESCRIPTION + " text not null, " 
             + COLUMN_COUNTRY + " text not null, " 
-            + COLUMN_LON + " real not null, " 
             + COLUMN_LAT + " real not null, " 
+            + COLUMN_LON + " real not null, " 
             + COLUMN_LAST_VISIT + " text" 
             		+ ");";
 	
