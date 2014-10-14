@@ -48,7 +48,7 @@ public class GalleryPhotosAdapter extends BaseAdapter{
 		 imageView.setImageBitmap(BitmapFactory.decodeByteArray(image, 0, image.length));
 		 imageView.setLayoutParams(new Gallery.LayoutParams(100, 100));
 		 imageView.setBackgroundResource(itemBackground);
-		 imageView.setScaleType(ImageView.ScaleType.FIT_XY);
+		 //imageView.setScaleType(ImageView.ScaleType.FIT_XY);
 		 return imageView;
 	}
 }

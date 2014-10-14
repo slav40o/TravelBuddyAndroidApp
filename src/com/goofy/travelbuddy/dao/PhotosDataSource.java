@@ -81,6 +81,22 @@ public class PhotosDataSource {
 		return photos;
 	}
 	
+	public List<Integer> getPhotoIdsByPlaceId( int placeId) {
+		List<Integer> photoIds = new ArrayList<Integer>();
+		Cursor cursor = database.query(PhotosSQLiteHelper.TABLE_PHOTOS,
+				allColumns, PhotosSQLiteHelper.COLUMN_PLACEID + " = " + placeId, null, null, null, null);
+
+		cursor.moveToFirst();
+		while (!cursor.isAfterLast()) {
+			Photo photo = cursorToPhotos(cursor);
+			photoIds.add(photo.getId());
+			cursor.moveToNext();
+		}
+		// make sure to close the cursor
+		cursor.close();
+		return photoIds;
+	}
+	
 	public Photo getPhotoById(int id){
 		Cursor cursor = database.query(PhotosSQLiteHelper.TABLE_PHOTOS,
 				allColumns, PhotosSQLiteHelper.COLUMN_ID + " = " + id,
@@ -90,6 +106,8 @@ public class PhotosDataSource {
 		cursor.close();
 		return foundPhoto;
 	}
+	
+	
 
 	private Photo cursorToPhotos(Cursor cursor) {
 		Photo place = new Photo(cursor.getInt(0), cursor.getString(1),
