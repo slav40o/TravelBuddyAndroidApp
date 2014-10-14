@@ -24,7 +24,6 @@ public class RestApiClient {
 		if(urlParams != null){
 			fullUrl += this.parseUrlParams(urlParams);
 		}
-		
 		DefaultHttpClient client = new DefaultHttpClient();
 		HttpGet get = new HttpGet(fullUrl);
 		if (headers != null) {
@@ -84,9 +83,9 @@ public class RestApiClient {
 		str.append("?");
 		
 		for (NameValuePair param : urlParams) {
-			str.append(param.getName() + "=\"" + param.getValue() + "\"");
+			str.append(param.getName() + "=" + param.getValue() + "&");
 		}
-		
+		str.setLength(str.length() - 1);
 		return str.toString();
 	}
 }

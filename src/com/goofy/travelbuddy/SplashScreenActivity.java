@@ -3,8 +3,6 @@ package com.goofy.travelbuddy;
 import java.io.IOException;
 import java.util.List;
 
-import javax.sql.DataSource;
-
 import org.apache.http.HttpStatus;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.ClientProtocolException;
@@ -18,6 +16,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.goofy.models.Photo;
 import com.goofy.models.Place;
 import com.goofy.travelbuddy.connection.ClientManager;
 import com.goofy.travelbuddy.connection.UserPreferenceManager;
@@ -59,15 +58,17 @@ public class SplashScreenActivity extends Activity {
         	String name = UserPreferenceManager.getUsername(context);
     		String pass = UserPreferenceManager.getPassword(context);
     		
+    		List<Photo> photos = manager.getPlacePhotos(1);
+
     		PlacesDataSource dataScource = new PlacesDataSource(context);
     		dataScource.open();
-    		
+
     		List<Place> top = manager.getTopPlaces();
     		for (Place place : top) {
 				Place imported = dataScource.createPlace(place);
 				Log.d("PLACE_IMPORT", imported.title + " imported!");
 			}
-    		dataScource.close();
+    		
     		NameValuePair responce = null;
 			try {
 				responce = manager.loginUser(name, pass);
