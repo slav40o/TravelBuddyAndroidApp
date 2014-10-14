@@ -50,7 +50,6 @@ public class SplashScreenActivity extends Activity {
     }
     
     
-    
     private class StartupTask extends AsyncTask<String, Void, NameValuePair> {
     	
         @Override
@@ -58,7 +57,6 @@ public class SplashScreenActivity extends Activity {
         	ClientManager manager = new ClientManager(context);
         	String name = UserPreferenceManager.getUsername(context);
     		String pass = UserPreferenceManager.getPassword(context);
-    		PlaceDetail place = manager.getPlaceDetail(1);
     		NameValuePair responce = null;
 			try {
 				responce = manager.loginUser(name, pass);

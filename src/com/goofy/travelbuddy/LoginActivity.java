@@ -62,6 +62,11 @@ public class LoginActivity extends Activity implements View.OnClickListener{
 		
 	}
 
+	@Override
+	public void onBackPressed() {
+		
+	}
+
 	private void initializeElements() {
 		this.loginButton = (Button)findViewById(R.id.btn_login);
 		this.passwordField = (EditText)findViewById(R.id.ed_password_input);

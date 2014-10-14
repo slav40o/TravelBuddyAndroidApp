@@ -33,6 +33,11 @@ public class RegisterActivity extends Activity implements View.OnClickListener{
 		setContentView(R.layout.register_activity);
 		initializeElements();
 	}
+	
+	@Override
+	public void onBackPressed() {
+		
+	}
 
 	@Override
 	public void onClick(View v) {

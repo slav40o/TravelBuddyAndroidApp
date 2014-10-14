@@ -20,7 +20,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-public class CreatTripActivity extends Activity implements View.OnClickListener{
+public class CreatTripActivity extends BaseActivity implements View.OnClickListener{
 	private Button createBtn;
 	private Button cancelBtn;
 	private EditText nameInput;

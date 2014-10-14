@@ -1,16 +1,11 @@
 package com.goofy.travelbuddy;
-import android.app.Activity;
+
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
-import android.widget.Toast;
 
-import com.goofy.travelbuddy.connection.UserPreferenceManager;
-
-public class MainActivity extends Activity implements View.OnClickListener{
+public class MainActivity extends BaseActivity implements View.OnClickListener{
 	private Button topPlacesBtn;
 	private Button visitedPlacesBtn;
 	private Button personalTravelsBtn;
@@ -35,26 +30,6 @@ public class MainActivity extends Activity implements View.OnClickListener{
 		this.visitedPlacesBtn = (Button)findViewById(R.id.btn_visited_places);
 		visitedPlacesBtn.setOnClickListener(this);
 	}
-
-
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		getMenuInflater().inflate(R.menu.main_menu, menu);
-		return true;
-	}
-
-	@Override
-	public boolean onOptionsItemSelected(MenuItem item) {
-		if (item.getItemId() == R.id.action_logout) {
-			UserPreferenceManager.logoutUser(this);
-			Intent loginIntent = new Intent(this, LoginActivity.class);
-			Toast.makeText(this, "Logged out", Toast.LENGTH_SHORT).show();
-			startActivity(loginIntent);
-		}
-		
-		return true;
-	}
-
 
 	@Override
 	public void onClick(View v) {
