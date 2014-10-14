@@ -16,7 +16,7 @@ public class VisitorsSQLiteHelper extends SQLiteOpenHelper {
 	  // Database creation SQLite statement
     private static final String DATABASE_CREATE = "create table "
             + TABLE_VISITORS + "(" + COLUMN_ID + " integer primary key autoincrement, " 
-            + COLUMN_PLACEID + " integer not null" 
+            + COLUMN_PLACEID + " integer not null, " 
             + COLUMN_VISITOR_NAME + " text not null" 
             		+ ");";
 	

@@ -122,9 +122,14 @@ OnItemClickListener{
 	
 	private void allPlaces(){
 		placesDatasource = new PlacesDataSource(ctx);
+		placesDatasource.open();
 		List<Place> places = placesDatasource.getAllPlaces();
+		placesDatasource.close();
+		
 		photosDatasource = new PhotosDataSource(ctx);
+		photosDatasource.open();
 		visitorsDataSource = new VisitorsDataSource(ctx);
+		visitorsDataSource.open();
 		
 		int index = 0;
 		for (Place place : places) {
@@ -133,13 +138,19 @@ OnItemClickListener{
 			placeDetails.add(new PlaceDetail(index, place.getTitle(), place.getDescription(), place.getCountry(), place.getLocation(), place.getLastVisited(), photoIds, visitors));
 			index++;
 		}
+		photosDatasource.close();
+		visitorsDataSource.close();
 	}
 	
 	private void placesByTravelId(int travelId){
 		placesDatasource = new PlacesDataSource(ctx);
+		placesDatasource.open();
 		ptDataSource = new PlacesTravlesDataSource(ctx);
+		ptDataSource.open();
 		photosDatasource = new PhotosDataSource(ctx);
+		photosDatasource.open();
 		visitorsDataSource = new VisitorsDataSource(ctx);
+		visitorsDataSource.open();
 		
 		List<Integer> placesIds = ptDataSource.getPhotoIdsByTravelId(travelId);
 		int index = 0;
@@ -150,6 +161,10 @@ OnItemClickListener{
 			placeDetails.add(new PlaceDetail(index, place.getTitle(), place.getDescription(), place.getCountry(), place.getLocation(), place.getLastVisited(), photoIds, visitors));
 			index++;
 		}
+		placesDatasource.close();
+		ptDataSource.close();
+		photosDatasource.close();
+		visitorsDataSource.close();
 	}
 
 	@Override

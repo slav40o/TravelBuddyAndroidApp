@@ -51,8 +51,9 @@ public class PlaceDetailFragment extends Fragment{
 		// TODO Add real photos
 		addFakePhotos();
 		//photosDatasource = new PhotosDataSource(fragmentContext);
+		// photosDatasource.open();
 		//photos = photosDatasource.getPhotosByPlaceId(placeId);
-		
+		// photosDatasource.close();
 		TextView placeDetailsTitle = (TextView) view.findViewById(R.id.placedetailstitle);
 		placeDetailsTitle.setText(placeTitle);
 		
