@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.goofy.models.Photo;
+import com.goofy.travelbuddy.dao.PhotosDataSource;
 
 import android.app.Fragment;
 import android.content.Context;
@@ -24,9 +25,12 @@ import android.widget.Toast;
 public class PlaceDetailFragment extends Fragment{
 
 	List<Photo> photos;
+	String placeTitle;
+	ArrayList<String> visitors;
 	Context fragmentContext;
 	View fragmentView;
 	int placeId = 0;
+	private PhotosDataSource photosDatasource;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -34,6 +38,8 @@ public class PlaceDetailFragment extends Fragment{
 		
 		if(savedInstanceState != null){
 		    placeId = savedInstanceState.getInt("PLACEID", 0);
+		    placeTitle = savedInstanceState.getString("PLACE_TITLE");
+		    visitors = savedInstanceState.getStringArrayList("VISITORS");
 		}
 		
 		View view = inflater.inflate(R.layout.place_details_fragment,
@@ -44,8 +50,12 @@ public class PlaceDetailFragment extends Fragment{
 		
 		// TODO Add real photos
 		addFakePhotos();
+		//photosDatasource = new PhotosDataSource(fragmentContext);
+		//photos = photosDatasource.getPhotosByPlaceId(placeId);
 		
-		// TODO place title (find it by place ID)
+		TextView placeDetailsTitle = (TextView) view.findViewById(R.id.placedetailstitle);
+		placeDetailsTitle.setText(placeTitle);
+		
 		
 		// The Gallery
 		Gallery gallery = (Gallery) view.findViewById(R.id.placedetailsgallery);
@@ -63,7 +73,6 @@ public class PlaceDetailFragment extends Fragment{
 				imageView.setImageBitmap(BitmapFactory.decodeByteArray(image,
 						0, image.length));
 				photoText.setText(photos.get(position).getName());
-
 			}
 		});
 
