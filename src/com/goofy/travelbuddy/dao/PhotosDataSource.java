@@ -18,7 +18,10 @@ public class PhotosDataSource {
 			PhotosSQLiteHelper.COLUMN_NAME, PhotosSQLiteHelper.COLUMN_IMAGE,
 			PhotosSQLiteHelper.COLUMN_USERID,
 			PhotosSQLiteHelper.COLUMN_PLACEID, };
-
+	private String[] photosIdsOnly = { 
+			PhotosSQLiteHelper.COLUMN_ID,
+			PhotosSQLiteHelper.COLUMN_PLACEID };
+	
 	public PhotosDataSource(Context context) {
 		dbHelper = new PhotosSQLiteHelper(context);
 	}
@@ -68,7 +71,7 @@ public class PhotosDataSource {
 	public List<Photo> getPhotosByPlaceId( int placeId) {
 		List<Photo> photos = new ArrayList<Photo>();
 		Cursor cursor = database.query(PhotosSQLiteHelper.TABLE_PHOTOS,
-				allColumns, PhotosSQLiteHelper.COLUMN_PLACEID + " = " + placeId, null, null, null, null);
+				photosIdsOnly, PhotosSQLiteHelper.COLUMN_PLACEID + " = " + placeId, null, null, null, null);
 
 		cursor.moveToFirst();
 		while (!cursor.isAfterLast()) {
