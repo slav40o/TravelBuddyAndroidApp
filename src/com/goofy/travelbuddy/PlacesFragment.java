@@ -28,6 +28,9 @@ import com.goofy.models.PlaceDetail;
 import com.goofy.travelbuddy.connection.PlacesSharedPreferencesManager;
 import com.goofy.travelbuddy.dao.PhotosDataSource;
 import com.goofy.travelbuddy.dao.PlacesDataSource;
+import com.goofy.travelbuddy.dao.PlacesTravelsSQLiteHelper;
+import com.goofy.travelbuddy.dao.PlacesTravlesDataSource;
+import com.goofy.travelbuddy.dao.VisitorsDataSource;
 
 public class PlacesFragment extends Fragment implements
 OnItemClickListener{
@@ -35,13 +38,26 @@ OnItemClickListener{
 	List<PlaceDetail> placeDetails;
 	ListView placesListViews;
 	PlacesListViewAdapter placesAdapter;
-	private PlacesDataSource datasource;
+	private PlacesDataSource placesDatasource;
 	private PhotosDataSource photosDatasource;
+	private VisitorsDataSource visitorsDataSource;
+	private PlacesTravlesDataSource ptDataSource;
 	Context ctx;
 	
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
+		int travelId = 0;
+		String travelTitle;
+		boolean isTravel = false;
+		if(savedInstanceState != null){
+			isTravel = savedInstanceState.getBoolean("ISTRAVEL");
+		    travelId = savedInstanceState.getInt("TRAVELID", 0);
+		    travelTitle = savedInstanceState.getString("TRAVEL_TITLE");
+		    
+		}
+		
+		
 		View view = inflater.inflate(R.layout.places_list, container, false);
 
 		this.placeDetails = new ArrayList<PlaceDetail>();
@@ -49,7 +65,13 @@ OnItemClickListener{
 		
 		// TODO Some fake data - should be replaced with data from the data source
 	    // addPlaces();
-		addFakePlaces();
+		// addFakePlaces();
+		if (isTravel) {
+			placesByTravelId(travelId);
+		}else {
+			addFakePlaces();
+		}
+		
 		Log.d("FAKE", "Adding fake data" );
 		
 		placesListViews = (ListView) view.findViewById(R.id.placeslistview);
@@ -98,18 +120,33 @@ OnItemClickListener{
 		placeDetails.add(new PlaceDetail(8, "Fake one", "Some new fake place", "Newerland", new Location(0, 0), null, photoIds, visitors));
 		}
 	
-	private void addPlaces(){
-		datasource = new PlacesDataSource(ctx);
-		List<Place> places = datasource.getAllPlaces();
+	private void allPlaces(){
+		placesDatasource = new PlacesDataSource(ctx);
+		List<Place> places = placesDatasource.getAllPlaces();
 		photosDatasource = new PhotosDataSource(ctx);
-	
+		visitorsDataSource = new VisitorsDataSource(ctx);
+		
 		int index = 0;
 		for (Place place : places) {
 			ArrayList<Integer> photoIds = (ArrayList<Integer>) photosDatasource.getPhotoIdsByPlaceId(place.getId());
-			
-			// TODO Add visitors to PlaceDetail !!!
-			ArrayList<String> visitors = new ArrayList<String>();
-			visitors.add("Pesho");
+			ArrayList<String> visitors = (ArrayList<String>) visitorsDataSource.getVisitorsByPlaceId(place.getId());
+			placeDetails.add(new PlaceDetail(index, place.getTitle(), place.getDescription(), place.getCountry(), place.getLocation(), place.getLastVisited(), photoIds, visitors));
+			index++;
+		}
+	}
+	
+	private void placesByTravelId(int travelId){
+		placesDatasource = new PlacesDataSource(ctx);
+		ptDataSource = new PlacesTravlesDataSource(ctx);
+		photosDatasource = new PhotosDataSource(ctx);
+		visitorsDataSource = new VisitorsDataSource(ctx);
+		
+		List<Integer> placesIds = ptDataSource.getPhotoIdsByTravelId(travelId);
+		int index = 0;
+		for (Integer placeId : placesIds) {
+			Place place = placesDatasource.getPlaceById(placeId);
+			ArrayList<Integer> photoIds = (ArrayList<Integer>) photosDatasource.getPhotoIdsByPlaceId(placeId);
+			ArrayList<String> visitors = (ArrayList<String>) visitorsDataSource.getVisitorsByPlaceId(placeId);
 			placeDetails.add(new PlaceDetail(index, place.getTitle(), place.getDescription(), place.getCountry(), place.getLocation(), place.getLastVisited(), photoIds, visitors));
 			index++;
 		}
