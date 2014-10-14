@@ -19,6 +19,7 @@ import android.util.Log;
 import com.goofy.models.Location;
 import com.goofy.models.Photo;
 import com.goofy.models.Place;
+import com.goofy.models.Travel;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
@@ -102,12 +103,18 @@ public class ClientManager {
 		return places;
 	}
 	
-	public void getPersonalTrips(){
-		
+	public ArrayList<Travel> getPersonalTrips(){
+		List<NameValuePair> headers = this.getAuthorisationHeaders();
+		HttpResponse responce = client.Get("api/travels", headers);
+		String responceBody = getResponceMessage(responce.getEntity(), "TRIPS");
+		Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd'T'HH:mm:ss").create();
+		Type listType = new TypeToken<ArrayList<Travel>>() {}.getType();
+		ArrayList<Travel> trips = gson.fromJson(responceBody, listType);
+		return trips;
 	}
 	
-	public void addPhoto(Photo photo){
-		
+	public NameValuePair addPhoto(Photo photo){
+		return null;
 	}
 	
 	public NameValuePair addTrip(String title, String description){

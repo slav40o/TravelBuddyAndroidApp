@@ -1,16 +1,16 @@
 package com.goofy.travelbuddy;
 
+import org.apache.http.HttpStatus;
 import org.apache.http.NameValuePair;
 
 import com.goofy.travelbuddy.connection.ClientManager;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -34,18 +34,6 @@ public class CreatTripActivity extends Activity implements View.OnClickListener{
 		this.descriptionInput = (EditText)findViewById(R.id.et_trip_description);
 		this.nameInput = (EditText)findViewById(R.id.et_trip_name);
 		this.context = this;
-	}
-
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		// TODO Auto-generated method stub
-		return super.onCreateOptionsMenu(menu);
-	}
-
-	@Override
-	public boolean onOptionsItemSelected(MenuItem item) {
-		// TODO Auto-generated method stub
-		return super.onOptionsItemSelected(item);
 	}
 
 	@Override
@@ -75,7 +63,8 @@ public class CreatTripActivity extends Activity implements View.OnClickListener{
 	}
 
 	private class CreateTripTask extends AsyncTask<String, Void, NameValuePair> {
-
+		private ProgressDialog dialog;
+		
 		@Override
 		protected NameValuePair doInBackground(String... data) {
 			String name = data[1];
@@ -87,14 +76,29 @@ public class CreatTripActivity extends Activity implements View.OnClickListener{
 
 		@Override
 		protected void onPostExecute(NameValuePair result) {
-			// TODO Auto-generated method stub
 			super.onPostExecute(result);
+			dialog.hide();  
+			int status = Integer.parseInt(result.getName());	
+			if (status == HttpStatus.SC_OK) {
+				Toast.makeText(getBaseContext(), "Trip created", Toast.LENGTH_LONG).show();
+				// TO DO Make TripDetails activity and pass the trip ID
+//				Intent travelDetailIntent = new Intent(context, TripDetails.class);
+//				String rawResult = result.getValue();
+//				travelDetailIntent.putExtra("travelId", value);
+				Intent tempIntent = new Intent(context, MainActivity.class);
+				startActivity(tempIntent);
+			}
+			else{
+				Toast.makeText(getBaseContext(), result.getValue(), Toast.LENGTH_LONG).show();
+			}
 		}
 
 		@Override
 		protected void onPreExecute() {
-			// TODO Auto-generated method stub
 			super.onPreExecute();
+			dialog = new ProgressDialog(CreatTripActivity.this);
+			dialog.setMessage("Preparing your trip in...");
+			dialog.show();  
 		}
 		
 	}

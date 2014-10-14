@@ -2,14 +2,29 @@ package com.goofy.models;
 
 import java.util.Date;
 
+import com.google.gson.annotations.SerializedName;
+
 public class Travel {
-	private int id;
-	private String title;
-	private String description;
-	private String userName;
-	private Date startDate;
-	private Date endDate;
-	private int distance;
+	@SerializedName("Id")
+	public int id;
+	
+	@SerializedName("Title")
+	public String title;
+	
+	@SerializedName("Description")
+	public String description;
+	
+	@SerializedName("UserName")
+	public String userName;
+	
+	@SerializedName("StartDate")
+	public Date startDate;
+	
+	@SerializedName("EndDate")
+	public Date endDate;
+	
+	@SerializedName("Distance")
+	public int distance;
 	
 	public Travel(int id, String title, String description, String userName, 
 			Date start, Date end, int distance){
