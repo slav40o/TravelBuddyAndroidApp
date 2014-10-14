@@ -81,7 +81,6 @@ public class CreatTripActivity extends Activity implements View.OnClickListener{
 				responce = new BasicNameValuePair("500", e.getMessage());
 				e.printStackTrace();
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
         	return responce;
@@ -94,16 +93,22 @@ public class CreatTripActivity extends Activity implements View.OnClickListener{
 			int status = Integer.parseInt(result.getName());	
 			if (status == HttpStatus.SC_OK) {
 				Toast.makeText(getBaseContext(), "Trip created", Toast.LENGTH_LONG).show();
-				// TO DO Make TripDetails activity and pass the trip ID
-//				Intent travelDetailIntent = new Intent(context, TripDetails.class);
-//				String rawResult = result.getValue();
-//				travelDetailIntent.putExtra("travelId", value);
-				Intent tempIntent = new Intent(context, MainActivity.class);
-				startActivity(tempIntent);
+				
+				Intent travelDetailIntent = new Intent(context, TripsDetailsActivity.class);
+				int id = extractId(result.getValue());
+				travelDetailIntent.putExtra("travelId", id);
+				startActivity(travelDetailIntent);
 			}
 			else{
 				Toast.makeText(getBaseContext(), result.getValue(), Toast.LENGTH_LONG).show();
 			}
+		}
+		
+		private int extractId(String message){
+			int startIdx = message.indexOf(":") + 1;
+			int endIdx = message.indexOf(",");
+			int id = Integer.parseInt(message.substring(startIdx, endIdx));
+			return id;
 		}
 
 		@Override

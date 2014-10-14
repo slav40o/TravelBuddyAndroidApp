@@ -44,6 +44,8 @@ public class SplashScreenActivity extends Activity {
         @Override
         protected NameValuePair doInBackground(String... urls) {
         	ClientManager manager = new ClientManager(context);
+        	manager.getPlaceDetail(1);
+        	manager.getTravelDetail(1);
         	String name = UserPreferenceManager.getUsername(context);
     		String pass = UserPreferenceManager.getPassword(context);
     		NameValuePair responce = null;
@@ -53,7 +55,6 @@ public class SplashScreenActivity extends Activity {
 				responce = new BasicNameValuePair("500", e.getMessage());
 				e.printStackTrace();
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
         	return responce;

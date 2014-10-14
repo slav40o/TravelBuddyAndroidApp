@@ -20,7 +20,9 @@ import android.util.Log;
 import com.goofy.models.Location;
 import com.goofy.models.Photo;
 import com.goofy.models.Place;
+import com.goofy.models.PlaceDetail;
 import com.goofy.models.Travel;
+import com.goofy.models.TravelDetail;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
@@ -104,6 +106,16 @@ public class ClientManager {
 		return places;
 	}
 	
+	public ArrayList<Place> getFavouritePlaces(){
+		List<NameValuePair> headers = this.getAuthorisationHeaders();
+		HttpResponse responce = client.Get("api/user/favourites", headers);
+		String responceBody = getResponceMessage(responce.getEntity(), "TOP_PLACES");
+		Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd'T'HH:mm:ss").create();
+		Type listType = new TypeToken<ArrayList<Place>>() {}.getType();
+		ArrayList<Place> places = gson.fromJson(responceBody, listType);
+		return places;
+	}
+	
 	public ArrayList<Travel> getPersonalTrips(){
 		List<NameValuePair> headers = this.getAuthorisationHeaders();
 		HttpResponse responce = client.Get("api/travels", headers);
@@ -114,7 +126,29 @@ public class ClientManager {
 		return trips;
 	}
 	
+	public NameValuePair addPlaceToFavourites(int id){
+		return null;
+	}
+	
 	public NameValuePair addPhoto(Photo photo){
+		return null;
+	}
+	
+	public PlaceDetail getPlaceDetail(int id){
+		List<NameValuePair> headers = this.getAuthorisationHeaders();
+		HttpResponse responce = client.Get("api/places/" + id, headers);
+		String responceBody = getResponceMessage(responce.getEntity(), "TRIPS");
+		Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd'T'HH:mm:ss").create();
+		//TO DO parse json to PlaceDetails
+		return null;
+	}
+	
+	public TravelDetail getTravelDetail(int id){
+		List<NameValuePair> headers = this.getAuthorisationHeaders();
+		HttpResponse responce = client.Get("api/travels/" + id, headers);
+		String responceBody = getResponceMessage(responce.getEntity(), "TRIPS");
+		Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd'T'HH:mm:ss").create();
+		//TO DO parse json to TravelDetails
 		return null;
 	}
 	
