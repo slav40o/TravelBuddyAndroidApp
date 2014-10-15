@@ -15,9 +15,11 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnLongClickListener;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -32,8 +34,7 @@ import com.goofy.travelbuddy.dao.PlacesTravelsSQLiteHelper;
 import com.goofy.travelbuddy.dao.PlacesTravlesDataSource;
 import com.goofy.travelbuddy.dao.VisitorsDataSource;
 
-public class PlacesFragment extends Fragment implements
-OnItemClickListener{
+public class PlacesFragment extends Fragment implements OnItemClickListener, OnItemLongClickListener{
 	
 	List<PlaceDetail> placeDetails;
 	ListView placesListViews;
@@ -43,13 +44,14 @@ OnItemClickListener{
 	private VisitorsDataSource visitorsDataSource;
 	private PlacesTravlesDataSource ptDataSource;
 	Context ctx;
+	boolean isTravel = false;
 	
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 		int travelId = 0;
 		String travelTitle;
-		boolean isTravel = false;
+		
 		if(savedInstanceState != null){
 			isTravel = savedInstanceState.getBoolean("ISTRAVEL");
 		    travelId = savedInstanceState.getInt("TRAVELID", 0);
@@ -64,12 +66,11 @@ OnItemClickListener{
 		this.ctx = view.getContext();
 		
 		// TODO Some fake data - should be replaced with data from the data source
-	    // addPlaces();
-		// addFakePlaces();
 		if (isTravel) {
 			placesByTravelId(travelId);
 		}else {
-			allPlaces();
+			//allPlaces();
+			 addFakePlaces();
 		}
 		
 		Log.d("FAKE", "Adding fake data" );
@@ -79,8 +80,9 @@ OnItemClickListener{
 		//placesAdapter = new PlacesListViewAdapter(view.getContext(), R.layout.place_list_item);
 		
 		placesListViews.setAdapter(placesAdapter);
-		placesListViews.setOnItemClickListener(this);
 		
+		placesListViews.setOnItemClickListener(this);
+		placesListViews.setOnItemLongClickListener(this);
 		return view;
 	}
 	
@@ -177,4 +179,17 @@ OnItemClickListener{
 		placeDetailsIntent.putStringArrayListExtra("VISITORS", placeDetails.get(position).getVisitors());
 		startActivity(placeDetailsIntent);
 	}
+
+	@Override
+	public boolean onItemLongClick(AdapterView<?> parent, View view,
+			int position, long id) {
+		 // TODO Add to favorites
+		if (isTravel) {
+			Toast.makeText(view.getContext(),"Adding "+placeDetails.get(position).getTitle() + " to favorites", Toast.LENGTH_LONG).show();
+		}else {
+			Toast.makeText(view.getContext(),"Adding "+placeDetails.get(position).getTitle() + " to favorite places", Toast.LENGTH_LONG).show();
+		}
+		return true;
+	}
+
 }
