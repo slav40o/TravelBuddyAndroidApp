@@ -1,30 +1,29 @@
 package com.goofy.travelbuddy;
 
+import java.util.List;
+
 import android.app.Activity;
-import android.app.ActionBar;
-import android.app.Fragment;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.view.ViewGroup;
-import android.os.Build;
 
-public class PlaceDetailActivity extends Activity {
+import com.goofy.models.Photo;
 
+
+public class TravelsActivity extends Activity{
+
+	List<Photo> photos;
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.place_details_activity);
-		
+		setContentView(R.layout.travels_activity);
 	}
-
+	
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
-		getMenuInflater().inflate(R.menu.place_detail, menu);
+		getMenuInflater().inflate(R.menu.travels, menu);
 		return true;
 	}
 

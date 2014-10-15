@@ -8,5 +8,12 @@
     <dimen name="places_itemlist_imageheight">60dp</dimen>
     <dimen name="places_itemlist_titlesize">25sp</dimen>
     <dimen name="places_itemlist_coutrysize">16sp</dimen>
+    <!-- Travels ListView sizes. -->
+    <dimen name="travels_itemlist_imagewidth">100dp</dimen>
+    <dimen name="travels_itemlist_imageheight">60dp</dimen>
+    <dimen name="travels_itemlist_titlesize">25sp</dimen>
+    <dimen name="travels_itemlist_distancesize">16sp</dimen>
+    <dimen name="travels_itemlist_startendsize">16sp</dimen>
+    <dimen name="travels_itemlist_descriptionsize">16sp</dimen>
 
 </resources>

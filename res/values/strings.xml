@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
     <string name="app_name">TravelBuddy</string>
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
@@ -42,4 +43,7 @@
     <string name="place_name">Place Title</string>
     <string name="place_description">Description</string>
     <string name="country">Country</string>
+    <string name="title_activity_travels">My travels</string>
+    <string name="title_activity_ddddddd">DDDDDDD</string>
+
 </resources>

@@ -45,6 +45,9 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
 		else if(v.getId() == this.addTravelBtn.getId()){
 			Intent createTripIntent = new Intent(this, CreatTripActivity.class);
 			startActivity(createTripIntent);
+		}else if(v.getId() == this.personalTravelsBtn.getId()){
+			Intent travelsIntent = new Intent(this, TravelsActivity.class);
+			startActivity(travelsIntent);
 		}
 	}
 }
