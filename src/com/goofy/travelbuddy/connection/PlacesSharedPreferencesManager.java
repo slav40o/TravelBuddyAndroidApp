@@ -9,6 +9,10 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 
+/**
+  Gets or Sets the Top Places Id's in the Shared Preferences
+  Gets or Sets the Favorite Places Id's in the Shared Preferences
+ */
 public class PlacesSharedPreferencesManager {
 	public static final String TOPPLACES = "TopPlaces";
 	public static final String FAVORITE_PLACES = "FavoritePlaces";

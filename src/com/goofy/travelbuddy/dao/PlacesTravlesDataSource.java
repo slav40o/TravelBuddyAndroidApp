@@ -35,7 +35,10 @@ public class PlacesTravlesDataSource {
 		dbHelper.close();
 	}
 
-	// returns placeTravelId
+	/**
+	 * PlaceTravel Id column is AUTOINCREMENTED
+	 * returns placeTravelId
+	*/ 
 	public int createTravelDetailByIds(int placeId, int travelId) {
 		ContentValues values = new ContentValues();
 		values.put(PlacesTravelsSQLiteHelper.COLUMN_PLACEID, placeId);
@@ -53,6 +56,10 @@ public class PlacesTravlesDataSource {
 		return placeTravelId;
 	}
 	
+	/**
+	 PlaceTravel Id column is AUTOINCREMENTED
+	 returns placeTravelId
+	*/ 
 	public int createTravelDetailByIds(int placeId, int travelId, int photoId) {
 		ContentValues values = new ContentValues();
 		values.put(PlacesTravelsSQLiteHelper.COLUMN_PLACEID, placeId);
@@ -70,6 +77,10 @@ public class PlacesTravlesDataSource {
 		return placeTravelId;
 	}
 	
+	/**
+	 PlaceTravel Id column is AUTOINCREMENTED
+	 returns placeTravelId
+	*/ 
 	public int createTravelDetailByObjects(Place place, Travel travel) {
 		ContentValues values = new ContentValues();
 		values.put(PlacesTravelsSQLiteHelper.COLUMN_PLACEID, place.getId());

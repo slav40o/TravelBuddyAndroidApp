@@ -4,13 +4,16 @@ import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
+/**
+PlaceTravel Id column is AUTOINCREMENTED
+*/ 
 public class PlacesTravelsSQLiteHelper extends SQLiteOpenHelper{
 	
 	public static final String TABLE_PLACES_TRAVELS = "places_travels";
 	public static final String COLUMN_ID = "_id";
 	public static final String COLUMN_PLACEID = "placeid";
 	public static final String COLUMN_TRAVELID = "travelid";
-	public static final String COLUMN_PHOTOID = "photoid"; // each photo can be of only one travel and place 
+	public static final String COLUMN_PHOTOID = "photoid"; // each photo can be of only one place 
 	private static final String DATABASE_NAME = "travelbuddy.db";
 	private static final int DATABASE_VERSION = 1;
 	

@@ -11,6 +11,7 @@ import android.database.sqlite.SQLiteDatabase;
 
 import com.goofy.models.Location;
 import com.goofy.models.Place;
+import com.goofy.models.Travel;
 
 public class PlacesDataSource {
 	private SQLiteDatabase database;
@@ -33,8 +34,14 @@ public class PlacesDataSource {
 		dbHelper.close();
 	}
 
+	/**
+	 * Use addOrReplacePlace(Place place) instead
+	 * This one doesn't check for existing place id
+	 */
+	@Deprecated
 	public Place createPlace(Place place) {
 		ContentValues values = new ContentValues();
+		values.put(PlacesSQLiteHelper.COLUMN_ID, place.getId());
 		values.put(PlacesSQLiteHelper.COLUMN_TITLE, place.getTitle());
 		values.put(PlacesSQLiteHelper.COLUMN_DESCRIPTION,
 				place.getDescription());
@@ -56,6 +63,34 @@ public class PlacesDataSource {
 		cursor.close();
 		return newPlace;
 	}
+	
+	 public Place addOrReplacePlace(Place place) {
+			ContentValues values = new ContentValues();
+			values.put(PlacesSQLiteHelper.COLUMN_ID, place.getId());
+			values.put(PlacesSQLiteHelper.COLUMN_TITLE, place.getTitle());
+			values.put(PlacesSQLiteHelper.COLUMN_DESCRIPTION,
+					place.getDescription());
+			values.put(PlacesSQLiteHelper.COLUMN_COUNTRY, place.getCountry());
+			values.put(PlacesSQLiteHelper.COLUMN_LAT, place.getLocation()
+					.getLatitude());
+			values.put(PlacesSQLiteHelper.COLUMN_LON, place.getLocation()
+					.getLongtitude());
+			values.put(PlacesSQLiteHelper.COLUMN_LAST_VISIT, place.getLastVisited()
+					.toString());
+
+		        boolean updated = database.update(PlacesSQLiteHelper.TABLE_PLACES, values, PlacesSQLiteHelper.COLUMN_ID  + " = " + place.getId(), null) > 0;
+		        if (!updated) {
+		        	database.insert(PlacesSQLiteHelper.TABLE_PLACES, null,
+							values);
+				}
+		        Cursor cursor = database.query(PlacesSQLiteHelper.TABLE_PLACES,
+						allColumns, PlacesSQLiteHelper.COLUMN_ID + " = " + place.getId(),
+						null, null, null, null);
+				cursor.moveToFirst();
+				Place newPlace = cursorToPlace(cursor);
+				cursor.close();
+				return newPlace;
+	   }
 
 	public Place getPlaceById(int id){
 		Cursor cursor = database.query(PlacesSQLiteHelper.TABLE_PLACES,

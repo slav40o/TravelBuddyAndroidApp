@@ -25,6 +25,7 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Gallery;
 import android.widget.ImageView;
+import android.widget.ImageView.ScaleType;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -56,6 +57,17 @@ public class PlaceDetailFragment extends Fragment  implements OnTouchListener {
 	    PointF start = new PointF();
 	    PointF mid = new PointF();
 	    float oldDist = 1f;
+	    
+	public void resetZoomer(){
+		//matrix = new Matrix();
+		//savedMatrix = new Matrix();
+		// matrix = new Matrix();
+		// savedMatrix = new Matrix();
+		start = new PointF();
+		mid = new PointF();
+		mode = NONE;
+		oldDist = 1f;
+	}
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -99,6 +111,15 @@ public class PlaceDetailFragment extends Fragment  implements OnTouchListener {
 				byte[] image = photos.get(position).getImage();
 				imageView.setImageBitmap(BitmapFactory.decodeByteArray(image,
 						0, image.length));
+				imageView.setScaleType(ScaleType.CENTER_INSIDE);
+				/*	
+				 float[] values =  new float[9];
+				 imageView.getImageMatrix().getValues(values);
+				 Log.d("SCALE", String.valueOf(imageView.getImageMatrix()));
+				 resetZoomer();
+				 float s = values[0];
+				matrix.setScale(s,s);*/
+				matrix.setScale(1,1);
 				
 				photoText.setText(photos.get(position).getName());
 			}
@@ -113,8 +134,8 @@ public class PlaceDetailFragment extends Fragment  implements OnTouchListener {
 	private void addFakePhotos() {
 		this.placeTitle = "Some place";
 	    this.photos.add( new Photo(0, "Faky", getResourceBitmap(R.drawable.ic_launcher), "0", 0));
-	    this.photos.add( new Photo(1, "Faky delete", getResourceBitmap(android.R.drawable.ic_menu_delete), "0", 0));
-	    this.photos.add( new Photo(2, "Faky camea", getResourceBitmap(android.R.drawable.ic_menu_camera), "0", 0));
+	    this.photos.add( new Photo(1, "Faky delete", getResourceBitmap(R.drawable.im1), "0", 0));
+	    this.photos.add( new Photo(2, "Faky camea", getResourceBitmap(R.drawable.splash1), "0", 0));
 	    this.photos.add( new Photo(3, "Faky call", getResourceBitmap(android.R.drawable.sym_call_missed), "0", 0));
 	    this.photos.add( new Photo(4, "Faky star", getResourceBitmap(android.R.drawable.btn_star_big_on), "0", 0));
 	}
@@ -137,7 +158,7 @@ public class PlaceDetailFragment extends Fragment  implements OnTouchListener {
         view.setScaleType(ImageView.ScaleType.MATRIX);
         float scale;
 
-        dumpEvent(event);
+        // dumpEvent(event);
         // Handle touch events here...
 
         switch (event.getAction() & MotionEvent.ACTION_MASK) 

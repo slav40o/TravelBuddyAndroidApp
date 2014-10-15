@@ -37,8 +37,13 @@ public class TravelsDataSource {
         dbHelper.close();
     }
     
+    /**
+     * Use addOrReplaceTravel(Travel travel) instead
+     */
+    @Deprecated
     public Travel createTravel(Travel travel){
     	 ContentValues values = new ContentValues();
+	 		values.put(TravelsSQLiteHelper.COLUMN_ID, travel.getId());
 	        values.put(TravelsSQLiteHelper.COLUMN_TITLE, travel.getTitle());
 	        values.put(TravelsSQLiteHelper.COLUMN_DESCRIPTION, travel.getDescription());
 	        values.put(TravelsSQLiteHelper.COLUMN_USRNAME, travel.getUserName());
@@ -56,6 +61,23 @@ public class TravelsDataSource {
 	        cursor.close();
 	        return newTravel;
     }
+    
+    public void addOrReplaceTravel(Travel travel){
+   	 ContentValues values = new ContentValues();
+   	 		values.put(TravelsSQLiteHelper.COLUMN_ID, travel.getId());
+	        values.put(TravelsSQLiteHelper.COLUMN_TITLE, travel.getTitle());
+	        values.put(TravelsSQLiteHelper.COLUMN_DESCRIPTION, travel.getDescription());
+	        values.put(TravelsSQLiteHelper.COLUMN_USRNAME, travel.getUserName());
+	        values.put(TravelsSQLiteHelper.COLUMN_START_DATE, travel.getStartDate().toString());
+	        values.put(TravelsSQLiteHelper.COLUMN_END_DATE, travel.getEndDate().toString());
+	        values.put(TravelsSQLiteHelper.COLUMN_DISTANCE, travel.getDistance());
+	        
+	        boolean updated = database.update(TravelsSQLiteHelper.TABLE_TRAVELS, values, TravelsSQLiteHelper.COLUMN_ID  + " = " + travel.getId(), null) > 0;
+	        if (!updated) {
+	        	database.insert(TravelsSQLiteHelper.TABLE_TRAVELS, null,
+		                values);
+			}
+   }
     
     public List<Travel> getAllTravels() {
 		List<Travel> travels = new ArrayList<Travel>();

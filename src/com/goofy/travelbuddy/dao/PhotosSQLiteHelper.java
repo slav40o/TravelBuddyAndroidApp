@@ -15,7 +15,7 @@ public class PhotosSQLiteHelper  extends SQLiteOpenHelper {
 	private static final int DATABASE_VERSION = 1;
 	
 	 private static final String DATABASE_CREATE = "create table "
-	            + TABLE_PHOTOS + "(" + COLUMN_ID + " integer primary key autoincrement, " 
+	            + TABLE_PHOTOS + "(" + COLUMN_ID + " integer primary key, " 
 	            + COLUMN_NAME + " text not null, " 
 	            + COLUMN_IMAGE + " BLOB not null, " 
 	            + COLUMN_USERID + " text not null, " 

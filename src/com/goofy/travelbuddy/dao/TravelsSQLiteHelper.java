@@ -21,7 +21,8 @@ public class TravelsSQLiteHelper extends SQLiteOpenHelper{
 	
 	// Database creation SQLite statement
     private static final String DATABASE_CREATE = "create table "
-            + TABLE_TRAVELS + "(" + COLUMN_ID + " integer primary key autoincrement, " 
+          //  + TABLE_TRAVELS + "(" + COLUMN_ID + " integer primary key autoincrement, " 
+           + TABLE_TRAVELS + "(" + COLUMN_ID + " integer primary key, " 
             + COLUMN_TITLE + " text not null, " 
             + COLUMN_DESCRIPTION + " text not null, " 
             + COLUMN_USRNAME + " text not null, " 

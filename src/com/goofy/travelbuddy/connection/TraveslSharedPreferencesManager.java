@@ -9,11 +9,15 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 
+/**
+  Gets or Sets Travel Id's for the current Loggen-in User in the Shared Preferences
+ */
 public class TraveslSharedPreferencesManager {
 	public final String TRAVELS = "Travels";
 	public final String USER_TRAVELS_FILE = "UserTravelsFile";
 	Set<Integer> userTravels;
 	
+	@Deprecated
 	public void addTravel(Context context, int travelId) throws Exception {
         if (null == userTravels) {
         	userTravels = new HashSet<Integer>();
@@ -31,7 +35,7 @@ public class TraveslSharedPreferencesManager {
     }
 	
 	public void setTravels(Context context, Set<Integer> travels) throws Exception {
-        //save the favorite places set to preference
+        //save the travels to preference
         SharedPreferences prefs = context.getSharedPreferences(USER_TRAVELS_FILE, Context.MODE_PRIVATE);
         Editor editor = prefs.edit();
         try {

@@ -34,8 +34,13 @@ public class PhotosDataSource {
 		dbHelper.close();
 	}
 
+	/**
+	 * Use addOrReplacePhoto(Photo photo)
+	 */
+	@Deprecated
 	public Photo createPhoto(Photo photo) {
 		ContentValues values = new ContentValues();
+		values.put(PhotosSQLiteHelper.COLUMN_ID, photo.getId());
 		values.put(PhotosSQLiteHelper.COLUMN_NAME, photo.getName());
 		values.put(PhotosSQLiteHelper.COLUMN_IMAGE, photo.getImage());
 		values.put(PhotosSQLiteHelper.COLUMN_USERID, photo.getUserId());
@@ -50,6 +55,21 @@ public class PhotosDataSource {
 		Photo newPhoto = cursorToPhotos(cursor);
 		cursor.close();
 		return newPhoto;
+	}
+	
+	public void addOrReplacePhoto(Photo photo ){
+		ContentValues values = new ContentValues();
+		values.put(PhotosSQLiteHelper.COLUMN_ID, photo.getId());
+		values.put(PhotosSQLiteHelper.COLUMN_NAME, photo.getName());
+		values.put(PhotosSQLiteHelper.COLUMN_IMAGE, photo.getImage());
+		values.put(PhotosSQLiteHelper.COLUMN_USERID, photo.getUserId());
+		values.put(PhotosSQLiteHelper.COLUMN_PLACEID, photo.getPlaceID());
+
+		boolean updated = database.update(PhotosSQLiteHelper.TABLE_PHOTOS, values, PhotosSQLiteHelper.COLUMN_NAME + " = " + photo.getName(), null) > 0;
+		if (!updated) {
+			database.insert(PhotosSQLiteHelper.TABLE_PHOTOS, null,
+					values);
+		}
 	}
 
 	public List<Photo> getAllPhotos() {
@@ -110,8 +130,6 @@ public class PhotosDataSource {
 		return foundPhoto;
 	}
 	
-	
-
 	private Photo cursorToPhotos(Cursor cursor) {
 		Photo place = new Photo(cursor.getInt(0), cursor.getString(1),
 				cursor.getBlob(2), cursor.getString(3), cursor.getInt(4));
