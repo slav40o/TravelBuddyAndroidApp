@@ -19,6 +19,11 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
 		initializeElements();
 	}
 	
+	@Override
+	public void onBackPressed() {
+		
+	}
+	
 	private void initializeElements() {
 		// TODO Auto-generated method stub
 		this.addTravelBtn = (Button)findViewById(R.id.btn_add_travel);

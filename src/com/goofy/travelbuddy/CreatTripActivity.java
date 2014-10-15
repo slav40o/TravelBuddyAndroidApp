@@ -96,7 +96,7 @@ public class CreatTripActivity extends BaseActivity implements View.OnClickListe
 				
 				Intent travelDetailIntent = new Intent(context, TripsDetailsActivity.class);
 				int id = extractId(result.getValue());
-				travelDetailIntent.putExtra("travelId", id);
+				travelDetailIntent.putExtra("ID", id);
 				startActivity(travelDetailIntent);
 			}
 			else{
