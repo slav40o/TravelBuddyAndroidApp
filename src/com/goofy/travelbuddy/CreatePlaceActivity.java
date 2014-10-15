@@ -7,9 +7,6 @@ import org.apache.http.NameValuePair;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.message.BasicNameValuePair;
 
-import com.goofy.travelbuddy.connection.ClientManager;
-
-import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
@@ -20,23 +17,28 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-public class CreatTripActivity extends BaseActivity implements View.OnClickListener{
+import com.goofy.models.Place;
+import com.goofy.travelbuddy.connection.ClientManager;
+
+public class CreatePlaceActivity extends BaseActivity implements View.OnClickListener{
 	private Button createBtn;
 	private Button cancelBtn;
 	private EditText nameInput;
 	private EditText descriptionInput;
+	private EditText countryInput;
 	private Context context;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.create_trip_activity);
-		this.createBtn = (Button)findViewById(R.id.btn_create_trip);
+		this.createBtn = (Button)findViewById(R.id.btn_create_place);
 		createBtn.setOnClickListener(this);
-		this.cancelBtn = (Button)findViewById(R.id.btn_cancel_create_trip);
+		this.cancelBtn = (Button)findViewById(R.id.btn_cancel_create_place);
 		cancelBtn.setOnClickListener(this);
-		this.descriptionInput = (EditText)findViewById(R.id.et_trip_description);
-		this.nameInput = (EditText)findViewById(R.id.et_trip_title_input);
+		this.descriptionInput = (EditText)findViewById(R.id.et_place_description);
+		this.nameInput = (EditText)findViewById(R.id.et_place_title_input);
+		this.countryInput = (EditText)findViewById(R.id.et_country_input);
 		this.context = this;
 	}
 
@@ -45,6 +47,8 @@ public class CreatTripActivity extends BaseActivity implements View.OnClickListe
 		if (v.getId() == this.createBtn.getId()) {
 			String description = this.descriptionInput.getText().toString();
 			String name = this.nameInput.getText().toString();
+			String country = this.countryInput.getText().toString();
+			
 			boolean validState = true;
 			
 			if (description == null || description == "") {
@@ -55,9 +59,13 @@ public class CreatTripActivity extends BaseActivity implements View.OnClickListe
 				Toast.makeText(getBaseContext(), "Plese enter a name", Toast.LENGTH_LONG).show();
 				validState = false;
 			}
+			else if(country == null || country == ""){
+				Toast.makeText(getBaseContext(), "Plese enter a country", Toast.LENGTH_LONG).show();
+				validState = false;
+			}
 			
 			if (validState) {
-				new CreateTripTask().execute(description, name);
+				new CreatePlaceTask().execute(description, name);
 			}
 		}
 		else if(v.getId() == this.cancelBtn.getId()){
@@ -65,24 +73,26 @@ public class CreatTripActivity extends BaseActivity implements View.OnClickListe
             startActivity(mainIntent);
 		}
 	}
-
-	private class CreateTripTask extends AsyncTask<String, Void, NameValuePair> {
+	
+	private class CreatePlaceTask extends AsyncTask<String, Void, NameValuePair> {
 		private ProgressDialog dialog;
 		
 		@Override
 		protected NameValuePair doInBackground(String... data) {
 			String name = data[1];
+			String country = data[2];
 			String description = data[0];
+		//	Place place = new Place();
 			ClientManager manager = new ClientManager(context);
     		NameValuePair responce = null;
-			try {
-				responce = manager.addTrip(name, description);
-			} catch (ClientProtocolException e) {
-				responce = new BasicNameValuePair("500", e.getMessage());
-				e.printStackTrace();
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
+//			try {
+//				responce = manager.addPlace(place);
+//			} catch (ClientProtocolException e) {
+//				responce = new BasicNameValuePair("500", e.getMessage());
+//				e.printStackTrace();
+//			} catch (IOException e) {
+//				e.printStackTrace();
+//			}
         	return responce;
 		}
 
@@ -92,12 +102,12 @@ public class CreatTripActivity extends BaseActivity implements View.OnClickListe
 			dialog.hide();  
 			int status = Integer.parseInt(result.getName());	
 			if (status == HttpStatus.SC_OK) {
-				Toast.makeText(getBaseContext(), "Trip created", Toast.LENGTH_LONG).show();
-				
-				Intent travelDetailIntent = new Intent(context, TripsDetailsActivity.class);
-				int id = extractId(result.getValue());
-				travelDetailIntent.putExtra("ID", id);
-				startActivity(travelDetailIntent);
+//				Toast.makeText(getBaseContext(), "Trip created", Toast.LENGTH_LONG).show();
+//				
+//				Intent travelDetailIntent = new Intent(context, TripsDetailsActivity.class);
+//				int id = extractId(result.getValue());
+//				travelDetailIntent.putExtra("ID", id);
+//				startActivity(travelDetailIntent);
 			}
 			else{
 				Toast.makeText(getBaseContext(), result.getValue(), Toast.LENGTH_LONG).show();
@@ -114,8 +124,8 @@ public class CreatTripActivity extends BaseActivity implements View.OnClickListe
 		@Override
 		protected void onPreExecute() {
 			super.onPreExecute();
-			dialog = new ProgressDialog(CreatTripActivity.this);
-			dialog.setMessage("Preparing your trip in...");
+			dialog = new ProgressDialog(CreatePlaceActivity.this);
+			dialog.setMessage("Adding the place...");
 			dialog.show();  
 		}
 		
