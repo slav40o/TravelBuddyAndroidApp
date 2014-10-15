@@ -21,6 +21,7 @@ import com.goofy.models.Place;
 import com.goofy.travelbuddy.connection.ClientManager;
 import com.goofy.travelbuddy.connection.UserPreferenceManager;
 import com.goofy.travelbuddy.dao.PlacesDataSource;
+import com.goofy.travelbuddy.utils.PhoneState;
 
 public class SplashScreenActivity extends Activity {
 	private Context context;
@@ -31,7 +32,7 @@ public class SplashScreenActivity extends Activity {
         setContentView(R.layout.activity_splash_screen);
         context = this;
         
-//        if (PhoneNetwork.isAvailable(this)) {
+//        if (PhoneState.isNetworkAvailable(this)) {
 //        	Toast.makeText(context, "No internet connection.", Toast.LENGTH_LONG).show();
 //        	Intent loginIntent = new Intent(context, LoginActivity.class);
 //            startActivity(loginIntent);
@@ -65,8 +66,8 @@ public class SplashScreenActivity extends Activity {
 
     		List<Place> top = manager.getTopPlaces();
     		for (Place place : top) {
-				Place imported = dataScource.createPlace(place);
-				Log.d("PLACE_IMPORT", imported.title + " imported!");
+				//Place imported = dataScource.createPlace(place);
+				//Log.d("PLACE_IMPORT", imported.title + " imported!");
 			}
     		
     		NameValuePair responce = null;
