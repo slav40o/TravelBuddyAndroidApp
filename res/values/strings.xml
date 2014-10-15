@@ -32,6 +32,8 @@
     <string name="trip_description">Trip description</string>
     <string name="create">Create</string>
     <string name="cancel">Cancel</string>
+    <string name="pernik">Pernik</string>
+    <string name="telerik">Telerik Academy</string>
     <string name="title_activity_place_detail">Place Details</string>
     <string name="place_details_title">Place details</string>
     <string name="favourites">Favourites</string>
