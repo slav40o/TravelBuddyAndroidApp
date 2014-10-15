@@ -57,10 +57,12 @@ public class PlacesFragment extends Fragment implements OnItemClickListener, OnI
 		} else {
 			Log.d("PLACES_FRGAMENT", " savedInstanceState IS NULL ");
 		}
-		
-			isTravel = getActivity().getIntent().getExtras().getBoolean("ISTRAVEL");
-		    travelId = getActivity().getIntent().getExtras().getInt("TRAVELID", 0);
-		    travelTitle = getActivity().getIntent().getExtras().getString("TRAVEL_TITLE");
+			if (getActivity().getIntent().getExtras() != null) {
+				isTravel = getActivity().getIntent().getExtras().getBoolean("ISTRAVEL");
+			    travelId = getActivity().getIntent().getExtras().getInt("TRAVELID", 0);
+			    travelTitle = getActivity().getIntent().getExtras().getString("TRAVEL_TITLE");
+			}
+			
 		    
 		View view = inflater.inflate(R.layout.places_fragment, container, false);
 
