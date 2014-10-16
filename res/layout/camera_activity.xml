@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+
+             <TextView
+                 android:id="@+id/imageDetails"
+                 android:layout_width="wrap_content"
+                 android:layout_height="wrap_content"
+                 android:layout_alignParentTop="true"
+                 android:layout_centerHorizontal="true"
+                 android:layout_marginTop="68dp" />
+
+             <TextView
+                 android:id="@+id/textView1"
+                 android:layout_width="wrap_content"
+                 android:layout_height="wrap_content"
+                 android:layout_alignParentTop="true"
+                 android:layout_centerHorizontal="true"
+                 android:layout_marginTop="19dp"
+                 android:text="@string/take_photo_title"
+                 android:textAppearance="?android:attr/textAppearanceLarge" />
+
+             <ImageView
+                 android:id="@+id/showImg"
+                 android:layout_width="fill_parent"
+                 android:layout_height="wrap_content"
+                 android:layout_alignParentLeft="true"
+                 android:layout_alignTop="@+id/imageDetails"
+                 android:contentDescription="@string/taken_photo"
+                 android:src="@drawable/no_image_available" />
+
+             <Button
+                 android:id="@+id/btn_take_photo"
+                 android:layout_width="wrap_content"
+                 android:layout_height="wrap_content"
+                 android:layout_alignParentBottom="true"
+                 android:layout_alignParentRight="true"
+                 android:layout_toRightOf="@+id/imageDetails"
+                 android:text="@string/take_photo" />
+
+             <Button
+                 android:id="@+id/btn_save_photo"
+                 android:layout_width="wrap_content"
+                 android:layout_height="wrap_content"
+                 android:layout_alignParentBottom="true"
+                 android:layout_alignParentLeft="true"
+                 android:layout_toLeftOf="@+id/btn_take_photo"
+                 android:text="@string/save_photo" />
+
+</RelativeLayout>

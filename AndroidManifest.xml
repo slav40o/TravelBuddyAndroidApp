@@ -87,7 +87,10 @@
             android:name=".TripsDetailsActivity"
             android:label="@string/app_name" >
         </activity>
-
+		<activity
+            android:name=".CameraActivity"
+            android:label="@string/app_name" >
+        </activity>
         <activity
             android:name=".TravelsActivity"
             android:label="@string/title_activity_travels" >
