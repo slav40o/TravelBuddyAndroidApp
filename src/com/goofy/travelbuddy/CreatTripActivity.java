@@ -115,7 +115,7 @@ public class CreatTripActivity extends BaseActivity implements View.OnClickListe
 		protected void onPreExecute() {
 			super.onPreExecute();
 			dialog = new ProgressDialog(CreatTripActivity.this);
-			dialog.setMessage("Preparing your trip in...");
+			dialog.setMessage("Preparing your trip ...");
 			dialog.show();  
 		}
 		

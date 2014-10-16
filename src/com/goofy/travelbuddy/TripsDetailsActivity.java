@@ -6,6 +6,7 @@ import android.app.DialogFragment;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
@@ -22,7 +23,7 @@ public class TripsDetailsActivity extends BaseActivity implements View.OnClickLi
 	private TextView description;
 	private DialogFragment mDialog;
 	private Button addBtn;
-	
+	private Integer id;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -31,7 +32,7 @@ public class TripsDetailsActivity extends BaseActivity implements View.OnClickLi
 		this.description = (TextView)findViewById(R.id.tv_trip_description);
 		this.addBtn = (Button)findViewById(R.id.btn_add_place);
 		addBtn.setOnClickListener(this);
-		Integer id = getIntent().getIntExtra("ID", 0);
+		id = getIntent().getIntExtra("ID", 0);
 		this.context = this;
 		new GetTripDetailTask().execute(id);
 	}
@@ -49,7 +50,9 @@ public class TripsDetailsActivity extends BaseActivity implements View.OnClickLi
 			// TO DO list available places;
 		}
 		else{
-			// TO DO create place;
+			Intent addPlaceIntent = new Intent(this, CreatePlaceActivity.class);
+			addPlaceIntent.putExtra("ID", id);
+			startActivity(addPlaceIntent);
 		}
 	}
 	

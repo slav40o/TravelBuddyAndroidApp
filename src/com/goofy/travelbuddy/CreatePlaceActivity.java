@@ -82,6 +82,7 @@ public class CreatePlaceActivity extends BaseActivity implements View.OnClickLis
 			String name = data[1];
 			String country = data[2];
 			String description = data[0];
+			
 		//	Place place = new Place();
 			ClientManager manager = new ClientManager(context);
     		NameValuePair responce = null;
@@ -102,12 +103,11 @@ public class CreatePlaceActivity extends BaseActivity implements View.OnClickLis
 			dialog.hide();  
 			int status = Integer.parseInt(result.getName());	
 			if (status == HttpStatus.SC_OK) {
-//				Toast.makeText(getBaseContext(), "Trip created", Toast.LENGTH_LONG).show();
-//				
-//				Intent travelDetailIntent = new Intent(context, TripsDetailsActivity.class);
-//				int id = extractId(result.getValue());
-//				travelDetailIntent.putExtra("ID", id);
-//				startActivity(travelDetailIntent);
+				Toast.makeText(getBaseContext(), "Place created", Toast.LENGTH_LONG).show();
+				Intent travelDetailIntent = new Intent(context, TripsDetailsActivity.class);
+				int id = extractId(result.getValue());
+				travelDetailIntent.putExtra("ID", id);
+				startActivity(travelDetailIntent);
 			}
 			else{
 				Toast.makeText(getBaseContext(), result.getValue(), Toast.LENGTH_LONG).show();
@@ -128,6 +128,5 @@ public class CreatePlaceActivity extends BaseActivity implements View.OnClickLis
 			dialog.setMessage("Adding the place...");
 			dialog.show();  
 		}
-		
 	}
 }
