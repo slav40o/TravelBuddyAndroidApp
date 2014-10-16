@@ -59,8 +59,6 @@ public class SplashScreenActivity extends Activity {
         	String name = UserPreferenceManager.getUsername(context);
     		String pass = UserPreferenceManager.getPassword(context);
     		
-    		List<Photo> photos = manager.getPlacePhotos(1);
-
     		PlacesDataSource dataScource = new PlacesDataSource(context);
     		dataScource.open();
 

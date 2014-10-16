@@ -10,6 +10,7 @@ import org.apache.http.message.BasicNameValuePair;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.location.Location;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
@@ -19,6 +20,7 @@ import android.widget.Toast;
 
 import com.goofy.models.Place;
 import com.goofy.travelbuddy.connection.ClientManager;
+import com.goofy.travelbuddy.utils.LocationGetter;
 
 public class CreatePlaceActivity extends BaseActivity implements View.OnClickListener{
 	private Button createBtn;
@@ -82,18 +84,20 @@ public class CreatePlaceActivity extends BaseActivity implements View.OnClickLis
 			String name = data[1];
 			String country = data[2];
 			String description = data[0];
-			
-		//	Place place = new Place();
+			Location loc = LocationGetter.getBestLocation(context);
+			com.goofy.models.Location modelLoc =
+					new com.goofy.models.Location(loc.getLatitude(), loc.getLongitude());
+			Place place = new Place(0, name, description, country, modelLoc);
 			ClientManager manager = new ClientManager(context);
     		NameValuePair responce = null;
-//			try {
-//				responce = manager.addPlace(place);
-//			} catch (ClientProtocolException e) {
-//				responce = new BasicNameValuePair("500", e.getMessage());
-//				e.printStackTrace();
-//			} catch (IOException e) {
-//				e.printStackTrace();
-//			}
+			try {
+				responce = manager.addPlace(place);
+			} catch (ClientProtocolException e) {
+				responce = new BasicNameValuePair("500", e.getMessage());
+				e.printStackTrace();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
         	return responce;
 		}
 
@@ -105,20 +109,13 @@ public class CreatePlaceActivity extends BaseActivity implements View.OnClickLis
 			if (status == HttpStatus.SC_OK) {
 				Toast.makeText(getBaseContext(), "Place created", Toast.LENGTH_LONG).show();
 				Intent travelDetailIntent = new Intent(context, TripsDetailsActivity.class);
-				int id = extractId(result.getValue());
+				int id  = getIntent().getIntExtra("ID", 0);
 				travelDetailIntent.putExtra("ID", id);
 				startActivity(travelDetailIntent);
 			}
 			else{
 				Toast.makeText(getBaseContext(), result.getValue(), Toast.LENGTH_LONG).show();
 			}
-		}
-		
-		private int extractId(String message){
-			int startIdx = message.indexOf(":") + 1;
-			int endIdx = message.indexOf(",");
-			int id = Integer.parseInt(message.substring(startIdx, endIdx));
-			return id;
 		}
 
 		@Override
