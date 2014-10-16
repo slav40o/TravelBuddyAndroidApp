@@ -58,7 +58,7 @@ public class PlaceDetailFragment extends Fragment  implements OnTouchListener {
 	    PointF mid = new PointF();
 	    float oldDist = 1f;
 	    
-	public void resetZoomer(){
+	    public void resetZoomer(){
 		//matrix = new Matrix();
 		//savedMatrix = new Matrix();
 		// matrix = new Matrix();
