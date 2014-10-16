@@ -115,7 +115,6 @@ public class LoginActivity extends Activity implements View.OnClickListener{
 				Toast.makeText(getApplicationContext(), "Welcome, " + name, Toast.LENGTH_LONG).show();
 				Intent registerIntent = new Intent(getApplicationContext(), MainActivity.class);
 				startActivity(registerIntent);
-				
 			}
 			else{
 				Toast.makeText(getApplicationContext(), message, Toast.LENGTH_LONG).show();
