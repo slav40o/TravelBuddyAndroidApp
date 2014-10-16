@@ -13,17 +13,17 @@ import com.goofy.models.Photo;
 
 public class PhotosDataSource {
 	private SQLiteDatabase database;
-	private PhotosSQLiteHelper dbHelper;
-	private String[] allColumns = { PhotosSQLiteHelper.COLUMN_ID,
-			PhotosSQLiteHelper.COLUMN_NAME, PhotosSQLiteHelper.COLUMN_IMAGE,
-			PhotosSQLiteHelper.COLUMN_USERID,
-			PhotosSQLiteHelper.COLUMN_PLACEID, };
+	private PhotosSQLite dbHelper;
+	private String[] allColumns = { PhotosSQLite.COLUMN_ID,
+			PhotosSQLite.COLUMN_NAME, PhotosSQLite.COLUMN_IMAGE,
+			PhotosSQLite.COLUMN_USERID,
+			PhotosSQLite.COLUMN_PLACEID, };
 	private String[] photosIdsOnly = { 
-			PhotosSQLiteHelper.COLUMN_ID,
-			PhotosSQLiteHelper.COLUMN_PLACEID };
+			PhotosSQLite.COLUMN_ID,
+			PhotosSQLite.COLUMN_PLACEID };
 	
 	public PhotosDataSource(Context context) {
-		dbHelper = new PhotosSQLiteHelper(context);
+		dbHelper = new PhotosSQLite(context);
 	}
 
 	public void open() throws SQLException {
@@ -40,16 +40,16 @@ public class PhotosDataSource {
 	@Deprecated
 	public Photo createPhoto(Photo photo) {
 		ContentValues values = new ContentValues();
-		values.put(PhotosSQLiteHelper.COLUMN_ID, photo.getId());
-		values.put(PhotosSQLiteHelper.COLUMN_NAME, photo.getName());
-		values.put(PhotosSQLiteHelper.COLUMN_IMAGE, photo.getImage());
-		values.put(PhotosSQLiteHelper.COLUMN_USERID, photo.getUserId());
-		values.put(PhotosSQLiteHelper.COLUMN_PLACEID, photo.getPlaceID());
+		values.put(PhotosSQLite.COLUMN_ID, photo.getId());
+		values.put(PhotosSQLite.COLUMN_NAME, photo.getName());
+		values.put(PhotosSQLite.COLUMN_IMAGE, photo.getImage());
+		values.put(PhotosSQLite.COLUMN_USERID, photo.getUserId());
+		values.put(PhotosSQLite.COLUMN_PLACEID, photo.getPlaceID());
 
-		long insertId = database.insert(PhotosSQLiteHelper.TABLE_PHOTOS, null,
+		long insertId = database.insert(PhotosSQLite.TABLE_PHOTOS, null,
 				values);
-		Cursor cursor = database.query(PhotosSQLiteHelper.TABLE_PHOTOS,
-				allColumns, PhotosSQLiteHelper.COLUMN_ID + " = " + insertId,
+		Cursor cursor = database.query(PhotosSQLite.TABLE_PHOTOS,
+				allColumns, PhotosSQLite.COLUMN_ID + " = " + insertId,
 				null, null, null, null);
 		cursor.moveToFirst();
 		Photo newPhoto = cursorToPhotos(cursor);
@@ -57,24 +57,31 @@ public class PhotosDataSource {
 		return newPhoto;
 	}
 	
-	public void addOrReplacePhoto(Photo photo ){
+	public Photo addOrReplacePhoto(Photo photo ){
 		ContentValues values = new ContentValues();
-		values.put(PhotosSQLiteHelper.COLUMN_ID, photo.getId());
-		values.put(PhotosSQLiteHelper.COLUMN_NAME, photo.getName());
-		//values.put(PhotosSQLiteHelper.COLUMN_IMAGE, photo.getImage());
-		values.put(PhotosSQLiteHelper.COLUMN_USERID, photo.getUserId());
-		values.put(PhotosSQLiteHelper.COLUMN_PLACEID, photo.getPlaceID());
+		values.put(PhotosSQLite.COLUMN_ID, photo.getId());
+		values.put(PhotosSQLite.COLUMN_NAME, photo.getName());
+		values.put(PhotosSQLite.COLUMN_IMAGE, " ");
+		values.put(PhotosSQLite.COLUMN_USERID, photo.getUserId());
+		values.put(PhotosSQLite.COLUMN_PLACEID, photo.getPlaceID());
 
-		boolean updated = database.update(PhotosSQLiteHelper.TABLE_PHOTOS, values, PhotosSQLiteHelper.COLUMN_NAME + " = " + photo.getName(), null) > 0;
+		boolean updated = database.update(PhotosSQLite.TABLE_PHOTOS, values, PhotosSQLite.COLUMN_ID + " = " + photo.getId(), null) > 0;
 		if (!updated) {
-			database.insert(PhotosSQLiteHelper.TABLE_PHOTOS, null,
+			database.insert(PhotosSQLite.TABLE_PHOTOS, null,
 					values);
 		}
+		Cursor cursor = database.query(PhotosSQLite.TABLE_PHOTOS,
+				allColumns, PhotosSQLite.COLUMN_ID + " = " + photo.getId(),
+				null, null, null, null);
+		cursor.moveToFirst();
+		Photo newPhoto = cursorToPhotos(cursor);
+		cursor.close();
+		return newPhoto;
 	}
 
 	public List<Photo> getAllPhotos() {
 		List<Photo> photos = new ArrayList<Photo>();
-		Cursor cursor = database.query(PhotosSQLiteHelper.TABLE_PHOTOS,
+		Cursor cursor = database.query(PhotosSQLite.TABLE_PHOTOS,
 				allColumns, null, null, null, null, null);
 
 		cursor.moveToFirst();
@@ -90,8 +97,8 @@ public class PhotosDataSource {
 	
 	public List<Photo> getPhotosByPlaceId( int placeId) {
 		List<Photo> photos = new ArrayList<Photo>();
-		Cursor cursor = database.query(PhotosSQLiteHelper.TABLE_PHOTOS,
-				photosIdsOnly, PhotosSQLiteHelper.COLUMN_PLACEID + " = " + placeId, null, null, null, null);
+		Cursor cursor = database.query(PhotosSQLite.TABLE_PHOTOS,
+				allColumns, PhotosSQLite.COLUMN_PLACEID + " = " + placeId, null, null, null, null);
 
 		cursor.moveToFirst();
 		while (!cursor.isAfterLast()) {
@@ -106,8 +113,8 @@ public class PhotosDataSource {
 	
 	public List<Integer> getPhotoIdsByPlaceId( int placeId) {
 		List<Integer> photoIds = new ArrayList<Integer>();
-		Cursor cursor = database.query(PhotosSQLiteHelper.TABLE_PHOTOS,
-				allColumns, PhotosSQLiteHelper.COLUMN_PLACEID + " = " + placeId, null, null, null, null);
+		Cursor cursor = database.query(PhotosSQLite.TABLE_PHOTOS,
+				allColumns, PhotosSQLite.COLUMN_PLACEID + " = " + placeId, null, null, null, null);
 
 		cursor.moveToFirst();
 		while (!cursor.isAfterLast()) {
@@ -121,8 +128,8 @@ public class PhotosDataSource {
 	}
 	
 	public Photo getPhotoById(int id){
-		Cursor cursor = database.query(PhotosSQLiteHelper.TABLE_PHOTOS,
-				allColumns, PhotosSQLiteHelper.COLUMN_ID + " = " + id,
+		Cursor cursor = database.query(PhotosSQLite.TABLE_PHOTOS,
+				allColumns, PhotosSQLite.COLUMN_ID + " = " + id,
 				null, null, null, null);
 		cursor.moveToFirst();
 		Photo foundPhoto = cursorToPhotos(cursor);

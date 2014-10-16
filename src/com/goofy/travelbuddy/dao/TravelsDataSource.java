@@ -1,9 +1,13 @@
 package com.goofy.travelbuddy.dao;
 
 
-import java.sql.Date;
+import java.util.Date;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -20,7 +24,7 @@ public class TravelsDataSource {
 			TravelsSQLiteHelper.COLUMN_ID,
 			TravelsSQLiteHelper.COLUMN_TITLE,
 			TravelsSQLiteHelper.COLUMN_DESCRIPTION,
-			TravelsSQLiteHelper.COLUMN_USRNAME,
+		//	TravelsSQLiteHelper.COLUMN_USRNAME,
 			TravelsSQLiteHelper.COLUMN_START_DATE,
 			TravelsSQLiteHelper.COLUMN_END_DATE,
 			TravelsSQLiteHelper.COLUMN_DISTANCE
@@ -46,7 +50,7 @@ public class TravelsDataSource {
 	 		values.put(TravelsSQLiteHelper.COLUMN_ID, travel.getId());
 	        values.put(TravelsSQLiteHelper.COLUMN_TITLE, travel.getTitle());
 	        values.put(TravelsSQLiteHelper.COLUMN_DESCRIPTION, travel.getDescription());
-	        values.put(TravelsSQLiteHelper.COLUMN_USRNAME, travel.getUserName());
+	      //  values.put(TravelsSQLiteHelper.COLUMN_USRNAME, travel.getUserName());
 	        values.put(TravelsSQLiteHelper.COLUMN_START_DATE, travel.getStartDate().toString());
 	        values.put(TravelsSQLiteHelper.COLUMN_END_DATE, travel.getEndDate().toString());
 	        values.put(TravelsSQLiteHelper.COLUMN_DISTANCE, travel.getDistance());
@@ -67,9 +71,13 @@ public class TravelsDataSource {
    	 		values.put(TravelsSQLiteHelper.COLUMN_ID, travel.getId());
 	        values.put(TravelsSQLiteHelper.COLUMN_TITLE, travel.getTitle());
 	        values.put(TravelsSQLiteHelper.COLUMN_DESCRIPTION, travel.getDescription());
-	        values.put(TravelsSQLiteHelper.COLUMN_USRNAME, travel.getUserName());
+	      //  values.put(TravelsSQLiteHelper.COLUMN_USRNAME, travel.getUserName());
 	        values.put(TravelsSQLiteHelper.COLUMN_START_DATE, travel.getStartDate().toString());
-	        values.put(TravelsSQLiteHelper.COLUMN_END_DATE, travel.getEndDate().toString());
+	        if (travel.getEndDate() != null) {
+	        values.put(TravelsSQLiteHelper.COLUMN_END_DATE, travel.getEndDate().toString());				
+			}else {
+				// TODO else what?
+			}
 	        values.put(TravelsSQLiteHelper.COLUMN_DISTANCE, travel.getDistance());
 	        
 	        boolean updated = database.update(TravelsSQLiteHelper.TABLE_TRAVELS, values, TravelsSQLiteHelper.COLUMN_ID  + " = " + travel.getId(), null) > 0;
@@ -106,15 +114,37 @@ public class TravelsDataSource {
     }
     
 	private Travel cursorToTravel(Cursor cursor) {
+		
+		Date start = null; 
+		Date end = null;
+		try {
+			start = GetDate(cursor.getString(4));
+			end = GetDate(cursor.getString(5));
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 		Travel travel = new Travel(
 				cursor.getInt(0),
 				 cursor.getString(1), 
 				 cursor.getString(2), 
 				 cursor.getString(3), 
-				 Date.valueOf(cursor.getString(4)), 
-				 Date.valueOf(cursor.getString(5)), 
+				 start, 
+				 end, 
 				 cursor.getInt(5)
 				);
 		return travel;
+	}
+	
+	public static DateFormat dateFormat = new SimpleDateFormat("MMMM d, yyyy", Locale.ENGLISH);
+	public static Date GetDate(String dateString) throws ParseException{
+		Date date = new Date();
+		
+		if (dateString != null) {
+			date = dateFormat.parse(dateString);
+		}
+		
+		return date;
 	}
 }

@@ -64,16 +64,33 @@ public class PlacesListViewAdapter extends ArrayAdapter<PlaceDetail> {
 		// Gets the first image of them all
 		
 		// TODO FAKE BITMAP
-		Bitmap bitmap = BitmapFactory.decodeResource(context.getResources(), R.drawable.ic_launcher);
+		//Bitmap bitmap = BitmapFactory.decodeResource(context.getResources(), R.drawable.ic_launcher);
 	 	    
 	    // TODO REAL DATA BELOW - DO NOT REMOVE
-		/*int photoId = this.getItem(position).getPhotos().get(0);
-		PhotosDataSource ds = new PhotosDataSource(context);
-		byte[] byteArray = ds.getPhotoById(photoId).getImage();
-		Bitmap bitmap = BitmapFactory.decodeByteArray(byteArray, 0,
-						byteArray.length);*/
+		//int photoId = this.getItem(position).getPhotos().get(0);
+		//PhotosDataSource ds = new PhotosDataSource(context);
+		//byte[] byteArray = ds.getPhotoById(photoId).getImage();
+		//Bitmap bitmap = BitmapFactory.decodeByteArray(byteArray, 0,
+		//				byteArray.length);
+		//Bitmap bitmap = BitmapFactory.decodeByteArray(byteArray, 0,
+		//		byteArray.length);
 		// TODO REAL DATA ABOVE - DO NOT REMOVE
-	    
+		
+		Bitmap bitmap = null;
+		Log.d("PHOTO_LIST", this.getItem(position).getTitle());
+		if ( !this.getItem(position).photos.isEmpty()) {
+			int photoId = this.getItem(position).photos.get(0);
+			PhotosDataSource ds = new PhotosDataSource(context);
+			ds.open();
+					String photoPath = ds.getPhotoById(photoId).getName();
+					ds.close();
+			bitmap = BitmapFactory.decodeFile(photoPath);
+		}else {
+			bitmap = BitmapFactory.decodeResource(context.getResources(), android.R.drawable.ic_media_play);
+		}
+		
+		
+		
 		holder.placeImage.setImageBitmap(bitmap);
 		//holder.placeTitle.setText(this.places.get(position).getTitle());
 		//holder.placeCountry.setText(this.places.get(position).getCountry());

@@ -23,20 +23,23 @@
         android:layout_below="@+id/placedetailstitle"
         android:layout_centerHorizontal="true" 
         android:background="#e8e8e8"/>
+    <TextView
+        android:id="@+id/imagetitletext"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/placedetailsgallery"
+        android:layout_centerHorizontal="true" 
+        android:text="Image Title Text"
+        />
 
     <ImageView
         android:id="@+id/selectedgalleryphoto"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="100dp"
+        android:layout_below="@+id/imagetitletext"
         android:background="#e8e8e8" />
 
-    <TextView
-        android:id="@+id/imagetitletext"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/selectedgalleryphoto"
-        android:layout_centerHorizontal="true" />
+    
 
 </RelativeLayout>

@@ -12,13 +12,13 @@ import android.content.SharedPreferences.Editor;
 /**
   Gets or Sets Travel Id's for the current Loggen-in User in the Shared Preferences
  */
-public class TraveslSharedPreferencesManager {
-	public final String TRAVELS = "Travels";
-	public final String USER_TRAVELS_FILE = "UserTravelsFile";
-	Set<Integer> userTravels;
+public class TravelsSharedPreferencesManager {
+	public static final String TRAVELS = "Travels";
+	public static final String USER_TRAVELS_FILE = "UserTravelsFile";
+	static Set<Integer> userTravels;
 	
 	@Deprecated
-	public void addTravel(Context context, int travelId) throws Exception {
+	public static void addTravel(Context context, int travelId) throws Exception {
         if (null == userTravels) {
         	userTravels = new HashSet<Integer>();
         }
@@ -34,7 +34,7 @@ public class TraveslSharedPreferencesManager {
         editor.commit();
     }
 	
-	public void setTravels(Context context, Set<Integer> travels) throws Exception {
+	public static void setTravels(Context context, Set<Integer> travels) throws Exception {
         //save the travels to preference
         SharedPreferences prefs = context.getSharedPreferences(USER_TRAVELS_FILE, Context.MODE_PRIVATE);
         Editor editor = prefs.edit();
@@ -46,7 +46,7 @@ public class TraveslSharedPreferencesManager {
         editor.commit();
     }
 	
-	public Set<Integer> getTravels(Context context) throws Exception {
+	public static Set<Integer> getTravels(Context context) throws Exception {
         Set<Integer> userTravels = new HashSet<Integer>();
         
         SharedPreferences prefs = context.getSharedPreferences(USER_TRAVELS_FILE, Context.MODE_PRIVATE);

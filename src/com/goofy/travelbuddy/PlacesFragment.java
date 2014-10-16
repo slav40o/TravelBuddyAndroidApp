@@ -69,15 +69,11 @@ public class PlacesFragment extends Fragment implements OnItemClickListener, OnI
 		this.placeDetails = new ArrayList<PlaceDetail>();
 		this.ctx = view.getContext();
 		
-		// TODO Some fake data - should be replaced with data from the data source
 		if (isTravel) {
 			placesByTravelId(travelId);
 		}else {
 			allPlaces();
-			 //addFakePlaces();
 		}
-		
-		Log.d("FAKE", "Adding fake data" );
 		
 		placesListViews = (ListView) view.findViewById(R.id.placeslistview);
 		placesAdapter = new PlacesListViewAdapter(view.getContext(), R.layout.places_list_item, this.placeDetails);
@@ -132,8 +128,9 @@ public class PlacesFragment extends Fragment implements OnItemClickListener, OnI
 		List<Place> places = placesDatasource.getAllPlaces();
 		placesDatasource.close();
 		
-		/*photosDatasource = new PhotosDataSource(ctx);
+		photosDatasource = new PhotosDataSource(ctx);
 		photosDatasource.open();
+		/*
 		visitorsDataSource = new VisitorsDataSource(ctx);
 		visitorsDataSource.open();*/
 		
@@ -141,20 +138,21 @@ public class PlacesFragment extends Fragment implements OnItemClickListener, OnI
 		int index = 0;
 		for (Place place : places) {
 			ArrayList<Integer> photoIds = new ArrayList<Integer>();
-			photoIds.add(0);
+			//photoIds.add(0);
 			
 			
 			ArrayList<String> visitors = new ArrayList<String>();
 			visitors.add("Pesho");
 			visitors.add("Gosho");
 			visitors.add("Joro");
-			//ArrayList<Integer> photoIds = (ArrayList<Integer>) photosDatasource.getPhotoIdsByPlaceId(place.getId());
+			photoIds = (ArrayList<Integer>) photosDatasource.getPhotoIdsByPlaceId(place.getId());
+			Log.d("PHOTOIDs",photoIds.toString()+" for placeId " + place.getId() );
 			//ArrayList<String> visitors = (ArrayList<String>) visitorsDataSource.getVisitorsByPlaceId(place.getId());
-			placeDetails.add(new PlaceDetail(index, place.getTitle(), place.getDescription(), place.getCountry(), place.getLocation(), place.getLastVisited(), photoIds, visitors));
+			placeDetails.add(new PlaceDetail(place.getId(), place.getTitle(), place.getDescription(), place.getCountry(), place.getLocation(), place.getLastVisited(), photoIds, visitors));
 			index++;
 		}
 		Log.d("PLACES_COUNT", String.valueOf(index));
-		//photosDatasource.close();
+		photosDatasource.close();
 		//visitorsDataSource.close();
 	}
 	
@@ -186,7 +184,7 @@ public class PlacesFragment extends Fragment implements OnItemClickListener, OnI
 	@Override
 	public void onItemClick(AdapterView<?> parent, View view, int position,
 			long id) {
-		Toast.makeText(view.getContext(), "Clicked on " + placeDetails.get(position).getTitle(), Toast.LENGTH_LONG).show();
+		Toast.makeText(view.getContext(), "Clicked on " + placeDetails.get(position).getTitle()+ " id:"+placeDetails.get(position).getId(), Toast.LENGTH_LONG).show();
 		Intent placeDetailsIntent = new Intent(ctx.getApplicationContext(), PlaceDetailActivity.class);
 		placeDetailsIntent.putExtra("PLACEID", placeDetails.get(position).getId());
 		placeDetailsIntent.putExtra("PLACE_TITLE", placeDetails.get(position).getTitle());

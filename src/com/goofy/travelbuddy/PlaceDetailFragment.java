@@ -2,6 +2,7 @@ package com.goofy.travelbuddy;
 
 import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import com.goofy.models.Photo;
@@ -37,6 +38,9 @@ public class PlaceDetailFragment extends Fragment  implements OnTouchListener {
 	Context fragmentContext;
 	View fragmentView;
 	int placeId = 0;
+	int traveId;
+	boolean isTravel;
+	
 	private PhotosDataSource photosDatasource;
 	
 	 private static final String TAG = "Touch";
@@ -58,7 +62,7 @@ public class PlaceDetailFragment extends Fragment  implements OnTouchListener {
 	    PointF mid = new PointF();
 	    float oldDist = 1f;
 	    
-	    public void resetZoomer(){
+	public void resetZoomer(){
 		//matrix = new Matrix();
 		//savedMatrix = new Matrix();
 		// matrix = new Matrix();
@@ -79,8 +83,14 @@ public class PlaceDetailFragment extends Fragment  implements OnTouchListener {
 			Log.d("PLACE_DETAILS_FRAGMENT", " savedInstanceState IS NULL ");
 		}
 		placeId =  getActivity().getIntent().getExtras().getInt("PLACEID", 0);
+		Log.d("PLACE_DETAILS_FRAGMENT", " placeID=" + placeId);
 		placeTitle =  getActivity().getIntent().getExtras().getString("PLACE_TITLE");
 		visitors =  getActivity().getIntent().getExtras().getStringArrayList("VISITORS");
+		if (getActivity().getIntent().getExtras().containsKey("TRAVELID")) {
+			this.traveId = getActivity().getIntent().getExtras().getInt("TRAVELID", 0);
+			Log.d("PLACE_DETAILS_FRAGMENT", " traveId=" + traveId);
+			this.isTravel = true;
+		}
 		
 		View view = inflater.inflate(R.layout.place_details_fragment,
 				container, false);
@@ -89,7 +99,8 @@ public class PlaceDetailFragment extends Fragment  implements OnTouchListener {
 		this.fragmentContext = view.getContext();
 		
 		// TODO Add real photos
-		addFakePhotos();
+		//addFakePhotos();
+		addPhotos();
 		
 		TextView placeDetailsTitle = (TextView) view.findViewById(R.id.placedetailstitle);
 		placeDetailsTitle.setText(placeTitle);
@@ -108,9 +119,14 @@ public class PlaceDetailFragment extends Fragment  implements OnTouchListener {
 						.findViewById(R.id.selectedgalleryphoto);
 				TextView photoText = (TextView) fragmentView.findViewById(R.id.imagetitletext);
 				
+				
+				
 				byte[] image = photos.get(position).getImage();
-				imageView.setImageBitmap(BitmapFactory.decodeByteArray(image,
-						0, image.length));
+				imageView.setImageBitmap(BitmapFactory.decodeByteArray(image, 0, image.length));
+			//	Bitmap bitmap = BitmapFactory.decodeFile(photos.get(position).getName());
+			//	imageView.setImageBitmap(bitmap);
+				
+				
 				imageView.setScaleType(ScaleType.CENTER_INSIDE);
 				/*	
 				 float[] values =  new float[9];
@@ -144,19 +160,34 @@ public class PlaceDetailFragment extends Fragment  implements OnTouchListener {
 		// get photos information from SQLite DB
 		photosDatasource = new PhotosDataSource(fragmentContext);
 		photosDatasource.open();
-		photos = photosDatasource.getPhotosByPlaceId(placeId);
+		List<Photo> datas = new ArrayList<Photo>();
+		datas = photosDatasource.getPhotosByPlaceId(placeId);
 		photosDatasource.close();
 		
-		// TODO get photos data from stored files on sdcard
-		for (Photo photo : photos) {
-			// get photo image data
-			// photo.image = 
+		this.photos = new ArrayList<Photo>();
+		int index = 0;
+		for (Photo photo : datas) {
+			Log.d("PLACE_DETAILS_FRAGMENT", " photoId: "+photo.getId()+" placeId: "+photo.getPlaceID());
+			this.photos.add(new Photo(index, photo.getName() , getStoredBitmap(photo.getName()), photo.getUserId(), photo.getPlaceID()));
+			index++;
 		}
 	}
 
+	
+	
 	private byte[] getResourceBitmap(int drawableId) {
 		Bitmap bitmap = BitmapFactory.decodeResource(getResources(), drawableId);
 		
+	    ByteArrayOutputStream stream = new ByteArrayOutputStream();
+	    bitmap.compress(Bitmap.CompressFormat.JPEG, 100, stream);
+	    
+	    byte[] bitmapdata = stream.toByteArray();
+		return bitmapdata;
+	}
+	
+	private byte[] getStoredBitmap(String path) {
+		//Bitmap bitmap = BitmapFactory.decodeResource(getResources(), drawableId);
+		Bitmap bitmap = BitmapFactory.decodeFile(path);
 	    ByteArrayOutputStream stream = new ByteArrayOutputStream();
 	    bitmap.compress(Bitmap.CompressFormat.JPEG, 100, stream);
 	    

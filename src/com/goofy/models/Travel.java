@@ -8,7 +8,7 @@ public class Travel {
 	@SerializedName("Id")
 	public int id;
 	
-	@SerializedName("Title")
+	@SerializedName("Name")
 	public String title;
 	
 	@SerializedName("Description")

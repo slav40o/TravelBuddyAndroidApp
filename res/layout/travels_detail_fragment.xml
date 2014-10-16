@@ -9,26 +9,28 @@
         android:id="@+id/travel_detail_Title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Travel title here..." />
+        android:text="Clisk on a Ttrip to see details"
+        android:textSize="18sp" 
+         />
     <TextView
         android:id="@+id/travel_detail_Desctiption"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Description here..." />
+        android:text=" " />
     <TextView
         android:id="@+id/travel_detail_Start"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Start date" />
+        android:text=" " />
      <TextView
         android:id="@+id/travel_detail_End"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="End date" />
+        android:text=" " />
      <TextView
         android:id="@+id/travel_detail_Distance"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="100 km" />
+        android:text=" " />
 
 </LinearLayout>

@@ -8,6 +8,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
+import android.util.Log;
 
 import com.goofy.models.Location;
 import com.goofy.models.Place;
@@ -80,8 +81,12 @@ public class PlacesDataSource {
 
 		        boolean updated = database.update(PlacesSQLiteHelper.TABLE_PLACES, values, PlacesSQLiteHelper.COLUMN_ID  + " = " + place.getId(), null) > 0;
 		        if (!updated) {
+		        	Log.d("PLACESSQLITE", "NOT UPDATED");
+		        	
 		        	database.insert(PlacesSQLiteHelper.TABLE_PLACES, null,
 							values);
+				}else{
+					Log.d("PLACESSQLITE", "UPDATED");
 				}
 		        Cursor cursor = database.query(PlacesSQLiteHelper.TABLE_PLACES,
 						allColumns, PlacesSQLiteHelper.COLUMN_ID + " = " + place.getId(),
@@ -110,6 +115,8 @@ public class PlacesDataSource {
 		cursor.moveToFirst();
 		while (!cursor.isAfterLast()) {
 			Place place = cursorToPlace(cursor);
+			Log.d("PLACESSQLITE", "GET_PLACE");
+			
 			places.add(place);
 			cursor.moveToNext();
 		}

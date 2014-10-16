@@ -8,7 +8,9 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
+import com.goofy.models.Travel;
 import com.goofy.models.TravelDetail;
+import com.goofy.travelbuddy.dao.TravelsDataSource;
 
 import android.app.Fragment;
 import android.content.Context;
@@ -41,8 +43,7 @@ public class TravelsListFragment extends Fragment  implements OnItemClickListene
 	
 			this.travelsDetails = new ArrayList<TravelDetail>();
 			
-			this.travelsDetails = new ArrayList<TravelDetail>();
-			addFakeTravels();
+			addTravels();
 			
 			travelsListView = (ListView) rootView.findViewById(R.id.travelslistview);
 			
@@ -67,19 +68,23 @@ public class TravelsListFragment extends Fragment  implements OnItemClickListene
 		TextView travelDistance;
 		
 		travelTitle = (TextView) getActivity().findViewById(R.id.travel_detail_Title);
-		travelTitle.setText(travelsDetails.get(position).getTitle());
+		travelTitle.setText( travelsDetails.get(position).getTitle());
 		
 		travelDescription = (TextView) getActivity().findViewById(R.id.travel_detail_Desctiption);
-		travelDescription.setText(travelsDetails.get(position).getDescription());
+		travelDescription.setText("Description: " + travelsDetails.get(position).getDescription());
 		
 		travelDistance = (TextView) getActivity().findViewById(R.id.travel_detail_Distance);
-		travelDistance.setText(travelsDetails.get(position).getDistance()+" m");
+		travelDistance.setText("Distance: " + travelsDetails.get(position).getDistance()+" m");
 		
 		travelStartDate = (TextView) getActivity().findViewById(R.id.travel_detail_Start);
-		travelStartDate.setText(travelsDetails.get(position).getStartDate().toString());
+		travelStartDate.setText("Started: " + travelsDetails.get(position).getStartDate().toString());
 		
 		travelEndDate = (TextView) getActivity().findViewById(R.id.travel_detail_End);
-		travelEndDate.setText(travelsDetails.get(position).getEndDate().toString());
+		if (travelsDetails.get(position).getEndDate() != null) {
+			travelEndDate.setText("Ended: " + travelsDetails.get(position).getEndDate().toString());
+		}else {
+			travelEndDate.setText("Ended: not yet");
+		}
 	}
 	
 	private void addFakeTravels(){
@@ -95,13 +100,19 @@ public class TravelsListFragment extends Fragment  implements OnItemClickListene
 		}
 	}
 	
-	private void addTravrels(){
+	private void addTravels(){
 		// read from Travels Shared Prefs
 		//  - get TravelIds
 		// read from TravelsDataSource
 		// - for each TravelId get Travel
-		
-		
+		TravelsDataSource travelsDataSource = new TravelsDataSource(context);
+		travelsDataSource.open();
+	    List<Travel> travelsInfo = travelsDataSource.getAllTravels();
+	    
+		for (Travel travel : travelsInfo) {
+			this.travelsDetails.add(new TravelDetail(travel.getId(), travel.getTitle(), travel.getDescription(),  "Pesho", travel.getStartDate(), travel.getEndDate(), travel.getDistance(), null, null));
+		}
+		travelsDataSource.close();
 	}
 	
 	public static DateFormat dateFormat = new SimpleDateFormat("MMMM d, yyyy", Locale.ENGLISH);

@@ -12,7 +12,7 @@ public class TravelsSQLiteHelper extends SQLiteOpenHelper{
 	public static final String COLUMN_ID = "_id";
 	public static final String COLUMN_TITLE = "title";
 	public static final String COLUMN_DESCRIPTION = "decription";
-	public static final String COLUMN_USRNAME = "username";
+	//public static final String COLUMN_USRNAME = "username";
 	public static final String COLUMN_START_DATE= "startdate";  // Text as ISO8601 strings ("YYYY-MM-DD HH:MM:SS.SSS").
 	public static final String COLUMN_END_DATE = "enddate";  // Text as ISO8601 strings ("YYYY-MM-DD HH:MM:SS.SSS").
 	public static final String COLUMN_DISTANCE = "distance";
@@ -20,15 +20,15 @@ public class TravelsSQLiteHelper extends SQLiteOpenHelper{
 	private static final int DATABASE_VERSION = 1;
 	
 	// Database creation SQLite statement
-    private static final String DATABASE_CREATE = "create table "
+    public final String DATABASE_CREATE = "create table "
           //  + TABLE_TRAVELS + "(" + COLUMN_ID + " integer primary key autoincrement, " 
            + TABLE_TRAVELS + "(" + COLUMN_ID + " integer primary key, " 
             + COLUMN_TITLE + " text not null, " 
             + COLUMN_DESCRIPTION + " text not null, " 
-            + COLUMN_USRNAME + " text not null, " 
+         //   + COLUMN_USRNAME + " text not null, " 
             + COLUMN_START_DATE + " text, " 
             + COLUMN_END_DATE + " text, " 
-            + COLUMN_DISTANCE + " integer" 
+            + COLUMN_DISTANCE + " integer " 
             		+ ");";
 	
 	

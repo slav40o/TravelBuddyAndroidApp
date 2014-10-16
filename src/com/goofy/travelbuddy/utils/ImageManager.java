@@ -3,21 +3,25 @@ package com.goofy.travelbuddy.utils;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import android.content.Context;
 import android.os.Environment;
+import android.util.Log;
 
 import com.goofy.models.Photo;
 import com.goofy.travelbuddy.dao.PhotosDataSource;
 public class ImageManager {
 	private File appFolder;
-	private PhotosDataSource data;
+	//private PhotosDataSource data;
+	Context ctx;
 	
 	public ImageManager(String user, Context context) throws IOException{
 		this.appFolder =  
 				new File(Environment.getExternalStorageDirectory() + "/TravelBuddy/" + user);
-		data = new PhotosDataSource(context);
+		ctx = context;
+		//data = new PhotosDataSource(context);
 		if (!this.appFolder.exists()) {
 			appFolder.mkdirs();
 		}
@@ -29,16 +33,18 @@ public class ImageManager {
 		return this.writeFile(dir.getCanonicalPath() + "/" + photo.name, photo.getImage());
 	}
 	
-	public void savePhotos(List<Photo> photos, String travelName, String placeName)
+	public List<Photo> savePhotos(List<Photo> photos, String travelName, String placeName)
 			throws IOException{
-		this.data.open();
+
+		List<Photo> saved = new ArrayList<Photo>();
 		for (Photo photo : photos) {
 			String path = this.savePhoto(photo, travelName, placeName);
-			Photo photoInfo = new Photo(photo.getId(), path, null, photo.getUserId(), photo.getPlaceID());
-			data.addOrReplacePhoto(photoInfo);
+			Photo photoInfo = new Photo(photo.getId(), path.toString(), null, photo.getUserId(), photo.getPlaceID());
+			saved.add(photoInfo);
+			Log.d("PHOTO_SAVED", photoInfo.name);
 		}
+		return saved;
 		
-		data.close();
 	}
 	
 	public void deletePhoto(String photoPath){
@@ -63,7 +69,9 @@ public class ImageManager {
 		    return file;
 		}
 		else{
-		   throw new IOException();
+			Log.d("PHOTO_SAVE", "getAlbumStorageDir IOEXCEPTION");
+		   //throw new IOException();
+			return file;
 		}
 	}
 }

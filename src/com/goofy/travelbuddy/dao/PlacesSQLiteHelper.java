@@ -32,6 +32,7 @@ public class PlacesSQLiteHelper extends SQLiteOpenHelper {
 		super(context, DATABASE_NAME, null, DATABASE_VERSION);
 	}
 
+	
 	@Override
     public void onCreate(SQLiteDatabase database) {
         database.execSQL(DATABASE_CREATE);
