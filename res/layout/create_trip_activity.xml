@@ -57,20 +57,24 @@
 
     <Button
         android:id="@+id/btn_cancel_create_trip"
-        style="?android:attr/buttonStyleSmall"
+        style="@style/button_style"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignRight="@+id/et_trip_description"
-        android:layout_below="@+id/et_trip_description"
+        android:layout_alignBaseline="@+id/btn_create_trip"
+        android:layout_alignBottom="@+id/btn_create_trip"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="36dp"
         android:text="@string/cancel" />
 
     <Button
         android:id="@+id/btn_create_trip"
+        style="@style/button_style"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/et_trip_description"
         android:layout_alignParentBottom="true"
-        android:layout_marginBottom="21dp"
+        android:layout_marginBottom="15dp"
+        android:layout_marginRight="25dp"
+        android:layout_toLeftOf="@+id/btn_cancel_create_trip"
         android:text="@string/create" />
 
 </RelativeLayout>

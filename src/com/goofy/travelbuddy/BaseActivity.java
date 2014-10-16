@@ -18,6 +18,7 @@ public class BaseActivity extends Activity{
 	private DialogFragment mDialog;
 	private final double Pernik_Lat = 23.031479;
 	private final double Pernik_Lon = 42.606557;
+	
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		getMenuInflater().inflate(R.menu.main_menu, menu);

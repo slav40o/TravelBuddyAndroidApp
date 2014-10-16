@@ -4,6 +4,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import org.apache.http.HttpStatus;
 import org.apache.http.NameValuePair;
@@ -27,6 +28,7 @@ import com.goofy.models.PlaceDetail;
 import com.goofy.models.TravelDetail;
 import com.goofy.travelbuddy.connection.ClientManager;
 import com.goofy.travelbuddy.connection.UserPreferenceManager;
+import com.goofy.travelbuddy.dao.PhotosDataSource;
 import com.goofy.travelbuddy.utils.ImageManager;
 
 public class CameraActivity extends BaseActivity {
@@ -36,7 +38,7 @@ public class CameraActivity extends BaseActivity {
 	public ImageView showImg = null;
 	public Bitmap imageBit = null;
 	Context context;
-	Button  photo, savePhoto;
+	Button  photoBtn, savePhotoBtn;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -46,17 +48,17 @@ public class CameraActivity extends BaseActivity {
 		placeId = getIntent().getIntExtra("PLACEID", -1);
 		travelId = getIntent().getIntExtra("TRAVELID", -1);
 		showImg = (ImageView) findViewById(R.id.showImg);
-		photo = (Button) findViewById(R.id.btn_take_photo);
-		savePhoto = (Button) findViewById(R.id.btn_save_photo);
+		photoBtn = (Button) findViewById(R.id.btn_take_photo);
+		savePhotoBtn = (Button) findViewById(R.id.btn_save_photo);
 		
-		photo.setOnClickListener(new OnClickListener() {
+		photoBtn.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
 				Intent intent = new Intent("android.media.action.IMAGE_CAPTURE");
 				startActivityForResult(intent, 0);
 			}
 		});
 		
-		savePhoto.setOnClickListener(new OnClickListener(){
+		savePhotoBtn.setOnClickListener(new OnClickListener(){
 			@Override
 			public void onClick(View v) {
 				if (isPhotoTaken) {
@@ -105,13 +107,21 @@ public class CameraActivity extends BaseActivity {
 			byte[] byteArray = stream.toByteArray();
 			NameValuePair responce = null;
 			
+			// TO DO: Save to Database
 			try {
+				Photo photo = new Photo(0, details.name, byteArray, "", details.placeId);
 				String user = UserPreferenceManager.getUsername(context);
 				ImageManager localManager = new ImageManager(user, context);
-				Photo photo = new Photo(0, details.name, byteArray, "", details.placeId);
 				ArrayList<Photo> photos = new ArrayList<Photo>();
 				photos.add(photo);
-				localManager.savePhotos(photos, travel.title, place.title);
+				List<Photo> dbPhotos = localManager.savePhotos(photos, travel.title, place.title);
+				PhotosDataSource photoSource = new PhotosDataSource(context);
+				photoSource.open();
+				for (Photo dbPhoto : dbPhotos) {
+					photoSource.addOrReplacePhoto(dbPhoto);
+				}
+				
+				photoSource.close();
 				responce = manager.addPhoto(photo);
 			} catch (ClientProtocolException e) {
 				e.printStackTrace();

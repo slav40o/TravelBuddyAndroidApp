@@ -3,22 +3,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent" >
 
-             <Button
-                 android:id="@+id/btn_take_photo"
-                 android:layout_width="wrap_content"
-                 android:layout_height="wrap_content"
-                 android:layout_alignParentBottom="true"
-                 android:layout_alignParentRight="true"
-                 android:text="@string/take_photo" />
-
-             <Button
-                 android:id="@+id/btn_save_photo"
-                 android:layout_width="wrap_content"
-                 android:layout_height="wrap_content"
-                 android:layout_alignParentBottom="true"
-                 android:layout_alignParentLeft="true"
-                 android:text="@string/save_photo" />
-
              <ImageView
                  android:id="@+id/showImg"
                  android:layout_width="fill_parent"
@@ -37,5 +21,27 @@
                  android:layout_marginTop="35dp"
                  android:text="@string/take_photo_title"
                  android:textAppearance="?android:attr/textAppearanceLarge" />
+
+             <Button
+                 android:id="@+id/btn_take_photo"
+                 style="@style/button_style"
+                 android:layout_width="wrap_content"
+                 android:layout_height="wrap_content"
+                 android:layout_alignParentBottom="true"
+                 android:layout_alignParentRight="true"
+                 android:layout_marginBottom="10dp"
+                 android:layout_marginRight="15dp"
+                 android:text="@string/take_photo" />
+
+             <Button
+                 android:id="@+id/btn_save_photo"
+                 style="@style/button_style"
+                 android:layout_width="wrap_content"
+                 android:layout_height="wrap_content"
+                 android:layout_alignBaseline="@+id/btn_take_photo"
+                 android:layout_alignBottom="@+id/btn_take_photo"
+                 android:layout_alignParentLeft="true"
+                 android:layout_marginLeft="15dp"
+                 android:text="@string/save_photo" />
 
 </RelativeLayout>

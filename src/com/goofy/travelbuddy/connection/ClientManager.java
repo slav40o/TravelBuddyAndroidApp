@@ -141,6 +141,16 @@ public class ClientManager {
 		return places;
 	}
 	
+	public ArrayList<Place> getPlacesByTrip(int travelId){
+		List<NameValuePair> headers = this.getAuthorisationHeaders();
+		HttpResponse responce = client.Get("api/travels/" + String.valueOf(travelId) +"/places", headers, null);
+		String responceBody = getResponceMessage(responce.getEntity(), "TOP_PLACES");
+		Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd'T'HH:mm:ss").create();
+		Type listType = new TypeToken<ArrayList<Place>>() {}.getType();
+		ArrayList<Place> places = gson.fromJson(responceBody, listType);
+		return places;
+	}
+	
 	// FOR TEST
 	public ArrayList<Travel> getPersonalTrips(){
 		List<NameValuePair> headers = this.getAuthorisationHeaders();
