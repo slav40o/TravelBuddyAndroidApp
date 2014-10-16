@@ -61,7 +61,7 @@ public class PhotosDataSource {
 		ContentValues values = new ContentValues();
 		values.put(PhotosSQLiteHelper.COLUMN_ID, photo.getId());
 		values.put(PhotosSQLiteHelper.COLUMN_NAME, photo.getName());
-		values.put(PhotosSQLiteHelper.COLUMN_IMAGE, photo.getImage());
+		//values.put(PhotosSQLiteHelper.COLUMN_IMAGE, photo.getImage());
 		values.put(PhotosSQLiteHelper.COLUMN_USERID, photo.getUserId());
 		values.put(PhotosSQLiteHelper.COLUMN_PLACEID, photo.getPlaceID());
 

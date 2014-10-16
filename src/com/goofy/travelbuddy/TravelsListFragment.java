@@ -94,6 +94,16 @@ public class TravelsListFragment extends Fragment  implements OnItemClickListene
 			e.printStackTrace();
 		}
 	}
+	
+	private void addTravrels(){
+		// read from Travels Shared Prefs
+		//  - get TravelIds
+		// read from TravelsDataSource
+		// - for each TravelId get Travel
+		
+		
+	}
+	
 	public static DateFormat dateFormat = new SimpleDateFormat("MMMM d, yyyy", Locale.ENGLISH);
 	public static Date GetDate(String dateString) throws ParseException{
 		Date date = new Date();

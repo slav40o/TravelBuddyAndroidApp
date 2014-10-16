@@ -73,8 +73,8 @@ public class PlacesFragment extends Fragment implements OnItemClickListener, OnI
 		if (isTravel) {
 			placesByTravelId(travelId);
 		}else {
-			//allPlaces();
-			 addFakePlaces();
+			allPlaces();
+			 //addFakePlaces();
 		}
 		
 		Log.d("FAKE", "Adding fake data" );
@@ -132,20 +132,30 @@ public class PlacesFragment extends Fragment implements OnItemClickListener, OnI
 		List<Place> places = placesDatasource.getAllPlaces();
 		placesDatasource.close();
 		
-		photosDatasource = new PhotosDataSource(ctx);
+		/*photosDatasource = new PhotosDataSource(ctx);
 		photosDatasource.open();
 		visitorsDataSource = new VisitorsDataSource(ctx);
-		visitorsDataSource.open();
+		visitorsDataSource.open();*/
+		
 		
 		int index = 0;
 		for (Place place : places) {
-			ArrayList<Integer> photoIds = (ArrayList<Integer>) photosDatasource.getPhotoIdsByPlaceId(place.getId());
-			ArrayList<String> visitors = (ArrayList<String>) visitorsDataSource.getVisitorsByPlaceId(place.getId());
+			ArrayList<Integer> photoIds = new ArrayList<Integer>();
+			photoIds.add(0);
+			
+			
+			ArrayList<String> visitors = new ArrayList<String>();
+			visitors.add("Pesho");
+			visitors.add("Gosho");
+			visitors.add("Joro");
+			//ArrayList<Integer> photoIds = (ArrayList<Integer>) photosDatasource.getPhotoIdsByPlaceId(place.getId());
+			//ArrayList<String> visitors = (ArrayList<String>) visitorsDataSource.getVisitorsByPlaceId(place.getId());
 			placeDetails.add(new PlaceDetail(index, place.getTitle(), place.getDescription(), place.getCountry(), place.getLocation(), place.getLastVisited(), photoIds, visitors));
 			index++;
 		}
-		photosDatasource.close();
-		visitorsDataSource.close();
+		Log.d("PLACES_COUNT", String.valueOf(index));
+		//photosDatasource.close();
+		//visitorsDataSource.close();
 	}
 	
 	private void placesByTravelId(int travelId){

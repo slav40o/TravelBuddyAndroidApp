@@ -90,10 +90,7 @@ public class PlaceDetailFragment extends Fragment  implements OnTouchListener {
 		
 		// TODO Add real photos
 		addFakePhotos();
-		//photosDatasource = new PhotosDataSource(fragmentContext);
-		// photosDatasource.open();
-		//photos = photosDatasource.getPhotosByPlaceId(placeId);
-		// photosDatasource.close();
+		
 		TextView placeDetailsTitle = (TextView) view.findViewById(R.id.placedetailstitle);
 		placeDetailsTitle.setText(placeTitle);
 		
@@ -142,14 +139,26 @@ public class PlaceDetailFragment extends Fragment  implements OnTouchListener {
 	    this.photos.add( new Photo(3, "Faky call", getResourceBitmap(android.R.drawable.sym_call_missed), "0", 0));
 	    this.photos.add( new Photo(4, "Faky star", getResourceBitmap(android.R.drawable.btn_star_big_on), "0", 0));
 	}
+	
+	private void addPhotos(){
+		// get photos information from SQLite DB
+		photosDatasource = new PhotosDataSource(fragmentContext);
+		photosDatasource.open();
+		photos = photosDatasource.getPhotosByPlaceId(placeId);
+		photosDatasource.close();
+		
+		// TODO get photos data from stored files on sdcard
+		for (Photo photo : photos) {
+			// get photo image data
+			// photo.image = 
+		}
+	}
 
 	private byte[] getResourceBitmap(int drawableId) {
 		Bitmap bitmap = BitmapFactory.decodeResource(getResources(), drawableId);
 		
-		
 	    ByteArrayOutputStream stream = new ByteArrayOutputStream();
 	    bitmap.compress(Bitmap.CompressFormat.JPEG, 100, stream);
-	    
 	    
 	    byte[] bitmapdata = stream.toByteArray();
 		return bitmapdata;
