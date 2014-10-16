@@ -22,7 +22,9 @@
         android:layout_alignParentBottom="true"
         android:layout_alignRight="@+id/ed_password_input"
         android:layout_marginBottom="35dp"
-        android:text="@string/login" />
+        android:text="@string/login" 
+        style="@style/button_style"
+        />
 
     <TextView
         android:id="@+id/tv_login_ask"
