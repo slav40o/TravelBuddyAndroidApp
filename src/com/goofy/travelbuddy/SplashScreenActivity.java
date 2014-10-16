@@ -1,7 +1,10 @@
 package com.goofy.travelbuddy;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.apache.http.HttpStatus;
 import org.apache.http.NameValuePair;
@@ -19,6 +22,7 @@ import android.widget.Toast;
 import com.goofy.models.Photo;
 import com.goofy.models.Place;
 import com.goofy.travelbuddy.connection.ClientManager;
+import com.goofy.travelbuddy.connection.PlacesSharedPreferencesManager;
 import com.goofy.travelbuddy.connection.UserPreferenceManager;
 import com.goofy.travelbuddy.dao.PlacesDataSource;
 import com.goofy.travelbuddy.utils.PhoneState;
@@ -63,9 +67,18 @@ public class SplashScreenActivity extends Activity {
     		dataScource.open();
 
     		List<Place> top = manager.getTopPlaces();
+    		Set<Integer> topPlacesIds = new HashSet<Integer>();
     		for (Place place : top) {
-				//Place imported = dataScource.createPlace(place);
-				//Log.d("PLACE_IMPORT", imported.title + " imported!");
+    			Place newPlace = dataScource.addOrReplacePlace(place);
+    			Log.d("PLACE_IMPORT", newPlace.title + " imported!");
+    			topPlacesIds.add(place.getId());
+			}
+    		dataScource.close();
+    		try {
+				PlacesSharedPreferencesManager.setTopPlaces(context, topPlacesIds);
+			} catch (Exception e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
 			}
     		
     		NameValuePair responce = null;
