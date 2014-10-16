@@ -74,10 +74,13 @@ public class PlaceDetailFragment extends Fragment  implements OnTouchListener {
 			Bundle savedInstanceState) {
 		
 		if(savedInstanceState != null){
-		    placeId = savedInstanceState.getInt("PLACEID", 0);
-		    placeTitle = savedInstanceState.getString("PLACE_TITLE");
-		    visitors = savedInstanceState.getStringArrayList("VISITORS");
+			Log.d("PLACE_DETAILS_FRAGMENT", " savedInstanceState not null ");
+		} else {
+			Log.d("PLACE_DETAILS_FRAGMENT", " savedInstanceState IS NULL ");
 		}
+		placeId =  getActivity().getIntent().getExtras().getInt("PLACEID", 0);
+		placeTitle =  getActivity().getIntent().getExtras().getString("PLACE_TITLE");
+		visitors =  getActivity().getIntent().getExtras().getStringArrayList("VISITORS");
 		
 		View view = inflater.inflate(R.layout.place_details_fragment,
 				container, false);
@@ -132,7 +135,7 @@ public class PlaceDetailFragment extends Fragment  implements OnTouchListener {
 	}
 
 	private void addFakePhotos() {
-		this.placeTitle = "Some place";
+		//this.placeTitle = "Some place";
 	    this.photos.add( new Photo(0, "Faky", getResourceBitmap(R.drawable.ic_launcher), "0", 0));
 	    this.photos.add( new Photo(1, "Faky delete", getResourceBitmap(R.drawable.im1), "0", 0));
 	    this.photos.add( new Photo(2, "Faky camea", getResourceBitmap(R.drawable.splash1), "0", 0));

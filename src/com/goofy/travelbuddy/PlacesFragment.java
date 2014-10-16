@@ -53,14 +53,18 @@ public class PlacesFragment extends Fragment implements OnItemClickListener, OnI
 		String travelTitle;
 		
 		if(savedInstanceState != null){
-			isTravel = savedInstanceState.getBoolean("ISTRAVEL");
-		    travelId = savedInstanceState.getInt("TRAVELID", 0);
-		    travelTitle = savedInstanceState.getString("TRAVEL_TITLE");
-		    
+			Log.d("PLACES_FRGAMENT", " savedInstanceState not null ");
+		} else {
+			Log.d("PLACES_FRGAMENT", " savedInstanceState IS NULL ");
 		}
-		
-		
-		View view = inflater.inflate(R.layout.places_list, container, false);
+			if (getActivity().getIntent().getExtras() != null) {
+				isTravel = getActivity().getIntent().getExtras().getBoolean("ISTRAVEL");
+			    travelId = getActivity().getIntent().getExtras().getInt("TRAVELID", 0);
+			    travelTitle = getActivity().getIntent().getExtras().getString("TRAVEL_TITLE");
+			}
+			
+		    
+		View view = inflater.inflate(R.layout.places_fragment, container, false);
 
 		this.placeDetails = new ArrayList<PlaceDetail>();
 		this.ctx = view.getContext();
@@ -76,7 +80,7 @@ public class PlacesFragment extends Fragment implements OnItemClickListener, OnI
 		Log.d("FAKE", "Adding fake data" );
 		
 		placesListViews = (ListView) view.findViewById(R.id.placeslistview);
-		placesAdapter = new PlacesListViewAdapter(view.getContext(), R.layout.place_list_item, this.placeDetails);
+		placesAdapter = new PlacesListViewAdapter(view.getContext(), R.layout.places_list_item, this.placeDetails);
 		//placesAdapter = new PlacesListViewAdapter(view.getContext(), R.layout.place_list_item);
 		
 		placesListViews.setAdapter(placesAdapter);

@@ -41,7 +41,7 @@ public class PlacesListViewAdapter extends ArrayAdapter<PlaceDetail> {
 			LayoutInflater inflater = (LayoutInflater) context
 					.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
-			convertView = inflater.inflate(R.layout.place_list_item, parent,
+			convertView = inflater.inflate(R.layout.places_list_item, parent,
 					false);
 
 			holder.placeImage = (ImageView) convertView

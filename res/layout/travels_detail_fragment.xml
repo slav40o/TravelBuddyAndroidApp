@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+     >
+
+    <TextView
+        android:id="@+id/travel_detail_Title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Travel title here..." />
+    <TextView
+        android:id="@+id/travel_detail_Desctiption"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Description here..." />
+    <TextView
+        android:id="@+id/travel_detail_Start"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Start date" />
+     <TextView
+        android:id="@+id/travel_detail_End"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="End date" />
+     <TextView
+        android:id="@+id/travel_detail_Distance"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="100 km" />
+
+</LinearLayout>

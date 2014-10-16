@@ -5,7 +5,7 @@
     android:orientation="vertical" >
     
   <fragment
-        android:id="@+id/fragment1"
+        android:id="@+id/places_lv_frgment"
         android:name="com.goofy.travelbuddy.PlacesFragment"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />  
