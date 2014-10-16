@@ -24,7 +24,7 @@ public class LocationGetter {
 	    // a locationupdate is considered 'old' if its older than the configured
 	    // update interval. this means, we didn't get a
 	    // update from this provider since the last check
-	    long old = System.currentTimeMillis() - 10000;
+	    long old = System.currentTimeMillis() - 100000;
 	    boolean gpsIsOld = (gpslocation.getTime() < old);
 	    boolean networkIsOld = (networkLocation.getTime() < old);
 	    // gps is current and available, gps is better than network

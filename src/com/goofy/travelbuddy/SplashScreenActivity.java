@@ -25,6 +25,7 @@ import com.goofy.travelbuddy.connection.ClientManager;
 import com.goofy.travelbuddy.connection.PlacesSharedPreferencesManager;
 import com.goofy.travelbuddy.connection.UserPreferenceManager;
 import com.goofy.travelbuddy.dao.PlacesDataSource;
+import com.goofy.travelbuddy.utils.LocationService;
 import com.goofy.travelbuddy.utils.PhoneState;
 
 public class SplashScreenActivity extends Activity {
@@ -36,6 +37,9 @@ public class SplashScreenActivity extends Activity {
         setContentView(R.layout.activity_splash_screen);
         context = this;
         
+        Intent intent = new Intent(SplashScreenActivity.this, LocationService.class);
+        Log.d("SERVICE", "called");
+        startService(intent);
 //        if (PhoneState.isNetworkAvailable(this)) {
 //        	Toast.makeText(context, "No internet connection.", Toast.LENGTH_LONG).show();
 //        	Intent loginIntent = new Intent(context, LoginActivity.class);
@@ -74,6 +78,7 @@ public class SplashScreenActivity extends Activity {
     			topPlacesIds.add(place.getId());
 			}
     		dataScource.close();
+    		
     		try {
 				PlacesSharedPreferencesManager.setTopPlaces(context, topPlacesIds);
 			} catch (Exception e1) {

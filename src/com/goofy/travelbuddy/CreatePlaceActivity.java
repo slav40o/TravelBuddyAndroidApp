@@ -11,8 +11,10 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.location.Location;
+import android.location.LocationManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -23,25 +25,24 @@ import com.goofy.travelbuddy.connection.ClientManager;
 import com.goofy.travelbuddy.utils.LocationGetter;
 
 public class CreatePlaceActivity extends BaseActivity implements View.OnClickListener{
-	private Button createBtn;
-	private Button cancelBtn;
-	private EditText nameInput;
-	private EditText descriptionInput;
-	private EditText countryInput;
+	private Button createBtn, cancelBtn;
+	private EditText nameInput, descriptionInput, countryInput;
 	private Context context;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.create_trip_activity);
+		setContentView(R.layout.create_place_activity);
+		context = this;
 		this.createBtn = (Button)findViewById(R.id.btn_create_place);
-		createBtn.setOnClickListener(this);
+		
 		this.cancelBtn = (Button)findViewById(R.id.btn_cancel_create_place);
-		cancelBtn.setOnClickListener(this);
+		
 		this.descriptionInput = (EditText)findViewById(R.id.et_place_description);
 		this.nameInput = (EditText)findViewById(R.id.et_place_title_input);
 		this.countryInput = (EditText)findViewById(R.id.et_country_input);
-		this.context = this;
+		createBtn.setOnClickListener(this);
+		cancelBtn.setOnClickListener(this);
 	}
 
 	@Override
@@ -67,7 +68,7 @@ public class CreatePlaceActivity extends BaseActivity implements View.OnClickLis
 			}
 			
 			if (validState) {
-				new CreatePlaceTask().execute(description, name);
+				new CreatePlaceTask().execute(description, name, country);
 			}
 		}
 		else if(v.getId() == this.cancelBtn.getId()){
@@ -84,9 +85,21 @@ public class CreatePlaceActivity extends BaseActivity implements View.OnClickLis
 			String name = data[1];
 			String country = data[2];
 			String description = data[0];
-			Location loc = LocationGetter.getBestLocation(context);
-			com.goofy.models.Location modelLoc =
-					new com.goofy.models.Location(loc.getLatitude(), loc.getLongitude());
+			Location loc = null;
+			int count = 100;
+			while (count > 0) {
+				loc = LocationGetter.getBestLocation(context);
+				count--;
+			}
+			
+			com.goofy.models.Location modelLoc = null;
+			if (loc != null) {
+				modelLoc = new com.goofy.models.Location(loc.getLatitude(), loc.getLongitude());
+			}
+			else{
+				modelLoc = new com.goofy.models.Location(0, 0);
+			}
+			
 			Place place = new Place(0, name, description, country, modelLoc);
 			ClientManager manager = new ClientManager(context);
     		NameValuePair responce = null;

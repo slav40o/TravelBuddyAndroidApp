@@ -1,7 +1,5 @@
 package com.goofy.travelbuddy;
 
-import com.goofy.travelbuddy.connection.UserPreferenceManager;
-
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -13,9 +11,13 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
+import com.goofy.travelbuddy.connection.UserPreferenceManager;
+import com.goofy.travelbuddy.utils.LocationService;
+
 public class BaseActivity extends Activity{
 	private DialogFragment mDialog;
-
+	private final double Pernik_Lat = 23.031479;
+	private final double Pernik_Lon = 42.606557;
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		getMenuInflater().inflate(R.menu.main_menu, menu);
@@ -32,6 +34,26 @@ public class BaseActivity extends Activity{
 			Intent mainIntent = new Intent(this, MainActivity.class);
 			startActivity(mainIntent);
 		}
+		else if (item.getItemId() == R.id.action_MAP){
+			Intent mapIntent = new Intent(this, MapActivity.class);
+			mapIntent.putExtra("TITLE", "Pernik");
+			mapIntent.putExtra("LONGTITUDE", Pernik_Lon);
+			mapIntent.putExtra("LATITUDE", Pernik_Lat);
+			startActivity(mapIntent);
+		}
+		else if(item.getItemId() == R.id.action_stop_auto_update){
+			String title = item.getTitle().toString();
+			if (title == "Stop location updates") {
+				stopService(new Intent(this, LocationService.class));
+				item.setTitle("Start location updates");
+			}
+			else{
+				Intent intent = new Intent(this, LocationService.class);
+		        startService(intent);
+		        item.setTitle("Stop location updates");
+			}
+		}
+		
 		return true;
 	}
 	

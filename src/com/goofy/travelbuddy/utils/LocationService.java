@@ -11,34 +11,46 @@ import android.os.IBinder;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.goofy.travelbuddy.connection.ClientManager;
+
 public class LocationService extends Service 
 {
-       public static final String BROADCAST_ACTION = "Hello World";
-       private static final int TWO_MINUTES = 1000 * 60 * 2;
-       public LocationManager locationManager;
-       public MyLocationListener listener;
-       public Location previousBestLocation = null;
-
-       Intent intent;
-       int counter = 0;
+   public static final String BROADCAST_ACTION = "LocationService";
+   private static final int FIVE_MINUTES = 1000 * 60 * 5;
+   public LocationManager locationManager;
+   public MyLocationListener listener;
+   public Location previousBestLocation = null;
+   
+   Intent intent;
+   int counter = 0;
 
     @Override
     public void onCreate() 
     {
+    	Log.d("SERVICE", "1");
         super.onCreate();
         intent = new Intent(BROADCAST_ACTION);      
+        Log.d("SERVICE", "2");
     }
 
     @Override
     public void onStart(Intent intent, int startId) 
     {      
-        locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-        listener = new MyLocationListener();        
-        locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 4000, 0, listener);
-        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 4000, 0, listener);
+        
     }
 
     @Override
+	public int onStartCommand(Intent intent, int flags, int startId) {
+    	super.onStartCommand(intent, flags, startId);
+		locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+        listener = new MyLocationListener();        
+        Log.d("SERVICE", "3");
+        locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 4000, 0, listener);
+        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 4000, 0, listener);
+        return Service.START_NOT_STICKY;
+	}
+
+	@Override
     public IBinder onBind(Intent intent) 
     {
         return null;
@@ -52,8 +64,8 @@ public class LocationService extends Service
 
         // Check whether the new location fix is newer or older
         long timeDelta = location.getTime() - currentBestLocation.getTime();
-        boolean isSignificantlyNewer = timeDelta > TWO_MINUTES;
-        boolean isSignificantlyOlder = timeDelta < -TWO_MINUTES;
+        boolean isSignificantlyNewer = timeDelta > FIVE_MINUTES;
+        boolean isSignificantlyOlder = timeDelta < -FIVE_MINUTES;
         boolean isNewer = timeDelta > 0;
 
         // If it's been more than two minutes since the current location, use the new location
@@ -126,12 +138,15 @@ public class LocationService extends Service
         {
             Log.i("**************************************", "Location changed");
             if(isBetterLocation(loc, previousBestLocation)) {
-                loc.getLatitude();
-                loc.getLongitude();             
-                intent.putExtra("Latitude", loc.getLatitude());
-                intent.putExtra("Longitude", loc.getLongitude());     
-                intent.putExtra("Provider", loc.getProvider());                 
-                sendBroadcast(intent);   
+//                loc.getLatitude();
+//                loc.getLongitude();             
+//                intent.putExtra("Latitude", loc.getLatitude());
+//                intent.putExtra("Longitude", loc.getLongitude());     
+//                intent.putExtra("Provider", loc.getProvider());                 
+//                sendBroadcast(intent);   
+            	
+            	ClientManager manager = new ClientManager(getApplicationContext());
+            	manager.updateLocation(loc.getLatitude(), loc.getLongitude());
             }                               
         }
 

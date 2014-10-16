@@ -230,4 +230,22 @@ public class ClientManager {
 		
 		return message;
 	}
+
+	public void updateLocation(double latitude, double longitude) {
+		List<NameValuePair> bodyParams = new ArrayList<NameValuePair>();
+		bodyParams.add(new BasicNameValuePair("longtitude", String.valueOf(longitude)));
+		bodyParams.add(new BasicNameValuePair("latitude", String.valueOf(latitude)));
+		
+		List<NameValuePair> headers = this.getAuthorisationHeaders();
+		try {
+			this.client.Post("api/user/location", bodyParams, null, headers);
+		} catch (ClientProtocolException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+	}
 }

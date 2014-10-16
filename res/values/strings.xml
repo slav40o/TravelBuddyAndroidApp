@@ -45,5 +45,5 @@
     <string name="country">Country</string>
     <string name="title_activity_travels">My travels</string>
     <string name="title_activity_ddddddd">DDDDDDD</string>
-
+	<string name="map">Map</string>
 </resources>

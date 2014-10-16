@@ -1,5 +1,6 @@
 package com.goofy.travelbuddy;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -16,7 +17,11 @@ public class MapActivity extends BaseActivity{
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.map_fragment);
-
+		Intent intent = getIntent();
+		String title = intent.getStringExtra("TITLE");
+		double longtitude = intent.getDoubleExtra("LONGTITUDE", 0);
+		double latitude = intent.getDoubleExtra("LATITUDE", 0);
+		
 		// The GoogleMap instance underlying the GoogleMapFragment defined in main.xml 
 		mMap = ((MapFragment) getFragmentManager().findFragmentById(R.id.map))
 				.getMap();
@@ -24,18 +29,13 @@ public class MapActivity extends BaseActivity{
 		if (mMap != null) {
 
 			// Set the map position
-			mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(29,
-					-88), 0));
+			mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(latitude,
+					longtitude), 0));
 
-			// Add a marker on Washington, DC, USA
+			// Add a marker on the Place,
 			mMap.addMarker(new MarkerOptions().position(
-					new LatLng(38.8895, -77.0352)).title(
-					getString(R.string.pernik)));
+					new LatLng(latitude, longtitude)).title(title));
 			
-			// Add a marker on Mexico City, Mexico
-			mMap.addMarker(new MarkerOptions().position(
-					new LatLng(19.13, -99.4)).title(
-					getString(R.string.telerik)));
 		}
 	}
 }
