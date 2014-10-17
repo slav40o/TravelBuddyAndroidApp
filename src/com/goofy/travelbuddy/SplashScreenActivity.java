@@ -170,13 +170,14 @@ public class SplashScreenActivity extends Activity {
 				e1.printStackTrace();
 			}
     		// FETCHING TOP PLACES ------ END ------------------
-    		
+    		 
     		try {
     			Set<Integer> favouritePlacesIds = new HashSet<Integer>();
     			List<Place> favorites = manager.getFavouritePlaces();
     			for (Place place : favorites) {
     				favouritePlacesIds.add(place.getId());
     				PlacesSharedPreferencesManager.setFavoritePlaces(context, favouritePlacesIds);
+    				Log.d("FAVORITE_PLACES_SHARED_PREFS", "ADDED: "+ favouritePlacesIds.toString());
 				}
 			} catch (Exception e) {
 				// TODO: handle exception

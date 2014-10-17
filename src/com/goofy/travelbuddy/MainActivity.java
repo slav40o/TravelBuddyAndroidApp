@@ -30,7 +30,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
 		addTravelBtn.setOnClickListener(this);
 		this.personalTravelsBtn = (Button)findViewById(R.id.btn_all_travels);
 		personalTravelsBtn.setOnClickListener(this);
-		this.topPlacesBtn = (Button)findViewById(R.id.btn_top_places);
+	 	this.topPlacesBtn = (Button)findViewById(R.id.btn_top_places);
 		topPlacesBtn.setOnClickListener(this);
 		this.visitedPlacesBtn = (Button)findViewById(R.id.btn_visited_places);
 		visitedPlacesBtn.setOnClickListener(this);
@@ -48,6 +48,10 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
 		}else if(v.getId() == this.personalTravelsBtn.getId()){
 			Intent travelsIntent = new Intent(this, TravelsActivity.class);
 			startActivity(travelsIntent);
+		}else if(v.getId() == this.visitedPlacesBtn.getId()){
+			Intent placesIntent = new Intent(this, PlacesActivity.class);
+			placesIntent.putExtra("FAVOURITES", true);
+			startActivity(placesIntent);
 		}
 	}
 }

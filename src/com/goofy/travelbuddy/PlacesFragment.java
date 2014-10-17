@@ -3,6 +3,7 @@ package com.goofy.travelbuddy;
 
 import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -47,6 +48,7 @@ public class PlacesFragment extends Fragment implements OnItemClickListener, OnI
 	private PlacesTravlesDataSource ptDataSource;
 	Context ctx;
 	boolean isTravel = false;
+	boolean isFavourites = false;
 	int travelId = 0;
 	String travelTitle;
 	
@@ -54,24 +56,31 @@ public class PlacesFragment extends Fragment implements OnItemClickListener, OnI
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 		
+		this.placeDetails = new ArrayList<PlaceDetail>();
 
 			if (getActivity().getIntent().getExtras() != null) {
-				isTravel = true; //getActivity().getIntent().getExtras().getBoolean("ISTRAVEL");
-			    travelId = getActivity().getIntent().getExtras().getInt("TRAVELID", 0);
-			    travelTitle = getActivity().getIntent().getExtras().getString("TRAVEL_TITLE");
-			    Log.d("PLACES_FRAGMENT", "EXTRA: travelId="+ travelId + " title="+travelTitle );
+				if (getActivity().getIntent().getExtras().containsKey("FAVOURITES")) {
+					isFavourites = true;
+				}else {
+					isTravel = true; //getActivity().getIntent().getExtras().getBoolean("ISTRAVEL");
+				    travelId = getActivity().getIntent().getExtras().getInt("TRAVELID", 0);
+				    travelTitle = getActivity().getIntent().getExtras().getString("TRAVEL_TITLE");
+				    Log.d("PLACES_FRAGMENT", "EXTRA: travelId="+ travelId + " title="+travelTitle );
+				}
 			}
 			
 		    
 		View view = inflater.inflate(R.layout.places_fragment, container, false);
 
-		this.placeDetails = new ArrayList<PlaceDetail>();
 		this.ctx = view.getContext();
 		
+		TextView placesListTitle = (TextView) view.findViewById(R.id.placeslisttitle);
 		if (isTravel) {
-			TextView placesListTitle = (TextView) view.findViewById(R.id.placeslisttitle);
 			placesListTitle.setText(travelTitle);
 			placesByTravelId(travelId);
+		}else if (isFavourites) {
+			addFavouritePlaces();
+			placesListTitle.setText("My Favorite Places");
 		}else {
 			allPlaces();
 		}
@@ -90,38 +99,42 @@ public class PlacesFragment extends Fragment implements OnItemClickListener, OnI
 	 @Override
 	    public void onAttach(Activity activity) {
 	        super.onAttach(activity);
-	       
 	    }
 	
-	private void addFakePlaces() {
-		/*Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.ic_launcher);
-	 
-	    ByteArrayOutputStream stream = new ByteArrayOutputStream();
-	    bitmap.compress(Bitmap.CompressFormat.JPEG, 100, stream);
-	    byte[] bitmapdata = stream.toByteArray();
-		
-		ArrayList<byte[]> photos = new ArrayList<byte[]>();
-		photos.add(bitmapdata);*/
-		
-		ArrayList<Integer> photoIds = new ArrayList<Integer>();
-		photoIds.add(0);
-		
-		
+	private ArrayList<String> getFakeVisitors(){
 		ArrayList<String> visitors = new ArrayList<String>();
 		visitors.add("Pesho");
 		visitors.add("Gosho");
 		visitors.add("Joro");
-		
-		placeDetails.add(new PlaceDetail(0, "Fake", "Some fake place", "JVM Land", new Location(0, 0), null, photoIds, visitors));
-		placeDetails.add(new PlaceDetail(1, "Fake1", "Some fake place1", "No Land", new Location(0, 0), null, photoIds, visitors));
-		placeDetails.add(new PlaceDetail(2, "Cool", "Some fake place2", "LapLand", new Location(0, 0), null, photoIds, visitors));
-		placeDetails.add(new PlaceDetail(3, "Fake3", "Some fake place3", "JVM Land", new Location(0, 0), null, photoIds, visitors));
-		placeDetails.add(new PlaceDetail(4, "Some Where", "Some fake place4", "JVM Land", new Location(0, 0), null, photoIds, visitors));
-		placeDetails.add(new PlaceDetail(5, "Fake5", "Some fake place5", "JVM Land", new Location(0, 0), null, photoIds, visitors));
-		placeDetails.add(new PlaceDetail(6, "Test one", "Some new fake place", "Newerland", new Location(0, 0), null, photoIds, visitors));
-		placeDetails.add(new PlaceDetail(7, "Another one", "Some new fake place", "Newerland", new Location(0, 0), null, photoIds, visitors));
-		placeDetails.add(new PlaceDetail(8, "Fake one", "Some new fake place", "Newerland", new Location(0, 0), null, photoIds, visitors));
+		return visitors;
+	}
+	 
+	private void addFavouritePlaces() {
+		placesDatasource = new PlacesDataSource(ctx);
+		placesDatasource.open();
+		photosDatasource = new PhotosDataSource(ctx);
+		photosDatasource.open();
+		Set<Integer> placesIds = new HashSet<Integer>();
+		try {
+			placesIds = PlacesSharedPreferencesManager.getFavoritePlaces(ctx);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
+		/*
+		visitorsDataSource = new VisitorsDataSource(ctx);
+		visitorsDataSource.open();*/
+		Log.d("FETCHING_FAVOURITE_PLCES", " places Ids: " + placesIds.toString() );
+		for (Integer placeId : placesIds) {
+			Place place = placesDatasource.getPlaceById(placeId);
+			ArrayList<Integer> photoIds = (ArrayList<Integer>) photosDatasource.getPhotoIdsByPlaceId(placeId);
+		// 	ArrayList<String> visitors = (ArrayList<String>) visitorsDataSource.getVisitorsByPlaceId(placeId);
+			placeDetails.add(new PlaceDetail(place.getId(), place.getTitle(), place.getDescription(), place.getCountry(), place.getLocation(), place.getLastVisited(), photoIds, getFakeVisitors()));
+		}
+		//visitorsDataSource.close();
+		placesDatasource.close();
+		photosDatasource.close();
+	}
 	
 	private void allPlaces(){
 		placesDatasource = new PlacesDataSource(ctx);
@@ -133,23 +146,15 @@ public class PlacesFragment extends Fragment implements OnItemClickListener, OnI
 		photosDatasource.open();
 		/*
 		visitorsDataSource = new VisitorsDataSource(ctx);
-		visitorsDataSource.open();*/
-		
-		
+		visitorsDataSource.open();*/	
 		int index = 0;
 		for (Place place : places) {
 			ArrayList<Integer> photoIds = new ArrayList<Integer>();
 			//photoIds.add(0);
-			
-			
-			ArrayList<String> visitors = new ArrayList<String>();
-			visitors.add("Pesho");
-			visitors.add("Gosho");
-			visitors.add("Joro");
 			photoIds = (ArrayList<Integer>) photosDatasource.getPhotoIdsByPlaceId(place.getId());
 			Log.d("PHOTOIDs",photoIds.toString()+" for placeId " + place.getId() );
 			//ArrayList<String> visitors = (ArrayList<String>) visitorsDataSource.getVisitorsByPlaceId(place.getId());
-			placeDetails.add(new PlaceDetail(place.getId(), place.getTitle(), place.getDescription(), place.getCountry(), place.getLocation(), place.getLastVisited(), photoIds, visitors));
+			placeDetails.add(new PlaceDetail(place.getId(), place.getTitle(), place.getDescription(), place.getCountry(), place.getLocation(), place.getLastVisited(), photoIds, getFakeVisitors()));
 			index++;
 		}
 		Log.d("PLACES_COUNT", String.valueOf(index));
@@ -165,12 +170,7 @@ public class PlacesFragment extends Fragment implements OnItemClickListener, OnI
 		photosDatasource = new PhotosDataSource(ctx);
 		photosDatasource.open();
 	//	visitorsDataSource = new VisitorsDataSource(ctx);
-	//	visitorsDataSource.open();
-		ArrayList<String> visitors = new ArrayList<String>();
-		visitors.add("Pesho");
-		visitors.add("Gosho");
-		visitors.add("Joro");
-		
+	//	visitorsDataSource.open();		
 		Set<Integer> placesIds = ptDataSource.getPlacesIdsByTravelId(travelId);
 		Log.d("FETCHING_TRAVLES_PLCES", "travelId: " + travelId+ " places Ids: " + placesIds.toString() );
 		int index = 0;
@@ -178,7 +178,7 @@ public class PlacesFragment extends Fragment implements OnItemClickListener, OnI
 			Place place = placesDatasource.getPlaceById(placeId);
 			ArrayList<Integer> photoIds = (ArrayList<Integer>) photosDatasource.getPhotoIdsByPlaceId(placeId);
 		//	ArrayList<String> visitors = (ArrayList<String>) visitorsDataSource.getVisitorsByPlaceId(placeId);
-			placeDetails.add(new PlaceDetail(place.getId(), place.getTitle(), place.getDescription(), place.getCountry(), place.getLocation(), place.getLastVisited(), photoIds, visitors));
+			placeDetails.add(new PlaceDetail(place.getId(), place.getTitle(), place.getDescription(), place.getCountry(), place.getLocation(), place.getLastVisited(), photoIds, getFakeVisitors()));
 			index++;
 		}
 		placesDatasource.close();
