@@ -25,6 +25,7 @@ import android.widget.Toast;
 import com.goofy.models.Photo;
 import com.goofy.models.PhotoDetails;
 import com.goofy.models.PlaceDetail;
+import com.goofy.models.SimpleTravel;
 import com.goofy.models.TravelDetail;
 import com.goofy.travelbuddy.connection.ClientManager;
 import com.goofy.travelbuddy.connection.UserPreferenceManager;
@@ -66,10 +67,11 @@ public class CameraActivity extends BaseActivity {
 				}
 				else{
 					PhotoDetails details = new PhotoDetails();
+					Date current = new Date();
 					details.photo = imageBit;
 					details.placeId = placeId;
 					details.travelId = travelId;
-					details.name = String.valueOf(new Date());
+					details.name = current.getMonth() + "_" + current.getDay() + "_" + current.getSeconds();
 					new SavePhotoTask().execute(details);
 				}
 			}
@@ -101,7 +103,7 @@ public class CameraActivity extends BaseActivity {
 			ClientManager manager = new ClientManager(context);
 			PlaceDetail place = manager.getPlaceDetail(details.placeId);
 			placeName = place.title;
-			TravelDetail travel = manager.getTravelDetail(details.travelId);
+			SimpleTravel travel = manager.getTravelSimpleDetail(details.travelId);
 			ByteArrayOutputStream stream = new ByteArrayOutputStream();
 			details.photo.compress(Bitmap.CompressFormat.PNG, 100, stream);
 			byte[] byteArray = stream.toByteArray();
@@ -140,7 +142,7 @@ public class CameraActivity extends BaseActivity {
 			dialog.hide(); 
 			if (status == HttpStatus.SC_OK) {
 				Toast.makeText(getApplicationContext(), "Photo added!", Toast.LENGTH_LONG).show();
-				Intent detailIntent = new Intent(getApplicationContext(), MainActivity.class);
+				Intent detailIntent = new Intent(getApplicationContext(), PlaceDetailActivity.class);
 				detailIntent.putExtra("TRAVELID", travelId);
 				detailIntent.putExtra("PLACEID", placeId);
 				detailIntent.putExtra("PLACE_TITLE", placeName);

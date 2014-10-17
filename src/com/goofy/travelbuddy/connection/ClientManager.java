@@ -23,6 +23,7 @@ import com.goofy.models.Location;
 import com.goofy.models.Photo;
 import com.goofy.models.Place;
 import com.goofy.models.PlaceDetail;
+import com.goofy.models.SimpleTravel;
 import com.goofy.models.Travel;
 import com.goofy.models.TravelDetail;
 import com.google.gson.Gson;
@@ -205,6 +206,15 @@ public class ClientManager {
 		String responceBody = getResponceMessage(responce.getEntity(), "TRIPS");
 		Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd'T'HH:mm:ss").create();
 		TravelDetail details = gson.fromJson(responceBody, TravelDetail.class);
+		return details;
+	}
+	
+	public SimpleTravel getTravelSimpleDetail(int id){
+		List<NameValuePair> headers = this.getAuthorisationHeaders();
+		HttpResponse responce = client.Get("api/travels/" + id, headers, null);
+		String responceBody = getResponceMessage(responce.getEntity(), "TRIPS");
+		Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd'T'HH:mm:ss").create();
+		SimpleTravel details = gson.fromJson(responceBody, SimpleTravel.class);
 		return details;
 	}
 	

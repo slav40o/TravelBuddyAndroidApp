@@ -2,9 +2,12 @@ package com.goofy.models;
 
 import java.util.ArrayList;
 import java.util.Date;
-
+import com.google.gson.annotations.SerializedName;
 public class TravelDetail extends Travel{
+	
+	@SerializedName("Photos")
 	public ArrayList<Photo> photos;
+	@SerializedName("Places")
 	public ArrayList<Place> places;
 	
 	public TravelDetail(int id, String title, String description, String userName, 

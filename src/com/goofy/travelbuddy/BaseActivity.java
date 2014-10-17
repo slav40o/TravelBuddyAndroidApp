@@ -35,17 +35,6 @@ public class BaseActivity extends Activity{
 			Intent mainIntent = new Intent(this, MainActivity.class);
 			startActivity(mainIntent);
 		}
-		else if (item.getItemId() == R.id.action_MAP){
-			Intent mapIntent = new Intent(this, MapActivity.class);
-			mapIntent.putExtra("TITLE", "Pernik");
-			mapIntent.putExtra("LONGTITUDE", Pernik_Lon);
-			mapIntent.putExtra("LATITUDE", Pernik_Lat);
-			startActivity(mapIntent);
-		}
-		else if(item.getItemId() == R.id.action_start_camera){
-			Intent cameraIntent = new Intent(this, CameraActivity.class);
-			startActivity(cameraIntent);
-		}
 		else if(item.getItemId() == R.id.action_stop_auto_update){
 			String title = item.getTitle().toString();
 			if (title == "Stop location updates") {
