@@ -98,6 +98,9 @@ public class TravelsListFragment extends Fragment  implements OnItemClickListene
 	@Override
 	public boolean onItemLongClick(AdapterView<?> parent, View view,
 			int position, long id) {
+		selectedTravelId = travelsDetails.get(position).getId();
+		selectedTravelTitle = travelsDetails.get(position).getTitle();
+		
 		Intent travelPlacesIntent = new Intent(getActivity(), PlacesActivity.class);
 		travelPlacesIntent.putExtra("TRAVELID", selectedTravelId);
 		travelPlacesIntent.putExtra("TRAVEL_TITLE", selectedTravelTitle);

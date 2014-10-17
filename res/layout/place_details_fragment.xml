@@ -29,7 +29,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/placedetailsgallery"
         android:layout_centerHorizontal="true" 
-        android:text="Image Title Text"
+        android:text="No photos of this place yet..."
         />
 
     <ImageView

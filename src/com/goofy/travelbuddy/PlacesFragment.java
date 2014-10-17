@@ -207,11 +207,11 @@ public class PlacesFragment extends Fragment implements OnItemClickListener, OnI
 	@Override
 	public boolean onItemLongClick(AdapterView<?> parent, View view,
 			int position, long id) {
-		 // TODO Add to favorites
+		 // TODO Add to favorites or something else
 		if (isTravel) {
-			Toast.makeText(view.getContext(),"Adding "+placeDetails.get(position).getTitle() + " to favorites", Toast.LENGTH_LONG).show();
+	//		Toast.makeText(view.getContext(),"Adding "+placeDetails.get(position).getTitle() + " to favorites", Toast.LENGTH_LONG).show();
 		}else {
-			Toast.makeText(view.getContext(),"Adding "+placeDetails.get(position).getTitle() + " to favorite places", Toast.LENGTH_LONG).show();
+	//		Toast.makeText(view.getContext(),"Adding "+placeDetails.get(position).getTitle() + " to favorite places", Toast.LENGTH_LONG).show();
 		}
 		return true;
 	}
