@@ -9,6 +9,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.goofy.travelbuddy.connection.UserPreferenceManager;
@@ -50,6 +51,18 @@ public class BaseActivity extends Activity{
 		
 		return true;
 	}
+	
+	@Override
+    public boolean onPrepareOptionsMenu(Menu menu) 
+    {
+
+        MenuItem menuItem = menu.findItem(R.id.viewusername);
+        TextView showusername1 = (TextView) menuItem.getActionView();
+        String username = UserPreferenceManager.getUsername(this);
+        showusername1.setText(username );
+        return super.onPrepareOptionsMenu(menu);
+
+    }
 	
 	private void logout(boolean toLogout){
 		if (toLogout) {
