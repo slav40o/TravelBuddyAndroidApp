@@ -22,6 +22,7 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.goofy.models.Location;
@@ -68,6 +69,8 @@ public class PlacesFragment extends Fragment implements OnItemClickListener, OnI
 		this.ctx = view.getContext();
 		
 		if (isTravel) {
+			TextView placesListTitle = (TextView) view.findViewById(R.id.placeslisttitle);
+			placesListTitle.setText(travelTitle);
 			placesByTravelId(travelId);
 		}else {
 			allPlaces();
@@ -187,7 +190,7 @@ public class PlacesFragment extends Fragment implements OnItemClickListener, OnI
 	@Override
 	public void onItemClick(AdapterView<?> parent, View view, int position,
 			long id) {
-		Toast.makeText(view.getContext(), "Clicked on " + placeDetails.get(position).getTitle()+ " id:"+placeDetails.get(position).getId(), Toast.LENGTH_LONG).show();
+		//Toast.makeText(view.getContext(), "Clicked on " + placeDetails.get(position).getTitle()+ " id:"+placeDetails.get(position).getId(), Toast.LENGTH_LONG).show();
 		Intent placeDetailsIntent = new Intent(ctx.getApplicationContext(), PlaceDetailActivity.class);
 		placeDetailsIntent.putExtra("PLACEID", placeDetails.get(position).getId());
 		placeDetailsIntent.putExtra("PLACE_TITLE", placeDetails.get(position).getTitle());

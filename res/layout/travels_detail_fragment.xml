@@ -38,9 +38,4 @@
         android:text=" " />
 
      </LinearLayout>
- 	<Button
-         android:id="@+id/travel_detail_showplace_button"
-         android:layout_width="80dp"
-         android:layout_height="wrap_content"
-         android:text="Show\nplaces" />
 </LinearLayout>

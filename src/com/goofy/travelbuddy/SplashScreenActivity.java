@@ -171,6 +171,17 @@ public class SplashScreenActivity extends Activity {
 			}
     		// FETCHING TOP PLACES ------ END ------------------
     		
+    		try {
+    			Set<Integer> favouritePlacesIds = new HashSet<Integer>();
+    			List<Place> favorites = manager.getFavouritePlaces();
+    			for (Place place : favorites) {
+    				favouritePlacesIds.add(place.getId());
+    				PlacesSharedPreferencesManager.setFavoritePlaces(context, favouritePlacesIds);
+				}
+			} catch (Exception e) {
+				// TODO: handle exception
+			}
+    		
     		// FETCHING PERSONAL TRAVELS
     		/*
     		if (hammering) {
