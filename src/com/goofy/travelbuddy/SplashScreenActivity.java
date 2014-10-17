@@ -31,11 +31,15 @@ import com.goofy.travelbuddy.connection.UserPreferenceManager;
 import com.goofy.travelbuddy.dao.PhotosDataSource;
 import com.goofy.travelbuddy.dao.PhotosSQLite;
 import com.goofy.travelbuddy.dao.PlacesDataSource;
+import com.goofy.travelbuddy.dao.PlacesSQLiteHelper;
+import com.goofy.travelbuddy.dao.PlacesTravelsSQLiteHelper;
+import com.goofy.travelbuddy.dao.PlacesTravlesDataSource;
 import com.goofy.travelbuddy.dao.TravelsDataSource;
 import com.goofy.travelbuddy.dao.TravelsSQLiteHelper;
 import com.goofy.travelbuddy.utils.ImageManager;
 import com.goofy.travelbuddy.utils.LocationService;
 import com.goofy.travelbuddy.utils.PhoneState;
+import com.google.android.gms.internal.fl;
 
 public class SplashScreenActivity extends Activity {
 	private Context context;
@@ -46,7 +50,6 @@ public class SplashScreenActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash_screen);
         context = this;
-        
         Intent intent = new Intent(SplashScreenActivity.this, LocationService.class); 	 	
         Log.d("SERVICE", "called"); 	 	
         startService(intent); 
@@ -63,11 +66,47 @@ public class SplashScreenActivity extends Activity {
             startActivity(loginIntent);
     	} else{
     		Toast.makeText(context, "No registration found.", Toast.LENGTH_LONG).show();
+    		//hammering = true;
+    		hammerDbs(context);
 			Intent registerIntent = new Intent(context, RegisterActivity.class);
             startActivity(registerIntent);
     	}
     }
     
+    private void hammerDbs(Context context){
+    	Log.d("HAMMER", "STARTED");
+    	SQLiteDatabase flash;
+    	PlacesSQLiteHelper placesHammer = new PlacesSQLiteHelper(context);
+		flash = placesHammer.getWritableDatabase();
+		flash.execSQL("DROP TABLE IF EXISTS " + PlacesSQLiteHelper.TABLE_PLACES);
+		flash.execSQL(placesHammer.DATABASE_CREATE);
+		flash = placesHammer.getWritableDatabase();
+		Log.d("PLACESDB_FLASH", placesHammer.DATABASE_CREATE);
+		
+    	PhotosSQLite photosHammer = new PhotosSQLite(context);
+		flash = photosHammer.getWritableDatabase();
+		flash.execSQL("DROP TABLE IF EXISTS " + PhotosSQLite.TABLE_PHOTOS);
+		flash.execSQL(photosHammer.DATABASE_CREATE);
+		flash = photosHammer.getWritableDatabase();
+		Log.d("PHOTODB_FLASH", photosHammer.DATABASE_CREATE);
+		
+		TravelsSQLiteHelper travelsHammer = new TravelsSQLiteHelper(context);
+		flash = travelsHammer.getWritableDatabase();
+		flash.execSQL("DROP TABLE IF EXISTS " + TravelsSQLiteHelper.TABLE_TRAVELS);
+		flash.execSQL(travelsHammer.DATABASE_CREATE); 
+		flash = travelsHammer.getWritableDatabase();
+		Log.d("TRAVELS_FLASH", travelsHammer.DATABASE_CREATE);
+		
+		PlacesTravelsSQLiteHelper placesTravelsHammer = new PlacesTravelsSQLiteHelper(context);
+		flash = placesTravelsHammer.getWritableDatabase();
+		flash.execSQL("DROP TABLE IF EXISTS " + PlacesTravelsSQLiteHelper.TABLE_PLACES_TRAVELS);
+		flash.execSQL(placesTravelsHammer.DATABASE_CREATE);
+		flash = placesTravelsHammer.getWritableDatabase();
+		Log.d("PLACES_TRAVELS_FLASH", placesTravelsHammer.DATABASE_CREATE);
+		
+		Log.d("HAMMER", "DONE");
+		
+    }
     
     private class StartupTask extends AsyncTask<String, Void, NameValuePair> {
     	
@@ -80,6 +119,7 @@ public class SplashScreenActivity extends Activity {
     		// FETCHING TOP PLACES -------------------------------
     		PlacesDataSource dataScource = new PlacesDataSource(context);
     		dataScource.open();
+    		/*
     		SQLiteDatabase flash;
     		if (hammering) {
         		PhotosSQLite asdasd = new PhotosSQLite(context);
@@ -87,7 +127,7 @@ public class SplashScreenActivity extends Activity {
         		flash.execSQL(asdasd.DATABASE_CREATE);
         		Log.d("PHOTODB_FLASH", asdasd.DATABASE_CREATE);
 			}
-    		/**/
+    		*/
     		PhotosDataSource data = new PhotosDataSource(context);
 			data.open();
     		List<Place> top = manager.getTopPlaces();
@@ -132,18 +172,24 @@ public class SplashScreenActivity extends Activity {
     		// FETCHING TOP PLACES ------ END ------------------
     		
     		// FETCHING PERSONAL TRAVELS
+    		/*
     		if (hammering) {
     			TravelsSQLiteHelper hammer = new TravelsSQLiteHelper(context);
         		flash = hammer.getWritableDatabase();
         		flash.execSQL(hammer.DATABASE_CREATE);
         		Log.d("TRAVELS_FLASH", hammer.DATABASE_CREATE);
+        		PlacesTravelsSQLiteHelper h2 = new PlacesTravelsSQLiteHelper(context);
+        		flash = h2.getWritableDatabase();
+        		flash.execSQL(h2.DATABASE_CREATE);
+        		Log.d("PLACES_TRAVELS_FLASH", hammer.DATABASE_CREATE);
 			}
-    		/*;*/
+    		*/
     		
     		
     		
     		TravelsDataSource travelsDataSource = new TravelsDataSource(context);
     		travelsDataSource.open();
+
     		List<Travel> personaTravels = manager.getPersonalTrips();
     		Set<Integer> personaTravelsIds = new HashSet<Integer>();
     	    for (Travel travel : personaTravels) {
@@ -153,6 +199,20 @@ public class SplashScreenActivity extends Activity {
 				personaTravelsIds.add(travel.getId());
 			}
     	    travelsDataSource.close();
+    	    
+    	    PlacesTravlesDataSource places_travels_ds = new PlacesTravlesDataSource(context);
+    		places_travels_ds.open();
+    		
+    		for (Integer travelId : personaTravelsIds) {
+    			ArrayList<Place> matchedPlaces = new ArrayList<Place>();
+    			matchedPlaces = manager.getPlacesByTrip(travelId);
+    			for (Place place : matchedPlaces) {
+    				places_travels_ds.createTravelDetailByIds(place.getId(), travelId);
+				}
+    			Log.d("PLACES_TRAVELS_DATA", "travel id: "+travelId+ " places: "+ matchedPlaces.toString());
+			}
+    		
+    	    places_travels_ds.close();
     	    
     	    try {
 				TravelsSharedPreferencesManager.setTravels(context, personaTravelsIds);

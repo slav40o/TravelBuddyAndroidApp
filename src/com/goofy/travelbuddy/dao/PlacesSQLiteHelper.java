@@ -18,7 +18,7 @@ public class PlacesSQLiteHelper extends SQLiteOpenHelper {
 	private static final int DATABASE_VERSION = 1;
 
 	  // Database creation SQLite statement
-    private static final String DATABASE_CREATE = "create table "
+    public final String DATABASE_CREATE = "create table "
             + TABLE_PLACES + "(" + COLUMN_ID + " integer primary key, " 
             + COLUMN_TITLE + " text not null, " 
             + COLUMN_DESCRIPTION + " text not null, " 

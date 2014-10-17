@@ -18,11 +18,11 @@ public class PlacesTravelsSQLiteHelper extends SQLiteOpenHelper{
 	private static final int DATABASE_VERSION = 1;
 	
 	  // Database creation SQLite statement
-    private static final String DATABASE_CREATE = "create table "
+    public final String DATABASE_CREATE = "create table "
             + TABLE_PLACES_TRAVELS + "(" + COLUMN_ID + " integer primary key autoincrement, " 
             + COLUMN_PLACEID + " integer not null, " 
             + COLUMN_TRAVELID + " integer not null, " 
-            + COLUMN_PHOTOID + " integer not null" 
+            + COLUMN_PHOTOID + " integer" 
             		+ ");";
 	
 	public PlacesTravelsSQLiteHelper(Context context) {

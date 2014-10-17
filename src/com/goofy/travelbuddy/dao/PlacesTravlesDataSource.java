@@ -1,7 +1,9 @@
 package com.goofy.travelbuddy.dao;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -97,8 +99,9 @@ public class PlacesTravlesDataSource {
 		return placeTravelId;
 	}
 
-	public List<Integer> getPlaceIdsByTravelId(int travelId) {
-		List<Integer> placeIds = new ArrayList<Integer>();
+	public Set<Integer> getPlacesIdsByTravelId(int travelId) {
+		//List<Integer> placeIds = new ArrayList<Integer>();
+		Set<Integer> placeIds = new HashSet<Integer>();
 		Cursor cursor = database.query(PlacesTravelsSQLiteHelper.TABLE_PLACES_TRAVELS,
 				allColumns, PlacesTravelsSQLiteHelper.COLUMN_TRAVELID + " = " + travelId, null, null, null, null);
 

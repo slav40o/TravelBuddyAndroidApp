@@ -4,6 +4,7 @@ package com.goofy.travelbuddy;
 import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 import android.app.Activity;
 import android.app.Fragment;
@@ -45,22 +46,19 @@ public class PlacesFragment extends Fragment implements OnItemClickListener, OnI
 	private PlacesTravlesDataSource ptDataSource;
 	Context ctx;
 	boolean isTravel = false;
+	int travelId = 0;
+	String travelTitle;
 	
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
-		int travelId = 0;
-		String travelTitle;
 		
-		if(savedInstanceState != null){
-			Log.d("PLACES_FRGAMENT", " savedInstanceState not null ");
-		} else {
-			Log.d("PLACES_FRGAMENT", " savedInstanceState IS NULL ");
-		}
+
 			if (getActivity().getIntent().getExtras() != null) {
-				isTravel = getActivity().getIntent().getExtras().getBoolean("ISTRAVEL");
+				isTravel = true; //getActivity().getIntent().getExtras().getBoolean("ISTRAVEL");
 			    travelId = getActivity().getIntent().getExtras().getInt("TRAVELID", 0);
 			    travelTitle = getActivity().getIntent().getExtras().getString("TRAVEL_TITLE");
+			    Log.d("PLACES_FRAGMENT", "EXTRA: travelId="+ travelId + " title="+travelTitle );
 			}
 			
 		    
@@ -163,22 +161,27 @@ public class PlacesFragment extends Fragment implements OnItemClickListener, OnI
 		ptDataSource.open();
 		photosDatasource = new PhotosDataSource(ctx);
 		photosDatasource.open();
-		visitorsDataSource = new VisitorsDataSource(ctx);
-		visitorsDataSource.open();
+	//	visitorsDataSource = new VisitorsDataSource(ctx);
+	//	visitorsDataSource.open();
+		ArrayList<String> visitors = new ArrayList<String>();
+		visitors.add("Pesho");
+		visitors.add("Gosho");
+		visitors.add("Joro");
 		
-		List<Integer> placesIds = ptDataSource.getPhotoIdsByTravelId(travelId);
+		Set<Integer> placesIds = ptDataSource.getPlacesIdsByTravelId(travelId);
+		Log.d("FETCHING_TRAVLES_PLCES", "travelId: " + travelId+ " places Ids: " + placesIds.toString() );
 		int index = 0;
 		for (Integer placeId : placesIds) {
 			Place place = placesDatasource.getPlaceById(placeId);
 			ArrayList<Integer> photoIds = (ArrayList<Integer>) photosDatasource.getPhotoIdsByPlaceId(placeId);
-			ArrayList<String> visitors = (ArrayList<String>) visitorsDataSource.getVisitorsByPlaceId(placeId);
-			placeDetails.add(new PlaceDetail(index, place.getTitle(), place.getDescription(), place.getCountry(), place.getLocation(), place.getLastVisited(), photoIds, visitors));
+		//	ArrayList<String> visitors = (ArrayList<String>) visitorsDataSource.getVisitorsByPlaceId(placeId);
+			placeDetails.add(new PlaceDetail(place.getId(), place.getTitle(), place.getDescription(), place.getCountry(), place.getLocation(), place.getLastVisited(), photoIds, visitors));
 			index++;
 		}
 		placesDatasource.close();
 		ptDataSource.close();
 		photosDatasource.close();
-		visitorsDataSource.close();
+		//visitorsDataSource.close();
 	}
 
 	@Override
@@ -189,6 +192,12 @@ public class PlacesFragment extends Fragment implements OnItemClickListener, OnI
 		placeDetailsIntent.putExtra("PLACEID", placeDetails.get(position).getId());
 		placeDetailsIntent.putExtra("PLACE_TITLE", placeDetails.get(position).getTitle());
 		placeDetailsIntent.putStringArrayListExtra("VISITORS", placeDetails.get(position).getVisitors());
+		if (isTravel) {
+			placeDetailsIntent.putExtra("TRAVELID", travelId);
+			placeDetailsIntent.putExtra("TRAVEL_TITLE", travelTitle);
+			Log.d("PLACESLISTFRAGMENT", "EXTRA: TRAVLEID: " + travelId + " TRAVEL_TITLE: " + travelTitle );
+			
+		}
 		startActivity(placeDetailsIntent);
 	}
 
