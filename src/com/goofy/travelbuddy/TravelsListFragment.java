@@ -22,12 +22,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.View.OnClickListener;
 import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 import android.widget.AdapterView.OnItemClickListener;
 
-public class TravelsListFragment extends Fragment  implements OnItemClickListener {
+public class TravelsListFragment extends Fragment  implements OnItemClickListener, OnItemLongClickListener {
 	
 	
 	List<TravelDetail> travelsDetails;
@@ -56,7 +58,7 @@ public class TravelsListFragment extends Fragment  implements OnItemClickListene
 			
 			travelsListView.setAdapter(travelsAdapter);
 			travelsListView.setOnItemClickListener(this);
-		
+			travelsListView.setOnItemLongClickListener(this);
 		
 		return rootView;
 	}
@@ -90,21 +92,18 @@ public class TravelsListFragment extends Fragment  implements OnItemClickListene
 			travelEndDate.setText("Ended: " + travelsDetails.get(position).getEndDate().toString());
 		}else {
 			travelEndDate.setText("Ended: not yet");
-		}
-		
-		Button button = (Button) getActivity().findViewById(R.id.travel_detail_showplace_button);
-		button.setOnClickListener( new OnClickListener() {
-			
-			@Override
-			public void onClick(View v) {
-				Intent travelPlacesIntent = new Intent(getActivity(), PlacesActivity.class);
-				travelPlacesIntent.putExtra("TRAVELID", selectedTravelId);
-				travelPlacesIntent.putExtra("TRAVEL_TITLE", selectedTravelTitle);
-				Log.d("TRAVELSLISTFRAGMENT", "TRAVLEID: " + selectedTravelId + " TRAVEL_TITLE: " + selectedTravelTitle );
-				startActivity(travelPlacesIntent);
-			}
-		});
-		
+		}		
+	}
+	
+	@Override
+	public boolean onItemLongClick(AdapterView<?> parent, View view,
+			int position, long id) {
+		Intent travelPlacesIntent = new Intent(getActivity(), PlacesActivity.class);
+		travelPlacesIntent.putExtra("TRAVELID", selectedTravelId);
+		travelPlacesIntent.putExtra("TRAVEL_TITLE", selectedTravelTitle);
+		Log.d("TRAVELSLISTFRAGMENT", "TRAVLEID: " + selectedTravelId + " TRAVEL_TITLE: " + selectedTravelTitle );
+		startActivity(travelPlacesIntent);
+		return true;
 	}
 	
 	private void addFakeTravels(){

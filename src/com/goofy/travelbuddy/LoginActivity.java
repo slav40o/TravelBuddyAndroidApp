@@ -113,7 +113,7 @@ public class LoginActivity extends Activity implements View.OnClickListener{
 			if (status == HttpStatus.SC_OK) {
 				String name = UserPreferenceManager.getUsername(getApplicationContext());
 				Toast.makeText(getApplicationContext(), "Welcome, " + name, Toast.LENGTH_LONG).show();
-				Intent registerIntent = new Intent(getApplicationContext(), MainActivity.class);
+				Intent registerIntent = new Intent(getApplicationContext(), SplashScreenActivity.class);
 				startActivity(registerIntent);
 			}
 			else{

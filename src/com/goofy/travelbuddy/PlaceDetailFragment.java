@@ -88,7 +88,7 @@ public class PlaceDetailFragment extends Fragment  implements OnTouchListener {
 		visitors =  getActivity().getIntent().getExtras().getStringArrayList("VISITORS");
 		if (getActivity().getIntent().getExtras().containsKey("TRAVELID")) {
 			this.traveId = getActivity().getIntent().getExtras().getInt("TRAVELID", 0);
-			Log.d("PLACE_DETAILS_FRAGMENT", "EXTRA: traveId=" + traveId);
+			Log.d("PLACE_DETAILS_FRAGMENT", "GOT EXTRA: traveId=" + traveId);
 			this.isTravel = true;
 		}
 		
